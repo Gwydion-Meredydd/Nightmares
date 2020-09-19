@@ -476,7 +476,7 @@ MonoBehaviour:
   Paused: 0
   StartGame: 0
   InGame: 0
-  PlayerTypeValue: 3
+  PlayerTypeValue: 2
   PlayerTypes:
   - {fileID: 2827904701401667754, guid: f80b89ba2c90e0d40bb678a12c764bb1, type: 3}
   - {fileID: 8314598952157306100, guid: e5c23ccb2148bf949b724eb089c4c79d, type: 3}
