@@ -388,7 +388,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.76026446, y: 0, z: 0, w: 0.6496137}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 17.46, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -476,14 +476,15 @@ MonoBehaviour:
   Paused: 0
   StartGame: 0
   InGame: 0
-  PlayerTypeValue: 2
+  PlayerTypeValue: 4
   PlayerTypes:
   - {fileID: 2827904701401667754, guid: f80b89ba2c90e0d40bb678a12c764bb1, type: 3}
   - {fileID: 8314598952157306100, guid: e5c23ccb2148bf949b724eb089c4c79d, type: 3}
   - {fileID: 1678839191576794099, guid: 50467935bf23f9d48a9424f8716dc2c7, type: 3}
   - {fileID: 1241340967869584931, guid: 654673cc6e950644cb2938cd1afa372a, type: 3}
   PlayerStartSpawn: {fileID: 2137467602}
-  Player_Controller: {fileID: 1104343449}
+  PlayerController: {fileID: 1104343449}
+  BulletParticle: {fileID: 6074905120409143606, guid: ddf6e92665915704cba02d5a6b14eada, type: 3}
 --- !u!114 &1104343449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -498,6 +499,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Game_Manager: {fileID: 1104343448}
   Player: {fileID: 0}
+  PlayerCc: {fileID: 0}
+  MovingSpeed: 5
+  WeaponValue: 1
+  ShootSpeed: 0
+  ShootPoint: {fileID: 0}
+  AssaultRifleParticle: {fileID: 0}
 --- !u!1 &1260896926
 GameObject:
   m_ObjectHideFlags: 3
@@ -655,14 +662,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2049615766}
-  m_LocalRotation: {x: 0.76026446, y: -0, z: -0, w: 0.6496137}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 17.46, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1260896927}
   m_Father: {fileID: 0}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 98.975006, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &2137467601
 GameObject:
   m_ObjectHideFlags: 0

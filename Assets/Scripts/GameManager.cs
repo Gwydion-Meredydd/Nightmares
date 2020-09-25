@@ -14,7 +14,8 @@ public class GameManager : MonoBehaviour
     public int PlayerTypeValue;
     public GameObject[] PlayerTypes;
     public Transform PlayerStartSpawn;
-    public PlayerController Player_Controller;
+    public PlayerController PlayerController;
+    public ParticleSystem BulletParticle;
 
     void Update()
     {
@@ -22,7 +23,13 @@ public class GameManager : MonoBehaviour
         {
             Vector3 PlayerStartingPosVector3 = PlayerStartSpawn.position;
             Instantiate(PlayerTypes[PlayerTypeValue - 1], PlayerStartingPosVector3, PlayerStartSpawn.rotation);
-            Player_Controller.Player = GameObject.FindGameObjectWithTag("Player");
+            PlayerController.Player = GameObject.FindGameObjectWithTag("Player");
+            PlayerController.PlayerCc = PlayerController.Player.GetComponent<CharacterController>();
+            GameObject TempShootPoint = GameObject.FindGameObjectWithTag("ShootPoint");
+            PlayerController.ShootPoint = TempShootPoint.transform;
+            GameObject ChildTempForShootPoint = Instantiate(BulletParticle.gameObject, PlayerController.ShootPoint.position, PlayerController.ShootPoint.rotation);
+            ChildTempForShootPoint.transform.parent = PlayerController.ShootPoint;
+            PlayerController.AssaultRifleParticle = ChildTempForShootPoint.GetComponent<ParticleSystem>();
             StartGame = false;
             InGame = true;
         }   
