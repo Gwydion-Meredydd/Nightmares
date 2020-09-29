@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] PlayerTypes;
     public Transform PlayerStartSpawn;
     public PlayerController PlayerController;
+    public CameraController camera_Controller;
     public ParticleSystem BulletParticle;
 
     void Update()
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
             GameObject ChildTempForShootPoint = Instantiate(BulletParticle.gameObject, PlayerController.ShootPoint.position, PlayerController.ShootPoint.rotation);
             ChildTempForShootPoint.transform.parent = PlayerController.ShootPoint;
             PlayerController.AssaultRifleParticle = ChildTempForShootPoint.GetComponent<ParticleSystem>();
+            camera_Controller.player = PlayerController.Player.transform;
             StartGame = false;
             InGame = true;
         }   
