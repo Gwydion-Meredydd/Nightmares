@@ -1,0 +1,318 @@
+fileFormatVersion: 2
+guid: 02812d43b0148d549b6849f59e8f34b5
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Camera001
+    100002: CATRigHub001
+    100004: CATRigHub002
+    100006: CATRigHub002Bone001
+    100008: CATRigHub002Bone001Bone001
+    100010: CATRigHub002Bone001Bone001Bone001
+    100012: CATRigHub002Bone001Bone001Bone001Bone001
+    100014: CATRigHub002Bone001Bone001Bone001Bone001Bone001
+    100016: CATRigHub002Bone001Bone001Bone001Bone001Bone001Bone001
+    100018: CATRigHub002Bone001Bone001Bone001Bone001Bone001Bone001Bone001
+    100020: CATRigHub002Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001
+    100022: CATRigHub002Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001
+    100024: CATRigHub002Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001
+    100026: CATRigHub002Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001
+    100028: CATRigHub002Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001
+    100030: CATRigHub002Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001
+    100032: CATRigHub002Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001
+    100034: CATRigHub002Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001
+    100036: CATRigHub002Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001
+    100038: CATRigHub002Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001
+    100040: CATRigLArm1
+    100042: CATRigLArm21
+    100044: CATRigLArm22
+    100046: CATRigLArmCollarbone
+    100048: CATRigLArmDigit11
+    100050: CATRigLArmDigit12
+    100052: CATRigLArmDigit13
+    100054: CATRigLArmDigit21
+    100056: CATRigLArmDigit22
+    100058: CATRigLArmDigit23
+    100060: CATRigLArmDigit31
+    100062: CATRigLArmDigit32
+    100064: CATRigLArmDigit33
+    100066: CATRigLArmDigit41
+    100068: CATRigLArmDigit42
+    100070: CATRigLArmDigit43
+    100072: CATRigLArmDigit51
+    100074: CATRigLArmDigit52
+    100076: CATRigLArmDigit53
+    100078: CATRigLArmIKTarget
+    100080: CATRigLArmPalm
+    100082: CATRigRArm1
+    100084: CATRigRArm21
+    100086: CATRigRArm22
+    100088: CATRigRArmCollarbone
+    100090: CATRigRArmDigit11
+    100092: CATRigRArmDigit12
+    100094: CATRigRArmDigit13
+    100096: CATRigRArmDigit21
+    100098: CATRigRArmDigit22
+    100100: CATRigRArmDigit23
+    100102: CATRigRArmDigit31
+    100104: CATRigRArmDigit32
+    100106: CATRigRArmDigit33
+    100108: CATRigRArmDigit41
+    100110: CATRigRArmDigit42
+    100112: CATRigRArmDigit43
+    100114: CATRigRArmDigit51
+    100116: CATRigRArmDigit52
+    100118: CATRigRArmDigit53
+    100120: CATRigRArmIKTarget
+    100122: CATRigRArmPalm
+    100124: Character001
+    100126: Character002
+    100128: full gloves
+    100130: long sleeves
+    100132: //RootNode
+    100134: Torus001
+    100136: Uzi 009erer
+    100138: Uzi 009erer001
+    100140: Uzi 009erer002
+    100142: Uzi 009erer003
+    100144: Uzi 009erer004
+    100146: Uzi 009erer005
+    400000: Camera001
+    400002: CATRigHub001
+    400004: CATRigHub002
+    400006: CATRigHub002Bone001
+    400008: CATRigHub002Bone001Bone001
+    400010: CATRigHub002Bone001Bone001Bone001
+    400012: CATRigHub002Bone001Bone001Bone001Bone001
+    400014: CATRigHub002Bone001Bone001Bone001Bone001Bone001
+    400016: CATRigHub002Bone001Bone001Bone001Bone001Bone001Bone001
+    400018: CATRigHub002Bone001Bone001Bone001Bone001Bone001Bone001Bone001
+    400020: CATRigHub002Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001
+    400022: CATRigHub002Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001
+    400024: CATRigHub002Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001
+    400026: CATRigHub002Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001
+    400028: CATRigHub002Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001
+    400030: CATRigHub002Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001
+    400032: CATRigHub002Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001
+    400034: CATRigHub002Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001
+    400036: CATRigHub002Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001
+    400038: CATRigHub002Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001Bone001
+    400040: CATRigLArm1
+    400042: CATRigLArm21
+    400044: CATRigLArm22
+    400046: CATRigLArmCollarbone
+    400048: CATRigLArmDigit11
+    400050: CATRigLArmDigit12
+    400052: CATRigLArmDigit13
+    400054: CATRigLArmDigit21
+    400056: CATRigLArmDigit22
+    400058: CATRigLArmDigit23
+    400060: CATRigLArmDigit31
+    400062: CATRigLArmDigit32
+    400064: CATRigLArmDigit33
+    400066: CATRigLArmDigit41
+    400068: CATRigLArmDigit42
+    400070: CATRigLArmDigit43
+    400072: CATRigLArmDigit51
+    400074: CATRigLArmDigit52
+    400076: CATRigLArmDigit53
+    400078: CATRigLArmIKTarget
+    400080: CATRigLArmPalm
+    400082: CATRigRArm1
+    400084: CATRigRArm21
+    400086: CATRigRArm22
+    400088: CATRigRArmCollarbone
+    400090: CATRigRArmDigit11
+    400092: CATRigRArmDigit12
+    400094: CATRigRArmDigit13
+    400096: CATRigRArmDigit21
+    400098: CATRigRArmDigit22
+    400100: CATRigRArmDigit23
+    400102: CATRigRArmDigit31
+    400104: CATRigRArmDigit32
+    400106: CATRigRArmDigit33
+    400108: CATRigRArmDigit41
+    400110: CATRigRArmDigit42
+    400112: CATRigRArmDigit43
+    400114: CATRigRArmDigit51
+    400116: CATRigRArmDigit52
+    400118: CATRigRArmDigit53
+    400120: CATRigRArmIKTarget
+    400122: CATRigRArmPalm
+    400124: Character001
+    400126: Character002
+    400128: full gloves
+    400130: long sleeves
+    400132: //RootNode
+    400134: Torus001
+    400136: Uzi 009erer
+    400138: Uzi 009erer001
+    400140: Uzi 009erer002
+    400142: Uzi 009erer003
+    400144: Uzi 009erer004
+    400146: Uzi 009erer005
+    2000000: Camera001
+    2100000: hands
+    2100002: gloves
+    2100004: clothes
+    2100006: 'Material #154'
+    2300000: Torus001
+    2300002: Uzi 009erer
+    2300004: Uzi 009erer001
+    2300006: Uzi 009erer002
+    2300008: Uzi 009erer004
+    2300010: Uzi 009erer005
+    3300000: Torus001
+    3300002: Uzi 009erer
+    3300004: Uzi 009erer001
+    3300006: Uzi 009erer002
+    3300008: Uzi 009erer004
+    3300010: Uzi 009erer005
+    4300000: full gloves
+    4300002: long sleeves
+    4300004: Uzi 009erer
+    4300006: Uzi 009erer001
+    4300008: Uzi 009erer002
+    4300010: Uzi 009erer004
+    4300012: Torus001
+    4300014: Uzi 009erer005
+    4300016: Uzi 009erer003
+    7400000: Shot
+    9500000: //RootNode
+    13700000: full gloves
+    13700002: long sleeves
+    13700004: Uzi 009erer003
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 'Material #154'
+    second: {fileID: 2100000, guid: 479de0177f73e3a44b10b01ac677e031, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: clothes
+    second: {fileID: 2100000, guid: 063e3af3e64acff40a74a6c7dbb6abae, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gloves
+    second: {fileID: 2100000, guid: 063e3af3e64acff40a74a6c7dbb6abae, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: hands
+    second: {fileID: 2100000, guid: 063e3af3e64acff40a74a6c7dbb6abae, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Shot
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 100
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 12.5
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.001
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

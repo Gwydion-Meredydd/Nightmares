@@ -15,7 +15,12 @@ public class PlayerController : MonoBehaviour
     public int WeaponValue;
     public float ShootSpeed;
     public Transform ShootPoint;
+    public Transform CasePoint;
+    public float AssaultRifleFiringTime;
+    private bool Firing;
     public ParticleSystem AssaultRifleParticle;
+    public ParticleSystem AssaultRifleMuzzleFlash;
+    public ParticleSystem BulletCasing;
     void Update()
     {
         if (Game_Manager.InGame == true)
@@ -34,9 +39,9 @@ public class PlayerController : MonoBehaviour
 
         MousePlayerRotation();
         CharacterMovement();
-        if (Input.GetMouseButtonDown(0)) 
+        if (Input.GetMouseButton(0)) 
         {
-            ShootingMethod();
+            StartCoroutine(ShootingMethod());
         }
     }
     #region Player Movement
@@ -59,15 +64,23 @@ public class PlayerController : MonoBehaviour
         }
     }
     #endregion
-    public void ShootingMethod() 
+    IEnumerator ShootingMethod() 
     {
-        //Weapon value indicates which weapon is selected 1= auto rifle 2= mini gun 3= flamethrower , 2 & 3 are drops for limated time
-        switch(WeaponValue) 
+        if (Firing == false)
         {
-            case 1:
-                AssaultRifleParticle.Emit(1);
-                Debug.Log("Shot");
-                break;
+            Firing = true;
+            //Weapon value indicates which weapon is selected 1= auto rifle 2= mini gun 3= flamethrower , 2 & 3 are drops for limated time
+            switch (WeaponValue)
+            {
+                case 1:
+                    AssaultRifleParticle.Emit(1);
+                    BulletCasing.Emit(1);
+                    AssaultRifleMuzzleFlash.Emit(1);
+                    yield return new WaitForSeconds(AssaultRifleFiringTime);
+                    Firing = false;
+                    Debug.Log("Shot");
+                    break;
+            }
         }
     }
 }
