@@ -12,15 +12,18 @@ public class PlayerController : MonoBehaviour
     public float MovingSpeed;
     private Vector3 MovementDirectionValue;
     [Header("WeaponVariables")]
+    public bool TestingSwitchWeapon;
     public int WeaponValue;
-    public float ShootSpeed;
-    public Transform ShootPoint;
+    public Transform ARShootPoint;
+    public Transform MiniGunShootPoint;
+    public Transform FlameThrowerShootPoint;
     public Transform CasePoint;
     public float AssaultRifleFiringTime;
     private bool Firing;
     public ParticleSystem AssaultRifleParticle;
     public ParticleSystem AssaultRifleMuzzleFlash;
     public ParticleSystem BulletCasing;
+    public ParticleSystem FlameThrowerFlame;
     void Update()
     {
         if (Game_Manager.InGame == true)

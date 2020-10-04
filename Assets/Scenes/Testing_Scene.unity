@@ -506,14 +506,17 @@ MonoBehaviour:
   Player: {fileID: 0}
   PlayerCc: {fileID: 0}
   MovingSpeed: 5
+  TestingSwitchWeapon: 0
   WeaponValue: 1
-  ShootSpeed: 0
-  ShootPoint: {fileID: 0}
+  ARShootPoint: {fileID: 0}
+  MiniGunShootPoint: {fileID: 0}
+  FlameThrowerShootPoint: {fileID: 0}
   CasePoint: {fileID: 0}
   AssaultRifleFiringTime: 0.1
   AssaultRifleParticle: {fileID: 0}
   AssaultRifleMuzzleFlash: {fileID: 0}
   BulletCasing: {fileID: 0}
+  FlameThrowerFlame: {fileID: 0}
 --- !u!114 &1104343450
 MonoBehaviour:
   m_ObjectHideFlags: 0

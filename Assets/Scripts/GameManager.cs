@@ -36,13 +36,13 @@ public class GameManager : MonoBehaviour
             PlayerController.PlayerCc = PlayerController.Player.GetComponent<CharacterController>();
 
             GameObject TempShootPoint = GameObject.FindGameObjectWithTag("ShootPoint");
-            PlayerController.ShootPoint = TempShootPoint.transform;
-            GameObject ChildTempForShootPoint = Instantiate(BulletParticle.gameObject, PlayerController.ShootPoint.position, PlayerController.ShootPoint.rotation);
-            ChildTempForShootPoint.transform.parent = PlayerController.ShootPoint;
+            PlayerController.ARShootPoint = TempShootPoint.transform;
+            GameObject ChildTempForShootPoint = Instantiate(BulletParticle.gameObject, PlayerController.ARShootPoint.position, PlayerController.ARShootPoint.rotation);
+            ChildTempForShootPoint.transform.parent = PlayerController.ARShootPoint;
             PlayerController.AssaultRifleParticle = ChildTempForShootPoint.GetComponent<ParticleSystem>();
 
-            GameObject ChildTempForMuzzleFlash = Instantiate(ArMuzzleFlash.gameObject, PlayerController.ShootPoint.position, PlayerController.ShootPoint.rotation);
-            ChildTempForMuzzleFlash.transform.parent = PlayerController.ShootPoint;
+            GameObject ChildTempForMuzzleFlash = Instantiate(ArMuzzleFlash.gameObject, PlayerController.ARShootPoint.position, PlayerController.ARShootPoint.rotation);
+            ChildTempForMuzzleFlash.transform.parent = PlayerController.ARShootPoint;
             PlayerController.AssaultRifleMuzzleFlash = ChildTempForMuzzleFlash.GetComponent<ParticleSystem>();
 
             GameObject TempShellPoint = GameObject.FindGameObjectWithTag("ShellPoint");
