@@ -681,9 +681,14 @@ MonoBehaviour:
   PlayerStartSpawn: {fileID: 2137467602}
   PlayerController: {fileID: 1104343449}
   camera_Controller: {fileID: 1104343450}
-  BulletParticle: {fileID: 6074905120409143606, guid: ddf6e92665915704cba02d5a6b14eada, type: 3}
+  ARBulletParticle: {fileID: 6074905120409143606, guid: ddf6e92665915704cba02d5a6b14eada, type: 3}
   ArMuzzleFlash: {fileID: 213690822815938658, guid: 2a81ef5768efe3f48ad85adb36dac506, type: 3}
-  ShellParticle: {fileID: 6074905120409143606, guid: 72c597efe7b7df54ca377ff98f5136f7, type: 3}
+  ARShellParticle: {fileID: 6074905120409143606, guid: 72c597efe7b7df54ca377ff98f5136f7, type: 3}
+  MGBulletParticle: {fileID: 1987281933725255456, guid: 9291d0ae6d0acd4489abad42505f8457, type: 3}
+  MGMuzzleFlash: {fileID: 213690822815938658, guid: c28db5fb254452148bd0a4f5db9df229, type: 3}
+  MGShellParticle: {fileID: 7929767290244500183, guid: c0978343434d78346a104f2db670cc99, type: 3}
+  FTFlame: {fileID: 1432300509591482738, guid: 1ecfe3176bcc6214e8f4e1f402c91f16, type: 3}
+  FTHeatDistortion: {fileID: 4722407558019430614, guid: e912f48ba2085ac48ae1878cbc929760, type: 3}
 --- !u!114 &1104343449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -700,17 +705,28 @@ MonoBehaviour:
   Player: {fileID: 0}
   PlayerCc: {fileID: 0}
   MovingSpeed: 5
-  TestingSwitchWeapon: 0
-  WeaponValue: 1
+  TestingSwitchWeapon: 1
+  WeaponValue: 3
+  WeaponHeldValue: 0
+  AutomaticRifleModel: {fileID: 0}
+  MiniGunModel: {fileID: 0}
+  FlameThrowerModel: {fileID: 0}
   ARShootPoint: {fileID: 0}
-  MiniGunShootPoint: {fileID: 0}
-  FlameThrowerShootPoint: {fileID: 0}
-  CasePoint: {fileID: 0}
+  MGShootPoint: {fileID: 0}
+  FTShootPoint: {fileID: 0}
+  ARCasePoint: {fileID: 0}
+  MGCasePoint: {fileID: 0}
   AssaultRifleFiringTime: 0.1
-  AssaultRifleParticle: {fileID: 0}
-  AssaultRifleMuzzleFlash: {fileID: 0}
-  BulletCasing: {fileID: 0}
-  FlameThrowerFlame: {fileID: 0}
+  MiniGunFiringTime: 0
+  FlameThrowerFiringTime: 0
+  ARBulletParticle: {fileID: 0}
+  ARMuzzleFlash: {fileID: 0}
+  ARBulletCasing: {fileID: 0}
+  MGBulletParticle: {fileID: 0}
+  MGMuzzleFlash: {fileID: 0}
+  MGBulletCasing: {fileID: 0}
+  FTFlame: {fileID: 0}
+  FTHeatDistortion: {fileID: 0}
 --- !u!114 &1104343450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -743,6 +759,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb06f92fc08091438ae498ac0805e06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnLocationOne: {fileID: 0}
+  spawnLocationTwo: {fileID: 0}
+  spawnLocationThree: {fileID: 0}
+  spawnLocationFour: {fileID: 0}
+  enemy: {fileID: 0}
+  numberEnemies: 0
+  waveDelay: 20
 --- !u!1 &1260896926
 GameObject:
   m_ObjectHideFlags: 3
