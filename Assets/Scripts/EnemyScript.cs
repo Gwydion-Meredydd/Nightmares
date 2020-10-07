@@ -52,7 +52,7 @@ public class EnemyScript : MonoBehaviour
                     break;
             }
         }
-
+        yield return new WaitForSeconds(5);
         canSpawn = true;
     }
 }
