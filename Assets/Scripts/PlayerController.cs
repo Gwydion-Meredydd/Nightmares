@@ -13,17 +13,30 @@ public class PlayerController : MonoBehaviour
     private Vector3 MovementDirectionValue;
     [Header("WeaponVariables")]
     public bool TestingSwitchWeapon;
+    [Range(1, 3)]
     public int WeaponValue;
+    public int WeaponHeldValue;
+    public GameObject AutomaticRifleModel;
+    public GameObject MiniGunModel;
+    public GameObject FlameThrowerModel;
     public Transform ARShootPoint;
-    public Transform MiniGunShootPoint;
-    public Transform FlameThrowerShootPoint;
-    public Transform CasePoint;
+    public Transform MGShootPoint;
+    public Transform FTShootPoint;
+    public Transform ARCasePoint;
+    public Transform MGCasePoint;
     public float AssaultRifleFiringTime;
+    public float MiniGunFiringTime;
+    public float FlameThrowerFiringTime;
     private bool Firing;
-    public ParticleSystem AssaultRifleParticle;
-    public ParticleSystem AssaultRifleMuzzleFlash;
-    public ParticleSystem BulletCasing;
-    public ParticleSystem FlameThrowerFlame;
+    [Space]
+    public ParticleSystem ARBulletParticle;
+    public ParticleSystem ARMuzzleFlash;
+    public ParticleSystem ARBulletCasing;
+    public ParticleSystem MGBulletParticle;
+    public ParticleSystem MGMuzzleFlash;
+    public ParticleSystem MGBulletCasing;
+    public ParticleSystem FTFlame;
+    public ParticleSystem FTHeatDistortion;
     void Update()
     {
         if (Game_Manager.InGame == true)
@@ -33,7 +46,38 @@ public class PlayerController : MonoBehaviour
                 //Is called when game is unpased and game is currently active
 
                 PlayerInputs();
+
+                //Weapon Switch Whilst Testing
+                if (TestingSwitchWeapon == true)
+                {
+                    if (WeaponHeldValue != WeaponValue)
+                    {
+                        WeaponHeldValue = WeaponValue;
+                        WeaponSwitch();
+                    }
+                }
             }
+        }
+    }
+    public void WeaponSwitch() 
+    {
+        switch (WeaponValue)
+        {
+            case 1:
+                AutomaticRifleModel.SetActive(true);
+                MiniGunModel.SetActive(false);
+                FlameThrowerModel.SetActive(false);
+                break;
+            case 2:
+                AutomaticRifleModel.SetActive(false);
+                MiniGunModel.SetActive(true);
+                FlameThrowerModel.SetActive(false);
+                break;
+            case 3:
+                AutomaticRifleModel.SetActive(false);
+                MiniGunModel.SetActive(false);
+                FlameThrowerModel.SetActive(true);
+                break;
         }
     }
     public void PlayerInputs()
@@ -76,10 +120,25 @@ public class PlayerController : MonoBehaviour
             switch (WeaponValue)
             {
                 case 1:
-                    AssaultRifleParticle.Emit(1);
-                    BulletCasing.Emit(1);
-                    AssaultRifleMuzzleFlash.Emit(1);
+                    ARBulletParticle.Emit(1);
+                    ARBulletCasing.Emit(1);
+                    ARMuzzleFlash.Emit(1);
                     yield return new WaitForSeconds(AssaultRifleFiringTime);
+                    Firing = false;
+                    Debug.Log("Shot");
+                    break;
+                case 2:
+                    MGBulletParticle.Emit(1);
+                    MGBulletCasing.Emit(1);
+                    MGMuzzleFlash.Emit(1);
+                    yield return new WaitForSeconds(MiniGunFiringTime);
+                    Firing = false;
+                    Debug.Log("Shot");
+                    break;
+                case 3:
+                    FTFlame.Emit(1);
+                    FTHeatDistortion.Emit(1);
+                    yield return new WaitForSeconds(FlameThrowerFiringTime);
                     Firing = false;
                     Debug.Log("Shot");
                     break;

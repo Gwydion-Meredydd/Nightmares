@@ -5,9 +5,15 @@ TagManager:
   serializedVersion: 2
   tags:
   - Weapon
-  - ShootPoint
-  - ShellPoint
   - Enemy
+  - AR
+  - MG
+  - FT
+  - ARShootPoint
+  - MGShootPoint
+  - FTShootPoint
+  - ARCasePoint
+  - MGCasePoint
   layers:
   - Default
   - TransparentFX

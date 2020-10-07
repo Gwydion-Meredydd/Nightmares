@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6074905120409143606}
   - component: {fileID: 6074905120409143607}
   m_Layer: 0
-  m_Name: Particle_Bullet
+  m_Name: ARParticle_Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4865,7 +4865,7 @@ ParticleSystemRenderer:
   m_FreeformStretching: 1
   m_RotateWithStretchDirection: 0
   m_VertexStreams: 00010304
-  m_Mesh: {fileID: -2432090755550338912, guid: 25de88566bc07f34baf173ae7e73453b, type: 3}
+  m_Mesh: {fileID: -2432090755550338912, guid: 0ca575e98d837814bafbea3b7f5a4bf8, type: 3}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
