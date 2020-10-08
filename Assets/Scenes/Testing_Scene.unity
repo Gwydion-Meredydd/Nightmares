@@ -759,13 +759,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb06f92fc08091438ae498ac0805e06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnLocationOne: {fileID: 0}
-  spawnLocationTwo: {fileID: 0}
-  spawnLocationThree: {fileID: 0}
-  spawnLocationFour: {fileID: 0}
-  enemy: {fileID: 0}
+  spawnLocationOne: {fileID: 98686199}
+  spawnLocationTwo: {fileID: 1531601076}
+  spawnLocationThree: {fileID: 1013315243}
+  spawnLocationFour: {fileID: 519985713}
+  player: {fileID: 0}
+  enemy: {fileID: -9139470923841779072, guid: 790d99bbc251e1b4cb31c2d71f9c48aa, type: 3}
+  gameManager: {fileID: 1104343446}
   numberEnemies: 0
   waveDelay: 20
+  playerScript: {fileID: 1104343449}
 --- !u!1 &1260896926
 GameObject:
   m_ObjectHideFlags: 3

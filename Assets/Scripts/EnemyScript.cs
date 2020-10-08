@@ -6,11 +6,14 @@ using UnityEngine.AI;
 public class EnemyScript : MonoBehaviour
 {
     public Transform spawnLocationOne, spawnLocationTwo, spawnLocationThree, spawnLocationFour;
-    private GameObject player;
-    public GameObject enemy;
+    public Transform player;
+    public NavMeshAgent enemy;
+    public GameObject gameManager;
+    private PlayerController player_Controller;
     public int numberEnemies;
-    bool canSpawn = true;
+    public bool canSpawn;
     public int waveDelay = 20;
+    public PlayerController playerScript;
 
     void Update()
     {
@@ -22,10 +25,14 @@ public class EnemyScript : MonoBehaviour
                 StartCoroutine(spawning());                
             }
         }
+
+        enemy.SetDestination(player.transform.position);
     }
 
     IEnumerator spawning()
     {
+        yield return new WaitForSeconds(0.1f);
+
         for (int i = 0; i < numberEnemies; i++)
         {
             int spawnChoice = Random.Range(1, 4);
@@ -51,8 +58,15 @@ public class EnemyScript : MonoBehaviour
                     Instantiate(enemy, spawnLocationFour.position, Quaternion.identity);
                     break;
             }
+
+            enemy.GetComponent<NavMeshAgent>().destination = target();
         }
-        yield return new WaitForSeconds(5);
+
         canSpawn = true;
+    }
+
+    public Vector3 target()
+    {
+        return player.transform.position;
     }
 }
