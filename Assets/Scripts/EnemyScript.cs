@@ -14,6 +14,7 @@ public class EnemyScript : MonoBehaviour
     public bool canSpawn;
     public int waveDelay = 20;
     public PlayerController playerScript;
+    public Vector3 playerPosition;
 
     void Update()
     {
@@ -24,9 +25,10 @@ public class EnemyScript : MonoBehaviour
                 canSpawn = false;
                 StartCoroutine(spawning());                
             }
+            //playerPosition = player.transform.position;
+            //enemy.SetDestination(playerPosition);
         }
-
-        enemy.SetDestination(player.transform.position);
+        
     }
 
     IEnumerator spawning()
