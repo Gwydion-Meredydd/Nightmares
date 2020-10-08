@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public Transform PlayerStartSpawn;
     public PlayerController PlayerController;
     public CameraController camera_Controller;
+    public EnemyScript enemyScript;
     public ParticleSystem ARBulletParticle;
     public ParticleSystem ArMuzzleFlash;
     public ParticleSystem ARShellParticle;
@@ -118,6 +119,8 @@ public class GameManager : MonoBehaviour
             #endregion
 
             camera_Controller.player = PlayerController.Player.transform;
+            enemyScript.player = PlayerController.Player.transform;
+            enemyScript.canSpawn = true;
             StartGame = false;
             InGame = true;
             PlayerController.WeaponHeldValue = PlayerController.WeaponValue;
