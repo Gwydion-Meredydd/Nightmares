@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public GameManager Game_Manager;
+    public CameraController CameraScript;
     [Header("Selected Player")]
     public GameObject Player;
     public CharacterController PlayerCc;
@@ -37,6 +38,11 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem MGBulletCasing;
     public ParticleSystem FTFlame;
     public ParticleSystem FTHeatDistortion;
+
+    //For camera punch effect
+    [Range(0, 1)]
+    public float CameraShootEffectValue;
+    float TempPunchValue;
     void Update()
     {
         if (Game_Manager.InGame == true)
@@ -123,7 +129,9 @@ public class PlayerController : MonoBehaviour
                     ARBulletParticle.Emit(1);
                     ARBulletCasing.Emit(1);
                     ARMuzzleFlash.Emit(1);
+                    CameraPunch();
                     yield return new WaitForSeconds(AssaultRifleFiringTime);
+                    CameraScript.yValue = TempPunchValue;
                     Firing = false;
                     Debug.Log("Shot");
                     break;
@@ -131,18 +139,27 @@ public class PlayerController : MonoBehaviour
                     MGBulletParticle.Emit(1);
                     MGBulletCasing.Emit(1);
                     MGMuzzleFlash.Emit(1);
+                    CameraPunch();
                     yield return new WaitForSeconds(MiniGunFiringTime);
+                    CameraScript.yValue = TempPunchValue;
                     Firing = false;
                     Debug.Log("Shot");
                     break;
                 case 3:
                     FTFlame.Emit(1);
                     FTHeatDistortion.Emit(1);
+                    CameraPunch();
                     yield return new WaitForSeconds(FlameThrowerFiringTime);
+                    CameraScript.yValue = TempPunchValue;
                     Firing = false;
                     Debug.Log("Shot");
                     break;
             }
         }
+    }
+    public void CameraPunch() 
+    {
+        TempPunchValue = CameraScript.yValue;
+        CameraScript.yValue -= CameraShootEffectValue;
     }
 }
