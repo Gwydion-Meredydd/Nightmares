@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6074905120409143606}
   - component: {fileID: 6074905120409143607}
   m_Layer: 0
-  m_Name: Particle_Bullet_Shell
+  m_Name: ARParticle_Bullet_Shell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -284,7 +284,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.13
+      scalar: 0.05
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -3846,7 +3846,7 @@ ParticleSystem:
     radiusScale: 2.24
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 55
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5

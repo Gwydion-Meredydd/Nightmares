@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public CameraController CameraScript;
     [Header("Selected Player")]
     public GameObject Player;
+    public Animator PlayerAnimator;
     public CharacterController PlayerCc;
     [Header("Movement Variables")]
     public float MovingSpeed;
@@ -104,6 +105,13 @@ public class PlayerController : MonoBehaviour
        
         MovementDirectionValue = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
         PlayerCc.Move((MovementDirectionValue * MovingSpeed)* Time.deltaTime);
+        AnimationIntilisation();
+    }
+    public void AnimationIntilisation() 
+    {
+        PlayerAnimator.SetFloat("Horizontal", MovementDirectionValue.x);
+        PlayerAnimator.SetFloat("Vertical", MovementDirectionValue.z);
+        PlayerAnimator.SetFloat("SprintValue", MovingSpeed);
     }
     public void MousePlayerRotation()
     {

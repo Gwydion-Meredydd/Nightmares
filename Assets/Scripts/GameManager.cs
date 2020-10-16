@@ -123,6 +123,7 @@ public class GameManager : MonoBehaviour
             enemyScript.canSpawn = true;
             StartGame = false;
             InGame = true;
+            PlayerController.PlayerAnimator = PlayerController.Player.GetComponent<Animator>();
             PlayerController.WeaponHeldValue = PlayerController.WeaponValue;
             switch (PlayerController.WeaponValue)
             {
