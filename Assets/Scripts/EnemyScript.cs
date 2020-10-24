@@ -60,8 +60,6 @@ public class EnemyScript : MonoBehaviour
                     Instantiate(enemy, spawnLocationFour.position, Quaternion.identity);
                     break;
             }
-
-            enemy.GetComponent<NavMeshAgent>().destination = target();
         }
 
         canSpawn = true;
