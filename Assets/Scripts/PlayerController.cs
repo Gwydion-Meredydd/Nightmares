@@ -39,6 +39,17 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem MGBulletCasing;
     public ParticleSystem FTFlame;
     public ParticleSystem FTHeatDistortion;
+    [Space]
+    public EnemyManager EnemyScript;
+    public int CurrentDamage;
+    public int ARDamage;
+    public int MGDamage;
+    public int FTDamage;
+    public Ray RayCastRay;
+    public RaycastHit RayCastHit;
+    public GameObject HitTarget;
+    public GameObject HitEnemy;
+
 
     //For camera punch effect
     [Range(0, 1)]
@@ -74,16 +85,45 @@ public class PlayerController : MonoBehaviour
                 AutomaticRifleModel.SetActive(true);
                 MiniGunModel.SetActive(false);
                 FlameThrowerModel.SetActive(false);
+                CurrentDamage = ARDamage;
                 break;
             case 2:
                 AutomaticRifleModel.SetActive(false);
                 MiniGunModel.SetActive(true);
                 FlameThrowerModel.SetActive(false);
+                CurrentDamage = MGDamage;
                 break;
             case 3:
                 AutomaticRifleModel.SetActive(false);
                 MiniGunModel.SetActive(false);
                 FlameThrowerModel.SetActive(true);
+                CurrentDamage = FTDamage;
+                break;
+        }
+    }
+    public void RayCastMethod() 
+    {
+        switch (WeaponValue)
+        {
+            case 1:
+                Debug.DrawRay(ARShootPoint.position, Vector3.forward, Color.green, 1000);
+                if (Physics.Raycast(ARShootPoint.position, ARShootPoint.transform.forward, out RayCastHit))
+                {
+                    if (RayCastHit.transform.tag == "Enemy") 
+                    {
+                        HitEnemy = RayCastHit.transform.gameObject;
+                        EnemyScript.EnemyHited = HitEnemy;
+                        EnemyScript.HealthManager();
+                    }
+                    else 
+                    {
+                        HitEnemy = null;
+                    }
+                }
+                break;
+            case 2:
+                break;
+            case 3:
                 break;
         }
     }
@@ -137,11 +177,11 @@ public class PlayerController : MonoBehaviour
                     ARBulletParticle.Emit(1);
                     ARBulletCasing.Emit(1);
                     ARMuzzleFlash.Emit(1);
+                    RayCastMethod();
                     CameraPunch();
                     yield return new WaitForSeconds(AssaultRifleFiringTime);
                     CameraScript.yValue = TempPunchValue;
                     Firing = false;
-                    Debug.Log("Shot");
                     break;
                 case 2:
                     MGBulletParticle.Emit(1);
@@ -151,7 +191,6 @@ public class PlayerController : MonoBehaviour
                     yield return new WaitForSeconds(MiniGunFiringTime);
                     CameraScript.yValue = TempPunchValue;
                     Firing = false;
-                    Debug.Log("Shot");
                     break;
                 case 3:
                     FTFlame.Emit(1);
@@ -160,7 +199,6 @@ public class PlayerController : MonoBehaviour
                     yield return new WaitForSeconds(FlameThrowerFiringTime);
                     CameraScript.yValue = TempPunchValue;
                     Firing = false;
-                    Debug.Log("Shot");
                     break;
             }
         }

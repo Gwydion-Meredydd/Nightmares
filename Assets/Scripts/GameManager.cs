@@ -125,6 +125,7 @@ public class GameManager : MonoBehaviour
             InGame = true;
             PlayerController.PlayerAnimator = PlayerController.Player.GetComponent<Animator>();
             PlayerController.WeaponHeldValue = PlayerController.WeaponValue;
+            PlayerController.WeaponSwitch();
             switch (PlayerController.WeaponValue)
             {
                 case 1:

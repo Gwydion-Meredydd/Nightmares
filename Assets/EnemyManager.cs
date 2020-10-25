@@ -9,121 +9,189 @@ public class EnemyManager : MonoBehaviour
     public PlayerController PlayerScript;
     public CameraController CameraScript;
 
-    public List <bool> EnemyInitilised;
+    public List<bool> EnemyInitilised;
     public int StartingHealth;
-    public List <int> Health;
+    public List<int> Health;
+    public bool TakingDamage;
     public bool IgnorePlayer;
     public bool InitalLost;
     public bool[] HasReachedTarget;
-    public GameObject[] ActiveEnemies;
-    public NavMeshAgent[] ActiveEnemiesAgents;
+
+    public GameObject EnemyHited;
+    public bool EnemyDied;
+    public GameObject[] ValueofEnemies;
+    public List<GameObject> ActiveEnemies;
+    public List<NavMeshAgent> ActiveEnemiesAgents;
+
 
     public Vector3 RandomPosition;
     // Start is called before the first frame update
     void Update()
     {
-        if (GameManagerScript.InGame == true) 
+        if (GameManagerScript.InGame == true)
         {
-            if (GameManagerScript.Paused == false) 
+            if (GameManagerScript.Paused == false)
             {
-                EnemyInitilisation();
-                FetchActiveEnemies();
-                if (IgnorePlayer == false) 
+                if (TakingDamage == false && EnemyDied == false)
                 {
-                    if (InitalLost == true) 
-                    {
-                        InitalLost = false;
-                    }
-                    ChasePlayer();
+                    FetchActiveEnemies();
                 }
-                else
+                if (TakingDamage == true)
                 {
-                    ChaseRandom();
+                    HealthManager();
+                    TakingDamage = false;
+                }
+                if (EnemyDied == false)
+                {
+                    if (IgnorePlayer == false)
+                    {
+                        if (InitalLost == true)
+                        {
+                            InitalLost = false;
+                        }
+                        ChasePlayer();
+                    }
+                    else
+                    {
+                        ChaseRandom();
+                    }
                 }
             }
         }
     }
-    void EnemyInitilisation()
+    public void HealthManager()
     {
         int ArrayLength = 0;
-        int ListLength = 0;
-        ArrayLength = ActiveEnemies.Length;
-        ListLength = EnemyInitilised.Count;
-        for (int i = 0; i < ListLength; i++)
+        foreach (var GameObject in ValueofEnemies)
         {
-            if (EnemyInitilised[i] == false)
+            GameObject TemporaryActiveEnemie = ValueofEnemies[ArrayLength];
+            if (Health[ArrayLength] != 0)
             {
-                Debug.Log("1");
-                Health[i] = StartingHealth;
-                EnemyInitilised[i] = true;
+                if (EnemyHited == TemporaryActiveEnemie)
+                {
+                    Health[ArrayLength] = Health[ArrayLength] - PlayerScript.CurrentDamage;
+                    if (Health[ArrayLength] == 0)
+                    {
+                        Debug.Log("Remove Health");
+                        Health.RemoveAt(ArrayLength);
+                        EnemyInitilised.RemoveAt(ArrayLength);
+                        Destroy(ActiveEnemies[ArrayLength]);
+                        EnemyDied = true;
+                        StartCoroutine("EnemyDeathCooldown");
+                        break;
+                    }
+                }
             }
+            ArrayLength = ArrayLength + 1;
         }
-        if (ListLength < ArrayLength)
-        {
-            Debug.Log("UnderHead");
-            Health.Add(1);
-            EnemyInitilised.Add(false);
-        }
-        else if (ListLength > ArrayLength) 
-        {
-            int Loopoverammount = ListLength - ArrayLength;
-            for (int i = 0; i < Loopoverammount; i++)
-            {
-                ListLength = EnemyInitilised.Count;
-                int RemovalValue = ListLength - 1;
-                Debug.Log("OverHead");
-                Health.RemoveAt(RemovalValue);
-                EnemyInitilised.RemoveAt(RemovalValue);
-            }
-        }
+        EnemyHited = null;
     }
     void ChasePlayer()
     {
         int ArrayLength = 0;
-        foreach (var GameObject in ActiveEnemiesAgents)
+        foreach (var GameObject in ValueofEnemies)
         {
             ActiveEnemiesAgents[ArrayLength].destination = PlayerScript.Player.transform.position;
             ArrayLength = ArrayLength + 1;
         }
     }
-    void ChaseRandom() 
+    void ChaseRandom()
     {
         if (InitalLost == false)
         {
+            int OldLength = ValueofEnemies.Length;
             InitalLost = true;
-            int ArrayLength = 0;
-            foreach (var GameObject in ActiveEnemiesAgents)
+            for (int i = 0; i < OldLength; i++)
             {
-                RandomPosition = new Vector3(Random.Range(CameraScript.maxPosition.x, CameraScript.minPosition.x), 0, Random.Range(CameraScript.maxPosition.z, CameraScript.minPosition.z));
-                ActiveEnemiesAgents[ArrayLength].destination = RandomPosition;
-                ArrayLength = ArrayLength + 1;
-            }
-        }
-        else 
-        {
-            int ArrayLength = 0;
-            foreach (var GameObject in ActiveEnemiesAgents) 
-            {
-                if (ActiveEnemiesAgents[ArrayLength].remainingDistance < 2) 
+                if (ActiveEnemiesAgents[i] != null)
                 {
                     RandomPosition = new Vector3(Random.Range(CameraScript.maxPosition.x, CameraScript.minPosition.x), 0, Random.Range(CameraScript.maxPosition.z, CameraScript.minPosition.z));
-                    ActiveEnemiesAgents[ArrayLength].destination = RandomPosition;
+                    ActiveEnemiesAgents[i].destination = RandomPosition;
                 }
-                ArrayLength = ArrayLength + 1;
+                else
+                {
+                    break;
+                }
+            }
+        }
+        else
+        {
+            int OldLength = ValueofEnemies.Length;
+            for (int i = 0; i < OldLength; i++)
+            {
+                if (OldLength == ValueofEnemies.Length)
+                {
+                    if (ActiveEnemiesAgents[i].remainingDistance < 2 && ActiveEnemiesAgents[i] != null)
+                    {
+                        RandomPosition = new Vector3(Random.Range(CameraScript.maxPosition.x, CameraScript.minPosition.x), 0, Random.Range(CameraScript.maxPosition.z, CameraScript.minPosition.z));
+                        ActiveEnemiesAgents[i].destination = RandomPosition;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    break;
+                }
             }
         }
     }
-    void FetchActiveEnemies() 
+    public void FetchActiveEnemies()
     {
-        ActiveEnemies = GameObject.FindGameObjectsWithTag("Enemy");
-        int ArrayLength;
-        ArrayLength = ActiveEnemies.Length;
-        ActiveEnemiesAgents = new NavMeshAgent[ArrayLength];
-        int TempEnemyValue = 0;
-        foreach (var GameObject in ActiveEnemies)
+        if (TakingDamage == false)
         {
-            ActiveEnemiesAgents[TempEnemyValue] = ActiveEnemies[TempEnemyValue].GetComponent<NavMeshAgent>(); ;
-            TempEnemyValue = TempEnemyValue + 1;
+            ValueofEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+            ActiveEnemies = new List<GameObject>(0);
+            if (ActiveEnemies.Count < ValueofEnemies.Length)
+            {
+                foreach (GameObject Enemies in GameObject.FindGameObjectsWithTag("Enemy"))
+                {
+                    ActiveEnemies.Add(Enemies);
+                }
+            }
+            //ActiveEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+            int ArrayLength;
+            ArrayLength = ActiveEnemies.Count;
+            ActiveEnemiesAgents = new List<NavMeshAgent>(ArrayLength);
+
+            foreach (GameObject Enemies in GameObject.FindGameObjectsWithTag("Enemy"))
+            {
+
+                ActiveEnemiesAgents.Add(Enemies.GetComponent<NavMeshAgent>());
+            }
+            ValueofEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+            if (Health.Count <= ValueofEnemies.Length)
+            {
+                for (int i = 0; i < ValueofEnemies.Length; i++)
+                {
+                    if (Health.Count == ValueofEnemies.Length || TakingDamage == true)
+                    {
+                        break;
+                    }
+                    if (ValueofEnemies.Length != Health.Count && TakingDamage == false)
+                    {
+                        Debug.Log("Adding Health");
+                        Health.Add(1);
+                        EnemyInitilised.Add(false);
+                    }
+                }
+                for (int i = 0; i < ValueofEnemies.Length; i++)
+                {
+                    if (EnemyInitilised[i] == false)
+                    {
+                        Health[i] = StartingHealth;
+                        EnemyInitilised[i] = true;
+                    }
+                }
+            }
         }
     }
+    IEnumerator EnemyDeathCooldown()
+    {
+        yield return new WaitForSeconds(0.1f);
+        EnemyDied = false;
+    }
 }
+
