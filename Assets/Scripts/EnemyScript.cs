@@ -1,72 +1,45 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class EnemyScript : MonoBehaviour
 {
-    public Transform spawnLocationOne, spawnLocationTwo, spawnLocationThree, spawnLocationFour;
+    public Transform [] spawnLocation;
+    public GameObject [] enemy;
+    public EnemyScript enemyScript;
     public Transform player;
-    public NavMeshAgent enemy;
-    public GameObject gameManager;
-    private PlayerController player_Controller;
-    public int numberEnemies;
-    public bool canSpawn;
+    public int numberEnemies = 10;
+    public bool canSpawn = true;
     public int waveDelay = 20;
-    public PlayerController playerScript;
-    public Vector3 playerPosition;
+    public int spawnDelay;
 
     void Update()
     {
         if (canSpawn == true)
         {
-            if (GameObject.FindGameObjectsWithTag("Enemy").Length <= 0)
+            if (GameObject.FindGameObjectsWithTag("Enemy").Length <= 10)
+                //Check to see if number of enemies is getting low to see if more need adding
             {
                 canSpawn = false;
+                //A control bool so that the method cant be started repeatedly
                 StartCoroutine(spawning());                
             }
-            //playerPosition = player.transform.position;
-            //enemy.SetDestination(playerPosition);
-        }
-        
+        }        
     }
 
     IEnumerator spawning()
     {
-        yield return new WaitForSeconds(0.1f);
-
         for (int i = 0; i < numberEnemies; i++)
+            //Loop to spawn the enemies
         {
-            int spawnChoice = Random.Range(1, 4);
-            switch (spawnChoice)
-            {
-                case 1:
-                    Instantiate(enemy, spawnLocationOne.position, Quaternion.identity);
-                    break;
-
-                case 2:
-                    Instantiate(enemy, spawnLocationTwo.position, Quaternion.identity);
-                    break;
-
-                case 3:
-                    Instantiate(enemy, spawnLocationThree.position, Quaternion.identity);
-                    break;
-
-                case 4:
-                    Instantiate(enemy, spawnLocationFour.position, Quaternion.identity);
-                    break;
-
-                default:
-                    Instantiate(enemy, spawnLocationFour.position, Quaternion.identity);
-                    break;
-            }
+            int spawnNumber = Random.Range(0, 4);
+            //choose which location to spawn the enemies at
+            GameObject newEnemy = Instantiate(enemy[i].gameObject, spawnLocation[spawnNumber].transform.position, Quaternion.identity) as GameObject;
+            //Spawn the enemies
+            yield return new WaitForSeconds(spawnDelay);
         }
 
         canSpawn = true;
-    }
-
-    public Vector3 target()
-    {
-        return player.transform.position;
+        //make to script capable of running again
     }
 }
