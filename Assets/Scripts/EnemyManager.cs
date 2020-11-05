@@ -12,6 +12,7 @@ public class EnemyManager : MonoBehaviour
     public List<bool> EnemyInitilised;
     public int StartingHealth;
     public List<int> Health;
+    public bool HealthCalculation;
     public bool TakingDamage;
     public bool IgnorePlayer;
     public bool InitalLost;
@@ -22,6 +23,8 @@ public class EnemyManager : MonoBehaviour
     public GameObject[] ValueofEnemies;
     public List<GameObject> ActiveEnemies;
     public List<NavMeshAgent> ActiveEnemiesAgents;
+    public List<Animator> ActiveEnemiesAnimators;
+    public List<BoxCollider> ActiveEnemiesBoxColliders;
 
 
     public Vector3 RandomPosition;
@@ -61,30 +64,43 @@ public class EnemyManager : MonoBehaviour
     }
     public void HealthManager()
     {
-        int ArrayLength = 0;
-        foreach (var GameObject in ValueofEnemies)
+        if (HealthCalculation == false)
         {
-            GameObject TemporaryActiveEnemie = ValueofEnemies[ArrayLength];
-            if (Health[ArrayLength] != 0)
+            HealthCalculation = true;
+            int ArrayLength = 0;
+            foreach (var GameObject in ValueofEnemies)
             {
-                if (EnemyHited == TemporaryActiveEnemie)
+                GameObject TemporaryActiveEnemie = ValueofEnemies[ArrayLength];
+                if (Health[ArrayLength] != 0)
                 {
-                    Health[ArrayLength] = Health[ArrayLength] - PlayerScript.CurrentDamage;
-                    if (Health[ArrayLength] == 0)
+                    if (EnemyHited == TemporaryActiveEnemie)
                     {
-                        Debug.Log("Remove Health");
-                        Health.RemoveAt(ArrayLength);
-                        EnemyInitilised.RemoveAt(ArrayLength);
-                        Destroy(ActiveEnemies[ArrayLength]);
-                        EnemyDied = true;
-                        StartCoroutine("EnemyDeathCooldown");
-                        break;
+                        Debug.Log("HealthShot");
+                        Health[ArrayLength] = Health[ArrayLength] - PlayerScript.CurrentDamage;
+                        if (Health[ArrayLength] <= 0)
+                        {
+                            Debug.Log("Remove Health");
+                            Health.RemoveAt(ArrayLength);
+                            EnemyInitilised.RemoveAt(ArrayLength);
+                            ActiveEnemiesAnimators[ArrayLength].SetBool("Dead", true);
+                            int DeathValue = Random.Range(1, 4);
+                            Debug.Log(DeathValue);
+                            ActiveEnemiesAnimators[ArrayLength].SetInteger("DeathRandomiser", DeathValue);
+                            ActiveEnemiesAgents[ArrayLength].isStopped = true;
+                            ActiveEnemiesBoxColliders[ArrayLength].enabled = false;
+                            //Destroy(ActiveEnemies[ArrayLength]);
+                            EnemyDied = true;
+                            StartCoroutine("EnemyDeathCooldown");
+                            break;
+                        }
                     }
                 }
+                ArrayLength = ArrayLength + 1;
             }
-            ArrayLength = ArrayLength + 1;
+            EnemyHited = null;
         }
-        EnemyHited = null;
+        HealthCalculation = false;
+
     }
     void ChasePlayer()
     {
@@ -155,11 +171,13 @@ public class EnemyManager : MonoBehaviour
             int ArrayLength;
             ArrayLength = ActiveEnemies.Count;
             ActiveEnemiesAgents = new List<NavMeshAgent>(ArrayLength);
-
+            ActiveEnemiesAnimators = new List<Animator>(ArrayLength);
+            ActiveEnemiesBoxColliders = new List<BoxCollider>(ArrayLength);
             foreach (GameObject Enemies in GameObject.FindGameObjectsWithTag("Enemy"))
             {
-
                 ActiveEnemiesAgents.Add(Enemies.GetComponent<NavMeshAgent>());
+                ActiveEnemiesAnimators.Add(Enemies.GetComponent<Animator>());
+                ActiveEnemiesBoxColliders.Add(Enemies.GetComponent<BoxCollider>());
             }
             ValueofEnemies = GameObject.FindGameObjectsWithTag("Enemy");
             if (Health.Count <= ValueofEnemies.Length)

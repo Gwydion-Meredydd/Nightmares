@@ -106,7 +106,6 @@ public class PlayerController : MonoBehaviour
         switch (WeaponValue)
         {
             case 1:
-                Debug.DrawRay(ARShootPoint.position, Vector3.forward, Color.green, 1000);
                 if (Physics.Raycast(ARShootPoint.position, ARShootPoint.transform.forward, out RayCastHit))
                 {
                     if (RayCastHit.transform.tag == "Enemy") 
@@ -122,8 +121,34 @@ public class PlayerController : MonoBehaviour
                 }
                 break;
             case 2:
+                if (Physics.Raycast(MGShootPoint.position, MGShootPoint.transform.forward, out RayCastHit))
+                {
+                    if (RayCastHit.transform.tag == "Enemy")
+                    {
+                        HitEnemy = RayCastHit.transform.gameObject;
+                        EnemyScript.EnemyHited = HitEnemy;
+                        EnemyScript.HealthManager();
+                    }
+                    else
+                    {
+                        HitEnemy = null;
+                    }
+                }
                 break;
             case 3:
+                if (Physics.Raycast(FTShootPoint.position, FTShootPoint.transform.forward, out RayCastHit))
+                {
+                    if (RayCastHit.transform.tag == "Enemy")
+                    {
+                        HitEnemy = RayCastHit.transform.gameObject;
+                        EnemyScript.EnemyHited = HitEnemy;
+                        EnemyScript.HealthManager();
+                    }
+                    else
+                    {
+                        HitEnemy = null;
+                    }
+                }
                 break;
         }
     }
@@ -187,14 +212,16 @@ public class PlayerController : MonoBehaviour
                     MGBulletParticle.Emit(1);
                     MGBulletCasing.Emit(1);
                     MGMuzzleFlash.Emit(1);
+                    RayCastMethod();
                     CameraPunch();
                     yield return new WaitForSeconds(MiniGunFiringTime);
                     CameraScript.yValue = TempPunchValue;
                     Firing = false;
                     break;
                 case 3:
-                    FTFlame.Emit(1);
+                    FTFlame.Emit(5);
                     FTHeatDistortion.Emit(1);
+                    RayCastMethod();
                     CameraPunch();
                     yield return new WaitForSeconds(FlameThrowerFiringTime);
                     CameraScript.yValue = TempPunchValue;
