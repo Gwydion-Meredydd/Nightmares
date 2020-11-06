@@ -108,13 +108,16 @@ public class PlayerController : MonoBehaviour
             case 1:
                 if (Physics.Raycast(ARShootPoint.position, ARShootPoint.transform.forward, out RayCastHit))
                 {
-                    if (RayCastHit.transform.tag == "Enemy") 
+                    if (RayCastHit.transform.tag == "Enemy")
                     {
                         HitEnemy = RayCastHit.transform.gameObject;
                         EnemyScript.EnemyHited = HitEnemy;
-                        EnemyScript.HealthManager();
+                        if (EnemyScript.HealthCalculation == false)
+                        {
+                            EnemyScript.HealthManager();
+                        }
                     }
-                    else 
+                    else
                     {
                         HitEnemy = null;
                     }
@@ -127,7 +130,10 @@ public class PlayerController : MonoBehaviour
                     {
                         HitEnemy = RayCastHit.transform.gameObject;
                         EnemyScript.EnemyHited = HitEnemy;
-                        EnemyScript.HealthManager();
+                        if (EnemyScript.HealthCalculation == false)
+                        {
+                            EnemyScript.HealthManager();
+                        }
                     }
                     else
                     {
@@ -142,7 +148,10 @@ public class PlayerController : MonoBehaviour
                     {
                         HitEnemy = RayCastHit.transform.gameObject;
                         EnemyScript.EnemyHited = HitEnemy;
-                        EnemyScript.HealthManager();
+                        if (EnemyScript.HealthCalculation == false)
+                        {
+                            EnemyScript.HealthManager();
+                        }
                     }
                     else
                     {
@@ -172,11 +181,25 @@ public class PlayerController : MonoBehaviour
         PlayerCc.Move((MovementDirectionValue * MovingSpeed)* Time.deltaTime);
         AnimationIntilisation();
     }
-    public void AnimationIntilisation() 
+    public void AnimationIntilisation()
     {
-        PlayerAnimator.SetFloat("Horizontal", MovementDirectionValue.x);
-        PlayerAnimator.SetFloat("Vertical", MovementDirectionValue.z);
-        PlayerAnimator.SetFloat("SprintValue", MovingSpeed);
+        if (MovementDirectionValue.x != 0 || MovementDirectionValue.z != 0) 
+        {
+            PlayerAnimator.SetBool("Walk",true);
+        }
+        else 
+        {
+            PlayerAnimator.SetBool("Walk", false);
+        }
+        if (Firing == true) 
+        {
+            PlayerAnimator.SetBool("Firing", true);
+        }
+        else if (!Input.GetMouseButton(0))
+        {
+         
+            PlayerAnimator.SetBool("Firing", false);
+        }
     }
     public void MousePlayerRotation()
     {
@@ -204,9 +227,8 @@ public class PlayerController : MonoBehaviour
                     ARMuzzleFlash.Emit(1);
                     RayCastMethod();
                     CameraPunch();
-                    yield return new WaitForSeconds(AssaultRifleFiringTime);
+                    yield return new WaitForSecondsRealtime(AssaultRifleFiringTime);
                     CameraScript.yValue = TempPunchValue;
-                    Firing = false;
                     break;
                 case 2:
                     MGBulletParticle.Emit(1);
@@ -214,21 +236,21 @@ public class PlayerController : MonoBehaviour
                     MGMuzzleFlash.Emit(1);
                     RayCastMethod();
                     CameraPunch();
-                    yield return new WaitForSeconds(MiniGunFiringTime);
+                    yield return new WaitForSecondsRealtime(MiniGunFiringTime);
                     CameraScript.yValue = TempPunchValue;
-                    Firing = false;
                     break;
                 case 3:
                     FTFlame.Emit(5);
                     FTHeatDistortion.Emit(1);
                     RayCastMethod();
                     CameraPunch();
-                    yield return new WaitForSeconds(FlameThrowerFiringTime);
+                    yield return new WaitForSecondsRealtime(FlameThrowerFiringTime);
                     CameraScript.yValue = TempPunchValue;
-                    Firing = false;
                     break;
             }
+            Firing = false;
         }
+
     }
     public void CameraPunch() 
     {

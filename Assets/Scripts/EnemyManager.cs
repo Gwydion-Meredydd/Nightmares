@@ -64,6 +64,7 @@ public class EnemyManager : MonoBehaviour
     }
     public void HealthManager()
     {
+        Debug.Log("1");
         if (HealthCalculation == false)
         {
             HealthCalculation = true;
@@ -104,11 +105,14 @@ public class EnemyManager : MonoBehaviour
     }
     void ChasePlayer()
     {
-        int ArrayLength = 0;
-        foreach (var GameObject in ValueofEnemies)
+        if (HealthCalculation == false)
         {
-            ActiveEnemiesAgents[ArrayLength].destination = PlayerScript.Player.transform.position;
-            ArrayLength = ArrayLength + 1;
+            int ArrayLength = 0;
+            foreach (var GameObject in ValueofEnemies)
+            {
+                ActiveEnemiesAgents[ArrayLength].destination = PlayerScript.Player.transform.position;
+                ArrayLength = ArrayLength + 1;
+            }
         }
     }
     void ChaseRandom()
@@ -208,7 +212,7 @@ public class EnemyManager : MonoBehaviour
     }
     IEnumerator EnemyDeathCooldown()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSecondsRealtime(0.1f);
         EnemyDied = false;
     }
 }
