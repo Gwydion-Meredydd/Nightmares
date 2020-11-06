@@ -240,7 +240,7 @@ public class PlayerController : MonoBehaviour
                     CameraScript.yValue = TempPunchValue;
                     break;
                 case 3:
-                    FTFlame.Emit(5);
+                    FTFlame.Emit(10);
                     FTHeatDistortion.Emit(1);
                     RayCastMethod();
                     CameraPunch();
