@@ -1140,7 +1140,7 @@ MonoBehaviour:
   PlayerCc: {fileID: 0}
   MovingSpeed: 5
   TestingSwitchWeapon: 1
-  WeaponValue: 3
+  WeaponValue: 1
   WeaponHeldValue: 1
   AutomaticRifleModel: {fileID: 0}
   MiniGunModel: {fileID: 0}
@@ -1168,6 +1168,11 @@ MonoBehaviour:
   FTDamage: 100
   HitTarget: {fileID: 0}
   HitEnemy: {fileID: 0}
+  PlayerRotation: 0
+  FacingUp: 0
+  FacingDown: 0
+  FacingLeft: 0
+  FacingRight: 0
   CameraShootEffectValue: 0.573
 --- !u!114 &1104343450
 MonoBehaviour:

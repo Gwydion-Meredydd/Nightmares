@@ -49,8 +49,14 @@ public class PlayerController : MonoBehaviour
     public RaycastHit RayCastHit;
     public GameObject HitTarget;
     public GameObject HitEnemy;
+    [Space]
+    [Header("Animation Veriables")]
+    public float PlayerRotation;
+    public bool FacingUp, FacingDown, FacingLeft, FacingRight;
 
 
+    [Space]
+    [Header("Camera Effects")]
     //For camera punch effect
     [Range(0, 1)]
     public float CameraShootEffectValue;
@@ -183,22 +189,79 @@ public class PlayerController : MonoBehaviour
     }
     public void AnimationIntilisation()
     {
-        if (MovementDirectionValue.x != 0 || MovementDirectionValue.z != 0) 
+        if (MovementDirectionValue.x != 0 || MovementDirectionValue.z != 0)
         {
-            PlayerAnimator.SetBool("Walk",true);
+            PlayerAnimator.SetBool("Walk", true);
         }
-        else 
+        else
         {
             PlayerAnimator.SetBool("Walk", false);
         }
-        if (Firing == true) 
+        if (Firing == true)
         {
             PlayerAnimator.SetBool("Firing", true);
         }
         else if (!Input.GetMouseButton(0))
         {
-         
+
             PlayerAnimator.SetBool("Firing", false);
+        }
+        PlayerRotationalCalculation();
+        PlayerRoationAnimationCalculation();
+    }
+    public void PlayerRoationAnimationCalculation() 
+    {
+        if (FacingUp) 
+        {
+            PlayerAnimator.SetFloat("Horizontal", Input.GetAxisRaw("Horizontal"), 0.1f, Time.deltaTime);
+            PlayerAnimator.SetFloat("Vertical", Input.GetAxisRaw("Vertical"), 0.1f, Time.deltaTime);
+        }
+        if (FacingDown)
+        {
+            PlayerAnimator.SetFloat("Horizontal", -Input.GetAxisRaw("Horizontal"), 0.1f, Time.deltaTime);
+            PlayerAnimator.SetFloat("Vertical", -Input.GetAxisRaw("Vertical"), 0.1f, Time.deltaTime);
+        }
+        if (FacingLeft) 
+        {
+            PlayerAnimator.SetFloat("Vertical", -Input.GetAxisRaw("Horizontal"), 0.1f, Time.deltaTime);
+            PlayerAnimator.SetFloat("Horizontal", -Input.GetAxisRaw("Vertical"), 0.1f, Time.deltaTime);
+        }
+        if (FacingRight)
+        {
+            PlayerAnimator.SetFloat("Vertical", Input.GetAxisRaw("Horizontal"), 0.1f, Time.deltaTime);
+            PlayerAnimator.SetFloat("Horizontal", Input.GetAxisRaw("Vertical"), 0.1f, Time.deltaTime);
+        }
+    }
+    public void PlayerRotationalCalculation() 
+    {
+        PlayerRotation = Player.transform.eulerAngles.y;
+        if (PlayerRotation > 45 && PlayerRotation < 135)
+        {
+            FacingUp = false;
+            FacingDown = false;
+            FacingLeft = false;
+            FacingRight = true;
+        }
+        else if (PlayerRotation > 135 && PlayerRotation < 225)
+        {
+            FacingUp = false;
+            FacingDown = true;
+            FacingLeft = false;
+            FacingRight = false;
+        }
+        else if (PlayerRotation > 225 && PlayerRotation < 315)
+        {
+            FacingUp = false;
+            FacingDown = false;
+            FacingLeft = true;
+            FacingRight = false;
+        }
+        else
+        {
+            FacingUp = true;
+            FacingDown = false;
+            FacingLeft = false;
+            FacingRight = false;
         }
     }
     public void MousePlayerRotation()
