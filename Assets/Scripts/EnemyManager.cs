@@ -9,8 +9,13 @@ public class EnemyManager : MonoBehaviour
     public PlayerController PlayerScript;
     public CameraController CameraScript;
 
-    public List<bool> EnemyInitilised;
+    public float AttackingDistance;
+    public int AttackDamage;
+    public float AttackCoolDown;
+    public bool Attacking;
     public int StartingHealth;
+    [Space]
+    public List<bool> EnemyInitilised;
     public List<int> Health;
     public bool HealthCalculation;
     public bool TakingDamage;
@@ -26,25 +31,29 @@ public class EnemyManager : MonoBehaviour
     public List<Animator> ActiveEnemiesAnimators;
     public List<BoxCollider> ActiveEnemiesBoxColliders;
 
-
     public Vector3 RandomPosition;
     // Start is called before the first frame update
     void Update()
     {
+        //Checks if the game is running and if the game is paused or not and then calls the required methods to opprate the enemies (also some methods aren't called when others are active for performance)
         if (GameManagerScript.InGame == true)
         {
             if (GameManagerScript.Paused == false)
             {
-                if (TakingDamage == false && EnemyDied == false)
+                if (TakingDamage == false && EnemyDied == false && Attacking == false && HealthCalculation == false)
                 {
                     FetchActiveEnemies();
                 }
-                if (TakingDamage == true)
+                if (TakingDamage == true && Attacking == false)
                 {
                     HealthManager();
                     TakingDamage = false;
                 }
-                if (EnemyDied == false)
+                if (TakingDamage == false && EnemyDied == false && Attacking == false && HealthCalculation == false) 
+                {
+                    AttackPlayer();
+                }
+                if (HealthCalculation == false)
                 {
                     if (IgnorePlayer == false)
                     {
@@ -64,34 +73,41 @@ public class EnemyManager : MonoBehaviour
     }
     public void HealthManager()
     {
-        Debug.Log("1");
+        //method is called when player's raycast hit any enemy, 
+        //enemy is known by setting enemy hitted with that raycast object
+        //removes enmy tag from that enemy making it not valid for script interaction
+        //removes health etc 
+        //random death animaiton out of 3
+        //removes that enemy from the lists and arrays at the number that the player shot at if the health was at 0
         if (HealthCalculation == false)
         {
             HealthCalculation = true;
             int ArrayLength = 0;
-            foreach (var GameObject in ValueofEnemies)
+            foreach (var GameObject in ActiveEnemies)
             {
-                GameObject TemporaryActiveEnemie = ValueofEnemies[ArrayLength];
+                GameObject TemporaryActiveEnemie = ActiveEnemies[ArrayLength];
                 if (Health[ArrayLength] != 0)
                 {
                     if (EnemyHited == TemporaryActiveEnemie)
                     {
-                        Debug.Log("HealthShot");
                         Health[ArrayLength] = Health[ArrayLength] - PlayerScript.CurrentDamage;
                         if (Health[ArrayLength] <= 0)
                         {
-                            Debug.Log("Remove Health");
-                            Health.RemoveAt(ArrayLength);
-                            EnemyInitilised.RemoveAt(ArrayLength);
                             ActiveEnemiesAnimators[ArrayLength].SetBool("Dead", true);
+                            ActiveEnemiesAnimators[ArrayLength].SetBool("Attack", false);
                             int DeathValue = Random.Range(1, 4);
-                            Debug.Log(DeathValue);
                             ActiveEnemiesAnimators[ArrayLength].SetInteger("DeathRandomiser", DeathValue);
                             ActiveEnemiesAgents[ArrayLength].isStopped = true;
                             ActiveEnemiesBoxColliders[ArrayLength].enabled = false;
-                            //Destroy(ActiveEnemies[ArrayLength]);
-                            EnemyDied = true;
-                            StartCoroutine("EnemyDeathCooldown");
+                            //EnemyDied = true;
+                            ActiveEnemies[ArrayLength].tag = "DeadEnemy";
+                            ActiveEnemies.RemoveAt(ArrayLength);
+                            Health.RemoveAt(ArrayLength);
+                            EnemyInitilised.RemoveAt(ArrayLength);
+                            ActiveEnemiesAgents.RemoveAt(ArrayLength);
+                            ActiveEnemiesAnimators.RemoveAt(ArrayLength);
+                            ActiveEnemiesBoxColliders.RemoveAt(ArrayLength);
+                            //StartCoroutine("EnemyDeathCooldown");
                             break;
                         }
                     }
@@ -99,16 +115,90 @@ public class EnemyManager : MonoBehaviour
                 ArrayLength = ArrayLength + 1;
             }
             EnemyHited = null;
+            HealthCalculation = false;
         }
-        HealthCalculation = false;
 
+    }
+    public void AttackPlayer()
+    {
+        //Called when the enemy script isnt taking any damange
+        //checks if any active enemies is in range of the player
+        //only checks enemies that have more than 0 health
+        //starts a coroutine with the array number (enemy number) as a peramenter
+        int ArrayLength = 0;
+        foreach (var GameObject in ActiveEnemies)
+        {
+            if (Health[ArrayLength] > 0)
+            {
+                float NewDistance = Vector3.Distance(ActiveEnemies[ArrayLength].transform.position, PlayerScript.Player.transform.position);
+                if (NewDistance < AttackingDistance)
+                {
+                    if (Attacking == false)
+                    {
+                        Attacking = true;
+                        StartCoroutine(AttackingTime(ArrayLength));
+                    }
+                }
+            }
+            ArrayLength = ArrayLength + 1;
+        }
+    }
+    IEnumerator AttackingTime(int ArrayLength) 
+    {
+        //timing for enemy attacking players
+        // will allways swing arm of the enemy (randomised out of 2)
+        //checks if the player is in range of the attacking enemy when the arm swings
+        //applies damage to player if in range on swing and starts player damage attack and camera effect
+        float NewDistance = Vector3.Distance(ActiveEnemies[ArrayLength].transform.position, PlayerScript.Player.transform.position);
+        int OldNumberOfEnemies = ActiveEnemies.Count;
+        if (NewDistance < AttackingDistance && Health[ArrayLength] > 0)
+        { 
+            ActiveEnemiesAgents[ArrayLength].isStopped = true;
+            int AttackValue = Random.Range(1, 3);
+            ActiveEnemiesAnimators[ArrayLength].SetInteger("AttackRandomiser", AttackValue);
+            ActiveEnemiesAnimators[ArrayLength].SetBool("Moving", false);
+            ActiveEnemiesAnimators[ArrayLength].SetBool("Attack", true);
+            yield return new WaitForSecondsRealtime(0.1f);
+            if (OldNumberOfEnemies == ActiveEnemies.Count)
+            {
+                NewDistance = Vector3.Distance(ActiveEnemies[ArrayLength].transform.position, PlayerScript.Player.transform.position);
+                if (NewDistance < AttackingDistance)
+                {
+                    PlayerScript.PlayerAnimator.SetBool("Hurt", true);
+                    PlayerScript.Health = PlayerScript.Health - AttackDamage;
+                    PlayerScript.CameraDamage();
+                    yield return new WaitForSecondsRealtime(0.1f);
+                    if (OldNumberOfEnemies == ActiveEnemies.Count)
+                    {
+                        CameraScript.yValue = CameraScript.HoldingYValue;
+                        PlayerScript.PlayerAnimator.SetBool("Hurt", false);
+                    }
+                }
+                if (OldNumberOfEnemies == ActiveEnemies.Count)
+                {
+                    yield return new WaitForSecondsRealtime(AttackCoolDown);
+                    if (OldNumberOfEnemies == ActiveEnemies.Count)
+                    {
+                        ActiveEnemiesAgents[ArrayLength].isStopped = false;
+                        ActiveEnemiesAnimators[ArrayLength].SetBool("Moving", true);
+                        ActiveEnemiesAnimators[ArrayLength].SetBool("Attack", false);
+                    }
+                }
+            }
+        }
+        ActiveEnemiesAgents[ArrayLength].isStopped = false;
+        ActiveEnemiesAnimators[ArrayLength].SetBool("Moving", true);
+        ActiveEnemiesAnimators[ArrayLength].SetBool("Attack", false);
+        Attacking = false;
     }
     void ChasePlayer()
     {
+        //The method that sets all enemeies to chase the player 
+        //only is used if the ingore player bool is active
         if (HealthCalculation == false)
         {
             int ArrayLength = 0;
-            foreach (var GameObject in ValueofEnemies)
+            foreach (var GameObject in ActiveEnemies)
             {
                 ActiveEnemiesAgents[ArrayLength].destination = PlayerScript.Player.transform.position;
                 ArrayLength = ArrayLength + 1;
@@ -117,9 +207,11 @@ public class EnemyManager : MonoBehaviour
     }
     void ChaseRandom()
     {
+        //method that makes the ai chase random points around the map depending on the camera scripts dimensions
+        //only if ignore player bool is active
         if (InitalLost == false)
         {
-            int OldLength = ValueofEnemies.Length;
+            int OldLength = ActiveEnemies.Count;
             InitalLost = true;
             for (int i = 0; i < OldLength; i++)
             {
@@ -136,10 +228,10 @@ public class EnemyManager : MonoBehaviour
         }
         else
         {
-            int OldLength = ValueofEnemies.Length;
+            int OldLength = ActiveEnemies.Count;
             for (int i = 0; i < OldLength; i++)
             {
-                if (OldLength == ValueofEnemies.Length)
+                if (OldLength == ActiveEnemies.Count)
                 {
                     if (ActiveEnemiesAgents[i].remainingDistance < 2 && ActiveEnemiesAgents[i] != null)
                     {
@@ -160,6 +252,12 @@ public class EnemyManager : MonoBehaviour
     }
     public void FetchActiveEnemies()
     {
+        //Method that controls all the lists of needed component and objects for control of enemies
+        //includes array of enemie gameobjects (list didnt give accurate count, needed array)
+        //list of gameobject , list of navmehs, list of animators, list of box colliders , list of health , list of initlasied health bools
+        //works by adding array if the old value doesnt equal to the new value
+        //list works by creating a new list with a value of the array that was created prior
+        // then populates the list with the get component feature
         if (TakingDamage == false)
         {
             ValueofEnemies = GameObject.FindGameObjectsWithTag("Enemy");
@@ -194,7 +292,6 @@ public class EnemyManager : MonoBehaviour
                     }
                     if (ValueofEnemies.Length != Health.Count && TakingDamage == false)
                     {
-                        Debug.Log("Adding Health");
                         Health.Add(1);
                         EnemyInitilised.Add(false);
                     }
@@ -212,6 +309,7 @@ public class EnemyManager : MonoBehaviour
     }
     IEnumerator EnemyDeathCooldown()
     {
+        //cooldown for enemy death to stop the mistiming of script coponents 
         yield return new WaitForSecondsRealtime(0.1f);
         EnemyDied = false;
     }

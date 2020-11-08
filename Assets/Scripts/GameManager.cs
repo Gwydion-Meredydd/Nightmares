@@ -34,24 +34,26 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (AutoStart == true) 
+        if (AutoStart == true) //for testing purposes instead of setting the start bool to true in the inspector this can be left on to start the game on play
         {
             AutoStart = false;
             StartGame = true;
         }
         if (StartGame == true) 
         {
+            //spawns the correct player model depneding on the selected player in the main menu in the starting position
             Vector3 PlayerStartingPosVector3 = PlayerStartSpawn.position;
             Instantiate(PlayerTypes[PlayerTypeValue - 1], PlayerStartingPosVector3, PlayerStartSpawn.rotation);
             PlayerController.Player = GameObject.FindGameObjectWithTag("Player");
             PlayerController.PlayerCc = PlayerController.Player.GetComponent<CharacterController>();
 
+            //find the selected players model's weapons
             PlayerController.AutomaticRifleModel = GameObject.FindGameObjectWithTag("AR");
             PlayerController.MiniGunModel = GameObject.FindGameObjectWithTag("MG");
             PlayerController.FlameThrowerModel = GameObject.FindGameObjectWithTag("FT");
 
             #region Assault Rifle Starting Initlisation
-
+            //gets all the correct variables for the player controller by using prefabs and tags to put the correct things in the correct place
             TempShootPoint = GameObject.FindGameObjectWithTag("ARShootPoint");
             PlayerController.ARShootPoint = TempShootPoint.transform;
             ChildTempForShootPoint = Instantiate(ARBulletParticle.gameObject, PlayerController.ARShootPoint.position, PlayerController.ARShootPoint.rotation);
@@ -76,7 +78,7 @@ public class GameManager : MonoBehaviour
             #endregion
 
             #region Mini Gun Starting Initlisation
-
+            //gets all the correct variables for the player controller by using prefabs and tags to put the correct things in the correct place
             TempShootPoint = GameObject.FindGameObjectWithTag("MGShootPoint");
             PlayerController.MGShootPoint = TempShootPoint.transform;
             ChildTempForShootPoint = Instantiate(MGBulletParticle.gameObject, PlayerController.MGShootPoint.position, PlayerController.MGShootPoint.rotation);
@@ -101,7 +103,7 @@ public class GameManager : MonoBehaviour
             #endregion
 
             #region Flame Thrower Starting Initlisation
-
+            //gets all the correct variables for the player controller by using prefabs and tags to put the correct things in the correct place
             TempShootPoint = GameObject.FindGameObjectWithTag("FTShootPoint");
             PlayerController.FTShootPoint = TempShootPoint.transform;
             ChildTempForShootPoint = Instantiate(FTFlame.gameObject, PlayerController.FTShootPoint.position, PlayerController.FTShootPoint.rotation);
@@ -118,6 +120,7 @@ public class GameManager : MonoBehaviour
 
             #endregion
 
+            //sets special settings for other scripts such as camera script
             camera_Controller.player = PlayerController.Player.transform;
             enemyScript.player = PlayerController.Player.transform;
             enemyScript.canSpawn = true;
@@ -126,7 +129,10 @@ public class GameManager : MonoBehaviour
             PlayerController.PlayerAnimator = PlayerController.Player.GetComponent<Animator>();
             PlayerController.WeaponHeldValue = PlayerController.WeaponValue;
             PlayerController.WeaponSwitch();
-            switch (PlayerController.WeaponValue)
+            PlayerController.Health = PlayerController.StartingHealth;
+            camera_Controller.HoldingYValue = camera_Controller.yValue;
+
+            switch (PlayerController.WeaponValue)//checks which gun is active (this is mostly for testing purposes since the player will allways start with the dafult rifle)
             {
                 case 1:
                     PlayerController.AutomaticRifleModel.SetActive(true);

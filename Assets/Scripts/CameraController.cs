@@ -10,6 +10,7 @@ public class CameraController : MonoBehaviour
     public float smoothing;
     public Transform Camera;
     public float yValue;
+    public float HoldingYValue;
     public Vector3 maxPosition;
     public Vector3 minPosition;
 

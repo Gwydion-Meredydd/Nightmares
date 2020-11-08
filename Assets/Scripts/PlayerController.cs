@@ -10,6 +10,11 @@ public class PlayerController : MonoBehaviour
     public GameObject Player;
     public Animator PlayerAnimator;
     public CharacterController PlayerCc;
+    [Header("Health")]
+    public int Health;
+    public int StartingHealth;
+    [Range(0, 5)]
+    public float CameraDamageEffectValue;
     [Header("Movement Variables")]
     public float MovingSpeed;
     private Vector3 MovementDirectionValue;
@@ -29,7 +34,8 @@ public class PlayerController : MonoBehaviour
     public float AssaultRifleFiringTime;
     public float MiniGunFiringTime;
     public float FlameThrowerFiringTime;
-    private bool Firing;
+    public bool Firing;
+    public bool CanShoot;
     [Space]
     public ParticleSystem ARBulletParticle;
     public ParticleSystem ARMuzzleFlash;
@@ -80,11 +86,19 @@ public class PlayerController : MonoBehaviour
                         WeaponSwitch();
                     }
                 }
+                if (Firing == true && CanShoot == false) 
+                {
+                    CanShoot = true;
+                    RayCastMethod();
+                }
             }
         }
     }
     public void WeaponSwitch() 
     {
+        //switch function depending on weapon value
+        //turns on/off the right/wrong weapon
+        //sets the correct damage value for that wepon
         switch (WeaponValue)
         {
             case 1:
@@ -109,6 +123,8 @@ public class PlayerController : MonoBehaviour
     }
     public void RayCastMethod() 
     {
+        //swtich statment depending on the weapon value to make sure the raycast is shot from the correct point
+        //if the raycast hits and enemy it calls the healthmanger method on the enemy script and sets enemy hitted to the raycast collison object in enemy script
         switch (WeaponValue)
         {
             case 1:
@@ -173,7 +189,7 @@ public class PlayerController : MonoBehaviour
 
         MousePlayerRotation();
         CharacterMovement();
-        if (Input.GetMouseButton(0)) 
+        if (Input.GetMouseButton(0)) //checks if the player presses the left mouse button and calls the shooting method
         {
             StartCoroutine(ShootingMethod());
         }
@@ -182,14 +198,15 @@ public class PlayerController : MonoBehaviour
     public void CharacterMovement()
     {
         //Moves the selected Character in a global position using the character controller
-       
-        MovementDirectionValue = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
+        //calls the animaton method once the movment has been applied to the character controller
+        MovementDirectionValue = new Vector3(Input.GetAxisRaw("Horizontal"), -1f, Input.GetAxisRaw("Vertical"));
         PlayerCc.Move((MovementDirectionValue * MovingSpeed)* Time.deltaTime);
         AnimationIntilisation();
     }
     public void AnimationIntilisation()
     {
-        if (MovementDirectionValue.x != 0 || MovementDirectionValue.z != 0)
+        //sets the correct bools (walk and shoot) in the animator , if the correct paramiters apply.
+        if (MovementDirectionValue.x != 0 || MovementDirectionValue.z != 0)//if the player is moving
         {
             PlayerAnimator.SetBool("Walk", true);
         }
@@ -206,11 +223,15 @@ public class PlayerController : MonoBehaviour
 
             PlayerAnimator.SetBool("Firing", false);
         }
+        //methods that calculate the local rotation of the player and which way the legs need to walk
+        //this is needed since the player rotates with mouse and the values change constantly 
         PlayerRotationalCalculation();
         PlayerRoationAnimationCalculation();
     }
     public void PlayerRoationAnimationCalculation() 
     {
+        //Checks which bools are active and sets the animator floats to the correct values
+        //some needed inverting , and some needed to fully switched (horizontal and verticle)
         if (FacingUp) 
         {
             PlayerAnimator.SetFloat("Horizontal", Input.GetAxisRaw("Horizontal"), 0.1f, Time.deltaTime);
@@ -234,6 +255,10 @@ public class PlayerController : MonoBehaviour
     }
     public void PlayerRotationalCalculation() 
     {
+        //gets the y value as an eular angle
+        //checks the threshold of player rotation that counts as either left, right ,down
+        //else if statments are used so that only one can be called at a time
+        //up is left to last so it can be else stamtnet since eular angles goes to 359.99.. then 0 so if its not any other value its defaulted as up.
         PlayerRotation = Player.transform.eulerAngles.y;
         if (PlayerRotation > 45 && PlayerRotation < 135)
         {
@@ -267,7 +292,7 @@ public class PlayerController : MonoBehaviour
     public void MousePlayerRotation()
     {
         //rotates the players body towards the mouses position
-
+        //uses raycast
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit, 100))
@@ -278,6 +303,14 @@ public class PlayerController : MonoBehaviour
     #endregion
     IEnumerator ShootingMethod() 
     {
+        //shoot method that only works if the player isnt allready shooting
+        //uses switch statment for each weapon 
+        //uses emit system to play the bullet,case,and muzzle effect
+        //calls the raycast method to check if a eneemy is hitted
+        //does the camera effect
+        //waits for the gun cooldown for each weapon
+        //resets the camera effect
+        //turns the firing bool off allowing the player to shoot again
         if (Firing == false)
         {
             Firing = true;
@@ -288,35 +321,41 @@ public class PlayerController : MonoBehaviour
                     ARBulletParticle.Emit(1);
                     ARBulletCasing.Emit(1);
                     ARMuzzleFlash.Emit(1);
-                    RayCastMethod();
                     CameraPunch();
                     yield return new WaitForSecondsRealtime(AssaultRifleFiringTime);
                     CameraScript.yValue = TempPunchValue;
+                    CanShoot = false;
                     break;
                 case 2:
                     MGBulletParticle.Emit(1);
                     MGBulletCasing.Emit(1);
                     MGMuzzleFlash.Emit(1);
-                    RayCastMethod();
                     CameraPunch();
                     yield return new WaitForSecondsRealtime(MiniGunFiringTime);
                     CameraScript.yValue = TempPunchValue;
+                    CanShoot = false;
                     break;
                 case 3:
                     FTFlame.Emit(10);
                     FTHeatDistortion.Emit(1);
-                    RayCastMethod();
                     CameraPunch();
                     yield return new WaitForSecondsRealtime(FlameThrowerFiringTime);
                     CameraScript.yValue = TempPunchValue;
+                    CanShoot = false;
                     break;
             }
             Firing = false;
         }
 
     }
+    public void CameraDamage()
+    {
+        //method that changes the camera zoom to indicate the player has taken damage
+        CameraScript.yValue -= CameraDamageEffectValue;
+    }
     public void CameraPunch() 
     {
+        //method that changes the zoom level of the camera to show that the player is firing
         TempPunchValue = CameraScript.yValue;
         CameraScript.yValue -= CameraShootEffectValue;
     }
