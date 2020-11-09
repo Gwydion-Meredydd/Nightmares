@@ -16,8 +16,8 @@ public class GameManager : MonoBehaviour
     public GameObject[] PlayerTypes;
     public Transform PlayerStartSpawn;
     public PlayerController PlayerController;
+    public EnemySpawner EnemySpawnerScript;
     public CameraController camera_Controller;
-    public EnemyScript enemyScript;
     public ParticleSystem ARBulletParticle;
     public ParticleSystem ArMuzzleFlash;
     public ParticleSystem ARShellParticle;
@@ -122,8 +122,6 @@ public class GameManager : MonoBehaviour
 
             //sets special settings for other scripts such as camera script
             camera_Controller.player = PlayerController.Player.transform;
-            enemyScript.player = PlayerController.Player.transform;
-            enemyScript.canSpawn = true;
             StartGame = false;
             InGame = true;
             PlayerController.PlayerAnimator = PlayerController.Player.GetComponent<Animator>();
@@ -131,6 +129,12 @@ public class GameManager : MonoBehaviour
             PlayerController.WeaponSwitch();
             PlayerController.Health = PlayerController.StartingHealth;
             camera_Controller.HoldingYValue = camera_Controller.yValue;
+            GameObject[] TempSpawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+            EnemySpawnerScript.LevelSpawnPoints = new Transform[TempSpawnPoints.Length];
+            for (int i = 0; i < TempSpawnPoints.Length; i++)
+            {
+                EnemySpawnerScript.LevelSpawnPoints[i] = TempSpawnPoints[i].transform;
+            }
 
             switch (PlayerController.WeaponValue)//checks which gun is active (this is mostly for testing purposes since the player will allways start with the dafult rifle)
             {

@@ -42,7 +42,7 @@ public class EnemyDespawn : MonoBehaviour
     }
     void MassRemovalOfEnemies() 
     {
-        int OldAmmount = DeadEnemiesValue.Length;
+        int OldAmmount = (DeadEnemiesValue.Length) / 4;
         for (int i = 0; i < OldAmmount; i++)
         {
             Destroy(DeadEnemiesValue[i]);

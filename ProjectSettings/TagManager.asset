@@ -16,6 +16,7 @@ TagManager:
   - MGCasePoint
   - DeadEnemy
   - FakeCam
+  - SpawnPoint
   layers:
   - Default
   - TransparentFX

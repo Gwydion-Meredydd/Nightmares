@@ -47,7 +47,7 @@ public class EnemyManager : MonoBehaviour
                 if (TakingDamage == true && Attacking == false)
                 {
                     HealthManager();
-                    TakingDamage = false;
+                    //TakingDamage = false;
                 }
                 if (TakingDamage == false && EnemyDied == false && Attacking == false && HealthCalculation == false) 
                 {
@@ -95,6 +95,7 @@ public class EnemyManager : MonoBehaviour
                         {
                             ActiveEnemiesAnimators[ArrayLength].SetBool("Dead", true);
                             ActiveEnemiesAnimators[ArrayLength].SetBool("Attack", false);
+                            //Attacking = false;
                             int DeathValue = Random.Range(1, 4);
                             ActiveEnemiesAnimators[ArrayLength].SetInteger("DeathRandomiser", DeathValue);
                             ActiveEnemiesAgents[ArrayLength].isStopped = true;
@@ -115,6 +116,7 @@ public class EnemyManager : MonoBehaviour
                 ArrayLength = ArrayLength + 1;
             }
             EnemyHited = null;
+            TakingDamage = false;
             HealthCalculation = false;
         }
 
@@ -186,9 +188,6 @@ public class EnemyManager : MonoBehaviour
                 }
             }
         }
-        ActiveEnemiesAgents[ArrayLength].isStopped = false;
-        ActiveEnemiesAnimators[ArrayLength].SetBool("Moving", true);
-        ActiveEnemiesAnimators[ArrayLength].SetBool("Attack", false);
         Attacking = false;
     }
     void ChasePlayer()

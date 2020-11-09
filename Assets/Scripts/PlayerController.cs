@@ -136,7 +136,7 @@ public class PlayerController : MonoBehaviour
                         EnemyScript.EnemyHited = HitEnemy;
                         if (EnemyScript.HealthCalculation == false)
                         {
-                            EnemyScript.HealthManager();
+                            EnemyScript.TakingDamage = true;
                         }
                     }
                     else
@@ -154,7 +154,7 @@ public class PlayerController : MonoBehaviour
                         EnemyScript.EnemyHited = HitEnemy;
                         if (EnemyScript.HealthCalculation == false)
                         {
-                            EnemyScript.HealthManager();
+                            EnemyScript.TakingDamage = true;
                         }
                     }
                     else
@@ -172,7 +172,7 @@ public class PlayerController : MonoBehaviour
                         EnemyScript.EnemyHited = HitEnemy;
                         if (EnemyScript.HealthCalculation == false)
                         {
-                            EnemyScript.HealthManager();
+                            EnemyScript.TakingDamage = true;
                         }
                     }
                     else
