@@ -17,6 +17,8 @@ TagManager:
   - DeadEnemy
   - FakeCam
   - SpawnPoint
+  - PerkSpawnPoint
+  - PerkMachine
   layers:
   - Default
   - TransparentFX

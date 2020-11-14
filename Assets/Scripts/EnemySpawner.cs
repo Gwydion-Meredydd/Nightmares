@@ -7,6 +7,8 @@ public class EnemySpawner : MonoBehaviour
     public GameManager GameManagerScript;
     public RoundManager RoundMangerScript;
     public EnemyManager EnemyManagerScript;
+    public PointsManager PointScript;
+    public PerksManager PerksScript;
     [Space]
     public Transform[] LevelSpawnPoints;
     [Space]
@@ -90,6 +92,8 @@ public class EnemySpawner : MonoBehaviour
             {
                 if (CurrentMonsterAmmount == 0)
                 {
+                    PointScript.RoundEndIncrease(SpawningAmmount);
+                    PerksScript.NewRound();
                     RoundMangerScript.InActiveRound = false;
                     SpawnedMonsterAmmount = 0;
                     LevelMonsterAmmount = LevelMonsterAmmount + 6;

@@ -214,8 +214,9 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 909432045}
+  - {fileID: 1123074769}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -728,7 +729,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
@@ -822,6 +823,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 56.2, y: 62.3, z: 0}
+--- !u!1 &824930026
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 824930027}
+  m_Layer: 0
+  m_Name: PerkSpawnPoint
+  m_TagString: PerkSpawnPoint
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &824930027
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 824930026}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.5318532, y: 0.63, z: 5.03}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &873007138
 GameObject:
   m_ObjectHideFlags: 0
@@ -859,7 +890,7 @@ Transform:
   - {fileID: 378116339}
   - {fileID: 1892743942}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &909432044
 GameObject:
@@ -1065,11 +1096,13 @@ GameObject:
   - component: {fileID: 1104343447}
   - component: {fileID: 1104343448}
   - component: {fileID: 1104343454}
+  - component: {fileID: 1104343455}
   - component: {fileID: 1104343449}
   - component: {fileID: 1104343450}
   - component: {fileID: 1104343452}
   - component: {fileID: 1104343451}
   - component: {fileID: 1104343453}
+  - component: {fileID: 1104343456}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1117,6 +1150,7 @@ MonoBehaviour:
   PlayerController: {fileID: 1104343449}
   EnemySpawnerScript: {fileID: 1104343451}
   camera_Controller: {fileID: 1104343450}
+  PerksScript: {fileID: 1104343456}
   ARBulletParticle: {fileID: 6074905120409143606, guid: ddf6e92665915704cba02d5a6b14eada, type: 3}
   ArMuzzleFlash: {fileID: 213690822815938658, guid: 2a81ef5768efe3f48ad85adb36dac506, type: 3}
   ARShellParticle: {fileID: 6074905120409143606, guid: 72c597efe7b7df54ca377ff98f5136f7, type: 3}
@@ -1125,6 +1159,11 @@ MonoBehaviour:
   MGShellParticle: {fileID: 7929767290244500183, guid: c0978343434d78346a104f2db670cc99, type: 3}
   FTFlame: {fileID: 1432300509591482738, guid: 1ecfe3176bcc6214e8f4e1f402c91f16, type: 3}
   FTHeatDistortion: {fileID: 4722407558019430614, guid: e912f48ba2085ac48ae1878cbc929760, type: 3}
+  PerkMachinePrefabs:
+  - {fileID: 2111314336227382114, guid: 53b9ffd1f8d4e444e88df088b759ae6f, type: 3}
+  - {fileID: 7939925095333070082, guid: 42c746363d739cc42a4f8588f52a0812, type: 3}
+  - {fileID: 4991642589731050788, guid: 19df41bb28b514d45b50942b89d36508, type: 3}
+  - {fileID: 2140527674252123754, guid: 2a91723de605d9d4a9dab0e95406d3e1, type: 3}
 --- !u!114 &1104343449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1139,6 +1178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Game_Manager: {fileID: 1104343448}
   CameraScript: {fileID: 1104343450}
+  PerkScript: {fileID: 1104343456}
   Player: {fileID: 0}
   PlayerAnimator: {fileID: 0}
   PlayerCc: {fileID: 0}
@@ -1182,6 +1222,7 @@ MonoBehaviour:
   FacingDown: 0
   FacingLeft: 0
   FacingRight: 0
+  PerkingUp: 0
   CameraShootEffectValue: 0.573
 --- !u!114 &1104343450
 MonoBehaviour:
@@ -1219,6 +1260,8 @@ MonoBehaviour:
   GameManagerScript: {fileID: 1104343448}
   RoundMangerScript: {fileID: 1104343454}
   EnemyManagerScript: {fileID: 1104343452}
+  PointScript: {fileID: 1104343455}
+  PerksScript: {fileID: 1104343456}
   LevelSpawnPoints: []
   InitalSpawnCap: 12
   CurrentSpawnCap: 0
@@ -1246,6 +1289,9 @@ MonoBehaviour:
   GameManagerScript: {fileID: 1104343448}
   PlayerScript: {fileID: 1104343449}
   CameraScript: {fileID: 1104343450}
+  PointsScript: {fileID: 1104343455}
+  PointsDamage: 10
+  PointsKill: 50
   AttackingDistance: 2
   AttackDamage: 4
   AttackCoolDown: 0.25
@@ -1302,6 +1348,131 @@ MonoBehaviour:
   StartingNewRound: 0
   StartDelay: 4.5
   RoundNumber: 0
+--- !u!114 &1104343455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1104343446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfa32da4f39018645addba04c615c281, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Points: 0
+--- !u!114 &1104343456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1104343446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8398830f61df65d489faa15a1eef961e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Testing: 0
+  GameScript: {fileID: 1104343448}
+  PlayerScript: {fileID: 1104343449}
+  PerkValue: 0
+  oldPerkValue: 0
+  PerkSpawnPoint: {fileID: 0}
+  PerkSpawnQuaternion: {x: 0, y: 0, z: 0, w: 0}
+  PerkSpawnVector: {x: 0, y: 0, z: 0}
+  PerkMachine:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  PerkMachineAnimator:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  PlayerDistance: 0
+  CanPurchase: 0
+  PerkMachineChange: 0
+--- !u!1 &1123074768
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1123074769}
+  - component: {fileID: 1123074771}
+  - component: {fileID: 1123074770}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1123074769
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123074768}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.76, y: 0.76, z: 0.76}
+  m_Children: []
+  m_Father: {fileID: 2165142}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 27, y: -478}
+  m_SizeDelta: {x: 1844.7, y: 102.8}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1123074770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123074768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: d71528425e1643a4e9374c2eb76ae986, type: 3}
+    m_FontSize: 60
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 60
+    m_Alignment: 1
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Pre - Alpha Prototype
+--- !u!222 &1123074771
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123074768}
+  m_CullTransparentMesh: 0
 --- !u!1 &1260896926
 GameObject:
   m_ObjectHideFlags: 3
@@ -1698,7 +1869,7 @@ Transform:
   - {fileID: 8334653}
   - {fileID: 1335466255}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1642762882
 GameObject:

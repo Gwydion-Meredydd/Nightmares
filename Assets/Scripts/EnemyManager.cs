@@ -8,7 +8,11 @@ public class EnemyManager : MonoBehaviour
     public GameManager GameManagerScript;
     public PlayerController PlayerScript;
     public CameraController CameraScript;
+    public PointsManager PointsScript;
 
+    public int PointsDamage;
+    public int PointsKill;
+    [Space]
     public float AttackingDistance;
     public int AttackDamage;
     public float AttackCoolDown;
@@ -90,9 +94,11 @@ public class EnemyManager : MonoBehaviour
                 {
                     if (EnemyHited == TemporaryActiveEnemie)
                     {
+                        PointsScript.PointsIncrease(PointsDamage);
                         Health[ArrayLength] = Health[ArrayLength] - PlayerScript.CurrentDamage;
                         if (Health[ArrayLength] <= 0)
                         {
+                            PointsScript.PointsIncrease(PointsKill);
                             ActiveEnemiesAnimators[ArrayLength].SetBool("Dead", true);
                             ActiveEnemiesAnimators[ArrayLength].SetBool("Attack", false);
                             //Attacking = false;

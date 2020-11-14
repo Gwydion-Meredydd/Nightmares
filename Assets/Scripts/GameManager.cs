@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public PlayerController PlayerController;
     public EnemySpawner EnemySpawnerScript;
     public CameraController camera_Controller;
+    public PerksManager PerksScript;
     public ParticleSystem ARBulletParticle;
     public ParticleSystem ArMuzzleFlash;
     public ParticleSystem ARShellParticle;
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour
     private GameObject ChildTempForMuzzleFlash;
     private GameObject TempShellPoint;
     private GameObject ChildTempForCasePoint;
+    public GameObject[] PerkMachinePrefabs;
 
     void Update()
     {
@@ -121,6 +123,20 @@ public class GameManager : MonoBehaviour
             #endregion
 
             //sets special settings for other scripts such as camera script
+            GameObject TempPerkGameObject = GameObject.FindGameObjectWithTag("PerkSpawnPoint");
+            PerksScript.PerkSpawnPoint = TempPerkGameObject.transform;
+            PerksScript.PerkSpawnQuaternion = PerksScript.PerkSpawnPoint.rotation;
+            PerksScript.PerkSpawnVector = PerksScript.PerkSpawnPoint.position;
+            for (int i = 0; i < 4; i++)
+            {
+                Instantiate(PerkMachinePrefabs[i], PerksScript.PerkSpawnVector, PerksScript.PerkSpawnQuaternion);
+            }
+            PerksScript.PerkMachine = GameObject.FindGameObjectsWithTag("PerkMachine");
+            for (int i = 0; i < 4; i++)
+            {
+                PerksScript.PerkMachineAnimator[i] = PerksScript.PerkMachine[i].GetComponent<Animator>();
+            }
+            PerksScript.NewRound();
             camera_Controller.player = PlayerController.Player.transform;
             StartGame = false;
             InGame = true;

@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public GameManager Game_Manager;
     public CameraController CameraScript;
+    public PerksManager PerkScript;
     [Header("Selected Player")]
     public GameObject Player;
     public Animator PlayerAnimator;
@@ -58,7 +59,7 @@ public class PlayerController : MonoBehaviour
     [Space]
     [Header("Animation Veriables")]
     public float PlayerRotation;
-    public bool FacingUp, FacingDown, FacingLeft, FacingRight;
+    public bool FacingUp, FacingDown, FacingLeft, FacingRight,PerkingUp;
 
 
     [Space]
@@ -192,6 +193,19 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButton(0)) //checks if the player presses the left mouse button and calls the shooting method
         {
             StartCoroutine(ShootingMethod());
+        }
+        if (PerkScript.CanPurchase)
+        {
+            if (!PerkScript.PerkMachineChange)
+            {
+                if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.F))
+                {
+                    if (!PerkingUp) 
+                    {
+                        PerkingUp = true;
+                    }
+                }
+            }
         }
     }
     #region Player Movement
