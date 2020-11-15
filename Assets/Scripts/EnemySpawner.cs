@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameManager GameManagerScript;
-    public RoundManager RoundMangerScript;
-    public EnemyManager EnemyManagerScript;
-    public PointsManager PointScript;
-    public PerksManager PerksScript;
+    public ScriptsManager SM;
     [Space]
     public Transform[] LevelSpawnPoints;
     [Space]
@@ -29,7 +25,7 @@ public class EnemySpawner : MonoBehaviour
     public GameObject MonsterPrefab;
     void Update()
     {
-        if (GameManagerScript.InGame == true && GameManagerScript.Paused == false)
+        if (SM.GameScript.InGame == true && SM.GameScript.Paused == false)
         {
             SpawnMethod();
         }
@@ -40,7 +36,7 @@ public class EnemySpawner : MonoBehaviour
         {
             CurrentSpawnCap = InitalSpawnCap;
         }
-        if (RoundMangerScript.InActiveRound == true && RoundMangerScript.StartingNewRound == false)
+        if (SM.RoundScript.InActiveRound == true && SM.RoundScript.StartingNewRound == false)
         {
             if (IsSpawning == false)
             {
@@ -48,21 +44,21 @@ public class EnemySpawner : MonoBehaviour
                 StartCoroutine(Spawning());
             }
         }
-        else if (RoundMangerScript.StartingNewRound == false)
+        else if (SM.RoundScript.StartingNewRound == false)
         {
-            RoundMangerScript.StartCoroutine("NewRound");
+            SM.RoundScript.StartCoroutine("NewRound");
             if (SpawningAmmount < MaxSpawningAmmount)
             {
-                if (RoundMangerScript.RoundNumber < 4)
+                if (SM.RoundScript.RoundNumber < 4)
                 {
                     SpawningAmmount = 2;
                 }
                 else
                 {
-                    if (RoundMangerScript.RoundNumber % 2 != 0)
+                    if (SM.RoundScript.RoundNumber % 2 != 0)
                     {
                         Debug.Log("Odd number");
-                        SpawningAmmount = (RoundMangerScript.RoundNumber - 1) / 2;
+                        SpawningAmmount = (SM.RoundScript.RoundNumber - 1) / 2;
                     }
                 }
             }
@@ -71,7 +67,7 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator Spawning() 
     {
         yield return new WaitForSecondsRealtime(SpawnDelay);
-        CurrentMonsterAmmount = EnemyManagerScript.ValueofEnemies.Length;
+        CurrentMonsterAmmount = SM.EnemyScript.ValueofEnemies.Length;
         if (CurrentMonsterAmmount < CurrentSpawnCap) 
         {
             if (SpawnedMonsterAmmount < LevelMonsterAmmount) 
@@ -92,9 +88,9 @@ public class EnemySpawner : MonoBehaviour
             {
                 if (CurrentMonsterAmmount == 0)
                 {
-                    PointScript.RoundEndIncrease(SpawningAmmount);
-                    PerksScript.NewRound();
-                    RoundMangerScript.InActiveRound = false;
+                    SM.PointsScript.RoundEndIncrease(SpawningAmmount);
+                    SM.PerksScript.NewRound();
+                    SM.RoundScript.InActiveRound = false;
                     SpawnedMonsterAmmount = 0;
                     LevelMonsterAmmount = LevelMonsterAmmount + 6;
                     if (CurrentSpawnCap < MaxSpawnCap)

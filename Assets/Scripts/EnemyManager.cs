@@ -5,11 +5,8 @@ using UnityEngine.AI;
 
 public class EnemyManager : MonoBehaviour
 {
-    public GameManager GameManagerScript;
-    public PlayerController PlayerScript;
-    public CameraController CameraScript;
-    public PointsManager PointsScript;
-
+    public ScriptsManager SM;
+    [Space]
     public int PointsDamage;
     public int PointsKill;
     [Space]
@@ -40,9 +37,9 @@ public class EnemyManager : MonoBehaviour
     void Update()
     {
         //Checks if the game is running and if the game is paused or not and then calls the required methods to opprate the enemies (also some methods aren't called when others are active for performance)
-        if (GameManagerScript.InGame == true)
+        if (SM.GameScript.InGame == true)
         {
-            if (GameManagerScript.Paused == false)
+            if (SM.GameScript.Paused == false)
             {
                 if (TakingDamage == false && EnemyDied == false && Attacking == false && HealthCalculation == false)
                 {
@@ -53,7 +50,7 @@ public class EnemyManager : MonoBehaviour
                     HealthManager();
                     //TakingDamage = false;
                 }
-                if (TakingDamage == false && EnemyDied == false && Attacking == false && HealthCalculation == false) 
+                if (TakingDamage == false && EnemyDied == false && Attacking == false && HealthCalculation == false && IgnorePlayer == false) 
                 {
                     AttackPlayer();
                 }
@@ -94,11 +91,11 @@ public class EnemyManager : MonoBehaviour
                 {
                     if (EnemyHited == TemporaryActiveEnemie)
                     {
-                        PointsScript.PointsIncrease(PointsDamage);
-                        Health[ArrayLength] = Health[ArrayLength] - PlayerScript.CurrentDamage;
+                        SM.PointsScript.PointsIncrease(PointsDamage);
+                        Health[ArrayLength] = Health[ArrayLength] - SM.PlayerScript.CurrentDamage;
                         if (Health[ArrayLength] <= 0)
                         {
-                            PointsScript.PointsIncrease(PointsKill);
+                            SM.PointsScript.PointsIncrease(PointsKill);
                             ActiveEnemiesAnimators[ArrayLength].SetBool("Dead", true);
                             ActiveEnemiesAnimators[ArrayLength].SetBool("Attack", false);
                             //Attacking = false;
@@ -138,7 +135,7 @@ public class EnemyManager : MonoBehaviour
         {
             if (Health[ArrayLength] > 0)
             {
-                float NewDistance = Vector3.Distance(ActiveEnemies[ArrayLength].transform.position, PlayerScript.Player.transform.position);
+                float NewDistance = Vector3.Distance(ActiveEnemies[ArrayLength].transform.position, SM.PlayerScript.Player.transform.position);
                 if (NewDistance < AttackingDistance)
                 {
                     if (Attacking == false)
@@ -157,7 +154,7 @@ public class EnemyManager : MonoBehaviour
         // will allways swing arm of the enemy (randomised out of 2)
         //checks if the player is in range of the attacking enemy when the arm swings
         //applies damage to player if in range on swing and starts player damage attack and camera effect
-        float NewDistance = Vector3.Distance(ActiveEnemies[ArrayLength].transform.position, PlayerScript.Player.transform.position);
+        float NewDistance = Vector3.Distance(ActiveEnemies[ArrayLength].transform.position, SM.PlayerScript.Player.transform.position);
         int OldNumberOfEnemies = ActiveEnemies.Count;
         if (NewDistance < AttackingDistance && Health[ArrayLength] > 0)
         { 
@@ -169,17 +166,17 @@ public class EnemyManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(0.1f);
             if (OldNumberOfEnemies == ActiveEnemies.Count)
             {
-                NewDistance = Vector3.Distance(ActiveEnemies[ArrayLength].transform.position, PlayerScript.Player.transform.position);
+                NewDistance = Vector3.Distance(ActiveEnemies[ArrayLength].transform.position, SM.PlayerScript.Player.transform.position);
                 if (NewDistance < AttackingDistance)
                 {
-                    PlayerScript.PlayerAnimator.SetBool("Hurt", true);
-                    PlayerScript.Health = PlayerScript.Health - AttackDamage;
-                    PlayerScript.CameraDamage();
+                    SM.PlayerScript.PlayerAnimator.SetBool("Hurt", true);
+                    SM.PlayerScript.Health = SM.PlayerScript.Health - AttackDamage;
+                    SM.PlayerScript.CameraDamage();
                     yield return new WaitForSecondsRealtime(0.1f);
                     if (OldNumberOfEnemies == ActiveEnemies.Count)
                     {
-                        CameraScript.yValue = CameraScript.HoldingYValue;
-                        PlayerScript.PlayerAnimator.SetBool("Hurt", false);
+                        SM.CameraScript.yValue = SM.CameraScript.HoldingYValue;
+                        SM.PlayerScript.PlayerAnimator.SetBool("Hurt", false);
                     }
                 }
                 if (OldNumberOfEnemies == ActiveEnemies.Count)
@@ -205,7 +202,7 @@ public class EnemyManager : MonoBehaviour
             int ArrayLength = 0;
             foreach (var GameObject in ActiveEnemies)
             {
-                ActiveEnemiesAgents[ArrayLength].destination = PlayerScript.Player.transform.position;
+                ActiveEnemiesAgents[ArrayLength].destination = SM.PlayerScript.Player.transform.position;
                 ArrayLength = ArrayLength + 1;
             }
         }
@@ -222,7 +219,7 @@ public class EnemyManager : MonoBehaviour
             {
                 if (ActiveEnemiesAgents[i] != null)
                 {
-                    RandomPosition = new Vector3(Random.Range(CameraScript.maxPosition.x, CameraScript.minPosition.x), 0, Random.Range(CameraScript.maxPosition.z, CameraScript.minPosition.z));
+                    RandomPosition = new Vector3(Random.Range(SM.CameraScript.maxPosition.x, SM.CameraScript.minPosition.x), 0, Random.Range(SM.CameraScript.maxPosition.z, SM.CameraScript.minPosition.z));
                     ActiveEnemiesAgents[i].destination = RandomPosition;
                 }
                 else
@@ -240,7 +237,7 @@ public class EnemyManager : MonoBehaviour
                 {
                     if (ActiveEnemiesAgents[i].remainingDistance < 2 && ActiveEnemiesAgents[i] != null)
                     {
-                        RandomPosition = new Vector3(Random.Range(CameraScript.maxPosition.x, CameraScript.minPosition.x), 0, Random.Range(CameraScript.maxPosition.z, CameraScript.minPosition.z));
+                        RandomPosition = new Vector3(Random.Range(SM.CameraScript.maxPosition.x, SM.CameraScript.minPosition.x), 0, Random.Range(SM.CameraScript.maxPosition.z, SM.CameraScript.minPosition.z));
                         ActiveEnemiesAgents[i].destination = RandomPosition;
                     }
                     else

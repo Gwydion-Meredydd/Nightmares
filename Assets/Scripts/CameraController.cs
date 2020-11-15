@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public GameManager game_Manager;
-    public PlayerController player_Controller;
+    public ScriptsManager SM;
+    [Space]
     public Transform player;
     public float smoothing;
     public Transform Camera;
@@ -16,9 +16,9 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
-        if (game_Manager.InGame == true)
+        if (SM.GameScript.InGame == true)
         {
-            if (game_Manager.Paused == false)
+            if (SM.GameScript.Paused == false)
             {
                 if (transform.position != player.position)
                 //is the camera in the same position as the player

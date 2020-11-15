@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public GameManager Game_Manager;
-    public CameraController CameraScript;
-    public PerksManager PerkScript;
+    public ScriptsManager SM;
     [Header("Selected Player")]
     public GameObject Player;
     public Animator PlayerAnimator;
@@ -47,7 +45,6 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem FTFlame;
     public ParticleSystem FTHeatDistortion;
     [Space]
-    public EnemyManager EnemyScript;
     public int CurrentDamage;
     public int ARDamage;
     public int MGDamage;
@@ -70,9 +67,9 @@ public class PlayerController : MonoBehaviour
     float TempPunchValue;
     void Update()
     {
-        if (Game_Manager.InGame == true)
+        if (SM.GameScript.InGame == true)
         {
-            if (Game_Manager.Paused == false)
+            if (SM.GameScript.Paused == false)
             {
                 //Is called when game is unpased and game is currently active
 
@@ -134,10 +131,10 @@ public class PlayerController : MonoBehaviour
                     if (RayCastHit.transform.tag == "Enemy")
                     {
                         HitEnemy = RayCastHit.transform.gameObject;
-                        EnemyScript.EnemyHited = HitEnemy;
-                        if (EnemyScript.HealthCalculation == false)
+                        SM.EnemyScript.EnemyHited = HitEnemy;
+                        if (SM.EnemyScript.HealthCalculation == false)
                         {
-                            EnemyScript.TakingDamage = true;
+                            SM.EnemyScript.TakingDamage = true;
                         }
                     }
                     else
@@ -152,10 +149,10 @@ public class PlayerController : MonoBehaviour
                     if (RayCastHit.transform.tag == "Enemy")
                     {
                         HitEnemy = RayCastHit.transform.gameObject;
-                        EnemyScript.EnemyHited = HitEnemy;
-                        if (EnemyScript.HealthCalculation == false)
+                        SM.EnemyScript.EnemyHited = HitEnemy;
+                        if (SM.EnemyScript.HealthCalculation == false)
                         {
-                            EnemyScript.TakingDamage = true;
+                            SM.EnemyScript.TakingDamage = true;
                         }
                     }
                     else
@@ -170,10 +167,10 @@ public class PlayerController : MonoBehaviour
                     if (RayCastHit.transform.tag == "Enemy")
                     {
                         HitEnemy = RayCastHit.transform.gameObject;
-                        EnemyScript.EnemyHited = HitEnemy;
-                        if (EnemyScript.HealthCalculation == false)
+                        SM.EnemyScript.EnemyHited = HitEnemy;
+                        if (SM.EnemyScript.HealthCalculation == false)
                         {
-                            EnemyScript.TakingDamage = true;
+                            SM.EnemyScript.TakingDamage = true;
                         }
                     }
                     else
@@ -194,15 +191,22 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(ShootingMethod());
         }
-        if (PerkScript.CanPurchase)
+        if (SM.PerksScript.CanPurchase)
         {
-            if (!PerkScript.PerkMachineChange)
+            if (!SM.PerksScript.PerkMachineChange)
             {
-                if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.F))
+                if (!SM.PerksScript.PerkBaught[SM.PerksScript.PerkValue])
                 {
-                    if (!PerkingUp) 
+                    if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.F))
                     {
-                        PerkingUp = true;
+                        if (SM.PointsScript.Points >= SM.PerksScript.CurrentCostOfPerk)
+                        {
+                            if (!PerkingUp)
+                            {
+                                PerkingUp = true;
+                                StartCoroutine(DrinkingPerk());
+                            }
+                        }
                     }
                 }
             }
@@ -337,7 +341,7 @@ public class PlayerController : MonoBehaviour
                     ARMuzzleFlash.Emit(1);
                     CameraPunch();
                     yield return new WaitForSecondsRealtime(AssaultRifleFiringTime);
-                    CameraScript.yValue = TempPunchValue;
+                    SM.CameraScript.yValue = TempPunchValue;
                     CanShoot = false;
                     break;
                 case 2:
@@ -346,7 +350,7 @@ public class PlayerController : MonoBehaviour
                     MGMuzzleFlash.Emit(1);
                     CameraPunch();
                     yield return new WaitForSecondsRealtime(MiniGunFiringTime);
-                    CameraScript.yValue = TempPunchValue;
+                    SM.CameraScript.yValue = TempPunchValue;
                     CanShoot = false;
                     break;
                 case 3:
@@ -354,7 +358,7 @@ public class PlayerController : MonoBehaviour
                     FTHeatDistortion.Emit(1);
                     CameraPunch();
                     yield return new WaitForSecondsRealtime(FlameThrowerFiringTime);
-                    CameraScript.yValue = TempPunchValue;
+                    SM.CameraScript.yValue = TempPunchValue;
                     CanShoot = false;
                     break;
             }
@@ -362,15 +366,26 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+    IEnumerator DrinkingPerk() 
+    {
+        SM.PerksScript.PerkBaught[SM.PerksScript.PerkValue] = true;
+        SM.PointsScript.Points = SM.PointsScript.Points - SM.PerksScript.CurrentCostOfPerk;
+        SM.PerksScript.PlayerPerkBaught();
+        PlayerAnimator.SetBool("Perk", true);
+        yield return new WaitForSecondsRealtime(0.1f);
+        PlayerAnimator.SetBool("Perk", false);
+        yield return new WaitForSecondsRealtime(3f);
+        PerkingUp = false;
+    }
     public void CameraDamage()
     {
         //method that changes the camera zoom to indicate the player has taken damage
-        CameraScript.yValue -= CameraDamageEffectValue;
+        SM.CameraScript.yValue -= CameraDamageEffectValue;
     }
     public void CameraPunch() 
     {
         //method that changes the zoom level of the camera to show that the player is firing
-        TempPunchValue = CameraScript.yValue;
-        CameraScript.yValue -= CameraShootEffectValue;
+        TempPunchValue = SM.CameraScript.yValue;
+        SM.CameraScript.yValue -= CameraShootEffectValue;
     }
 }

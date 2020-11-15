@@ -1094,9 +1094,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1104343447}
-  - component: {fileID: 1104343448}
+  - component: {fileID: 1104343457}
   - component: {fileID: 1104343454}
   - component: {fileID: 1104343455}
+  - component: {fileID: 1104343448}
   - component: {fileID: 1104343449}
   - component: {fileID: 1104343450}
   - component: {fileID: 1104343452}
@@ -1140,6 +1141,7 @@ MonoBehaviour:
   AutoStart: 1
   StartGame: 0
   InGame: 0
+  SM: {fileID: 1104343457}
   PlayerTypeValue: 4
   PlayerTypes:
   - {fileID: 1631801194856398267, guid: ce737461252a15b4992eed312f8ab825, type: 3}
@@ -1147,10 +1149,6 @@ MonoBehaviour:
   - {fileID: 3227771162197214227, guid: 562cc1a2de1d87e488c28aa956e2cf82, type: 3}
   - {fileID: 4888288913970927885, guid: 129580e837b5ac346a0cac31fbae53c2, type: 3}
   PlayerStartSpawn: {fileID: 2137467602}
-  PlayerController: {fileID: 1104343449}
-  EnemySpawnerScript: {fileID: 1104343451}
-  camera_Controller: {fileID: 1104343450}
-  PerksScript: {fileID: 1104343456}
   ARBulletParticle: {fileID: 6074905120409143606, guid: ddf6e92665915704cba02d5a6b14eada, type: 3}
   ArMuzzleFlash: {fileID: 213690822815938658, guid: 2a81ef5768efe3f48ad85adb36dac506, type: 3}
   ARShellParticle: {fileID: 6074905120409143606, guid: 72c597efe7b7df54ca377ff98f5136f7, type: 3}
@@ -1176,9 +1174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bcc950644dbd9b42b91f89272e78c97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Game_Manager: {fileID: 1104343448}
-  CameraScript: {fileID: 1104343450}
-  PerkScript: {fileID: 1104343456}
+  SM: {fileID: 1104343457}
   Player: {fileID: 0}
   PlayerAnimator: {fileID: 0}
   PlayerCc: {fileID: 0}
@@ -1210,11 +1206,10 @@ MonoBehaviour:
   MGBulletCasing: {fileID: 0}
   FTFlame: {fileID: 0}
   FTHeatDistortion: {fileID: 0}
-  EnemyScript: {fileID: 1104343452}
   CurrentDamage: 0
-  ARDamage: 20
-  MGDamage: 50
-  FTDamage: 100
+  ARDamage: 10
+  MGDamage: 25
+  FTDamage: 50
   HitTarget: {fileID: 0}
   HitEnemy: {fileID: 0}
   PlayerRotation: 0
@@ -1236,8 +1231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0473c55eb8844849a6e701bdc0e4781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  game_Manager: {fileID: 1104343448}
-  player_Controller: {fileID: 1104343449}
+  SM: {fileID: 1104343457}
   player: {fileID: 0}
   smoothing: 0.1
   Camera: {fileID: 2049615768}
@@ -1257,11 +1251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb06f92fc08091438ae498ac0805e06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameManagerScript: {fileID: 1104343448}
-  RoundMangerScript: {fileID: 1104343454}
-  EnemyManagerScript: {fileID: 1104343452}
-  PointScript: {fileID: 1104343455}
-  PerksScript: {fileID: 1104343456}
+  SM: {fileID: 1104343457}
   LevelSpawnPoints: []
   InitalSpawnCap: 12
   CurrentSpawnCap: 0
@@ -1286,10 +1276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8018f112cf2475b43a5b842cefed02b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameManagerScript: {fileID: 1104343448}
-  PlayerScript: {fileID: 1104343449}
-  CameraScript: {fileID: 1104343450}
-  PointsScript: {fileID: 1104343455}
+  SM: {fileID: 1104343457}
   PointsDamage: 10
   PointsKill: 50
   AttackingDistance: 2
@@ -1324,7 +1311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b30ce481a44748c4ca8e5420dbb8c49b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerScript: {fileID: 1104343449}
+  SM: {fileID: 1104343457}
   MaxDeadEnemies: 80
   DeadEnemiesValue: []
   DeadEnemies: []
@@ -1360,7 +1347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfa32da4f39018645addba04c615c281, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Points: 0
+  Points: 100000000
 --- !u!114 &1104343456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1373,9 +1360,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8398830f61df65d489faa15a1eef961e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SM: {fileID: 1104343457}
   Testing: 0
-  GameScript: {fileID: 1104343448}
-  PlayerScript: {fileID: 1104343449}
   PerkValue: 0
   oldPerkValue: 0
   PerkSpawnPoint: {fileID: 0}
@@ -1391,9 +1377,35 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  PerkBaught: 00000000
   PlayerDistance: 0
   CanPurchase: 0
   PerkMachineChange: 0
+  CurrentCostOfPerk: 0
+  HealthPerkCost: 5000
+  IncreasedPointsPerkCost: 7500
+  SpeedPerkCost: 9500
+  DamagePerkCost: 9500
+--- !u!114 &1104343457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1104343446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a24a6ae4a4bad04b8143eed6c65cf8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameScript: {fileID: 1104343448}
+  PlayerScript: {fileID: 1104343449}
+  CameraScript: {fileID: 1104343450}
+  EnemyScript: {fileID: 1104343452}
+  EnemySpawningScript: {fileID: 1104343451}
+  PointsScript: {fileID: 1104343455}
+  PerksScript: {fileID: 1104343456}
+  RoundScript: {fileID: 1104343454}
 --- !u!1 &1123074768
 GameObject:
   m_ObjectHideFlags: 0
