@@ -4,25 +4,33 @@ using UnityEngine;
 public class PerksManager : MonoBehaviour
 {
     public ScriptsManager SM;
-    [Space]
     public bool Testing;
-    [Space]
+    [HideInInspector]
     public int PerkValue;
+    [HideInInspector]
     public int oldPerkValue;
-    [Space]
+    [HideInInspector]
     public Transform PerkSpawnPoint;
+    [HideInInspector]
     public Quaternion PerkSpawnQuaternion;
+    [HideInInspector]
     public Vector3 PerkSpawnVector;
+    [HideInInspector]
     public GameObject[] PerkMachine;
+    [HideInInspector]
     public Animator[] PerkMachineAnimator;
+    [HideInInspector]
     public bool[] PerkBaught;
     [Space]
+    [HideInInspector]
     public float PlayerDistance;
+    [HideInInspector]
     public bool CanPurchase;
+    [HideInInspector]
     public bool PerkMachineChange;
-    [Space]
-    [Header("Perk Costs")]
+    [HideInInspector]
     public int CurrentCostOfPerk;
+    [Header("Perk Costs")]
     [Space]
     public int HealthPerkCost;
     public int IncreasedPointsPerkCost;
@@ -68,7 +76,6 @@ public class PerksManager : MonoBehaviour
         {
             NewRound();
         }
-        Debug.Log(PerkValue);
     }
     public void PlayerPerkBaught() 
     {

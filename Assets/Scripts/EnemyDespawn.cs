@@ -7,12 +7,19 @@ public class EnemyDespawn : MonoBehaviour
     public ScriptsManager SM;
     public int MaxDeadEnemies;
     bool MassRemove;
+    [HideInInspector]
     public GameObject[] DeadEnemiesValue;
+    [HideInInspector]
     public List<GameObject> DeadEnemies;
+    [HideInInspector]
     public List<Animator> DeadEnemiesAnimator;
+    [HideInInspector]
     public List<Collider> DeadEnemiesCollider;
+    [HideInInspector]
     public Camera DetectionCam;
+    [HideInInspector]
     public Plane[] planes;
+    [HideInInspector]
     public bool DeletingEnemy;
 
     void Update()

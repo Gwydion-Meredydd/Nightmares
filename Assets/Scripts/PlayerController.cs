@@ -5,9 +5,11 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public ScriptsManager SM;
-    [Header("Selected Player")]
+    [HideInInspector]
     public GameObject Player;
+    [HideInInspector]
     public Animator PlayerAnimator;
+    [HideInInspector]
     public CharacterController PlayerCc;
     [Header("Health")]
     public int Health;
@@ -21,41 +23,64 @@ public class PlayerController : MonoBehaviour
     public bool TestingSwitchWeapon;
     [Range(1, 3)]
     public int WeaponValue;
+    [HideInInspector]
     public int WeaponHeldValue;
+    [HideInInspector]
     public GameObject AutomaticRifleModel;
+    [HideInInspector]
     public GameObject MiniGunModel;
+    [HideInInspector]
     public GameObject FlameThrowerModel;
+    [HideInInspector]
     public Transform ARShootPoint;
+    [HideInInspector]
     public Transform MGShootPoint;
+    [HideInInspector]
     public Transform FTShootPoint;
+    [HideInInspector]
     public Transform ARCasePoint;
+    [HideInInspector]
     public Transform MGCasePoint;
     public float AssaultRifleFiringTime;
     public float MiniGunFiringTime;
     public float FlameThrowerFiringTime;
+    [HideInInspector]
     public bool Firing;
+    [HideInInspector]
     public bool CanShoot;
-    [Space]
+    [HideInInspector]
     public ParticleSystem ARBulletParticle;
+    [HideInInspector]
     public ParticleSystem ARMuzzleFlash;
+    [HideInInspector]
     public ParticleSystem ARBulletCasing;
+    [HideInInspector]
     public ParticleSystem MGBulletParticle;
+    [HideInInspector]
     public ParticleSystem MGMuzzleFlash;
+    [HideInInspector]
     public ParticleSystem MGBulletCasing;
+    [HideInInspector]
     public ParticleSystem FTFlame;
+    [HideInInspector]
     public ParticleSystem FTHeatDistortion;
-    [Space]
+    [HideInInspector]
     public int CurrentDamage;
+    [Space]
     public int ARDamage;
     public int MGDamage;
     public int FTDamage;
+    [HideInInspector]
     public Ray RayCastRay;
+    [HideInInspector]
     public RaycastHit RayCastHit;
+    [HideInInspector]
     public GameObject HitTarget;
+    [HideInInspector]
     public GameObject HitEnemy;
-    [Space]
-    [Header("Animation Veriables")]
+    [HideInInspector]
     public float PlayerRotation;
+    [HideInInspector]
     public bool FacingUp, FacingDown, FacingLeft, FacingRight,PerkingUp;
 
 

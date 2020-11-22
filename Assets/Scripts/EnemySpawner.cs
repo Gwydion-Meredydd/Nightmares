@@ -5,23 +5,28 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     public ScriptsManager SM;
-    [Space]
+    [HideInInspector]
     public Transform[] LevelSpawnPoints;
     [Space]
     public int InitalSpawnCap;
+    [HideInInspector]
     public int CurrentSpawnCap;
     public int MaxSpawnCap;
     [Space]
     [Range(01, 4)]
     public float SpawnDelay;
+    [HideInInspector]
     public bool IsSpawning;
     [Space]
+    [HideInInspector]
     public int CurrentMonsterAmmount;
+    [HideInInspector]
     public int SpawningAmmount;
     public int MaxSpawningAmmount;
+    [HideInInspector]
     public int SpawnedMonsterAmmount;
     public int LevelMonsterAmmount;
-    [Space]
+    [HideInInspector]
     public GameObject MonsterPrefab;
     void Update()
     {

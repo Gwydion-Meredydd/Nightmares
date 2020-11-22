@@ -5,12 +5,27 @@ using UnityEngine;
 public class PointsManager : MonoBehaviour
 {
     public int Points;
-    public void PointsIncrease(int Score) 
+    public bool DoublePoints;
+    public void PointsIncrease(int Score)
     {
-        Points = Points + Score;
+        if (DoublePoints == false)
+        {
+            Points = Points + Score;
+        }
+        else 
+        {
+            Points = Points + (Score * 2);
+        }
     }
-    public void RoundEndIncrease(int Score) 
+    public void RoundEndIncrease(int Score)
     {
-        Points = Points + (Score * 100);
+        if (DoublePoints == false)
+        {
+            Points = Points + (Score * 100);
+        }
+        else 
+        {
+            Points = Points + ((Score * 100) * 2);
+        }
     }
 }

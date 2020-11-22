@@ -19,6 +19,7 @@ TagManager:
   - SpawnPoint
   - PerkSpawnPoint
   - PerkMachine
+  - Drop
   layers:
   - Default
   - TransparentFX
@@ -30,11 +31,11 @@ TagManager:
   - 
   - Player
   - Enemy
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Drop2x
+  - InstantKill
+  - BlindEye
+  - MiniGun
+  - FlameThrower
   - 
   - 
   - 

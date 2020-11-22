@@ -29,7 +29,9 @@ public class GameManager : MonoBehaviour
     private GameObject ChildTempForMuzzleFlash;
     private GameObject TempShellPoint;
     private GameObject ChildTempForCasePoint;
+    public GameObject MonsterPrefab;
     public GameObject[] PerkMachinePrefabs;
+    public GameObject[] EnemieDrops;
 
     void Update()
     {
@@ -120,6 +122,10 @@ public class GameManager : MonoBehaviour
             #endregion
 
             //sets special settings for other scripts such as camera script
+            SM.EnemySpawningScript.MonsterPrefab = MonsterPrefab;
+            SM.PerksScript.PerkMachine = new GameObject[4];
+            SM.PerksScript.PerkMachineAnimator = new Animator[4];
+            SM.PerksScript.PerkBaught = new bool[4];
             GameObject TempPerkGameObject = GameObject.FindGameObjectWithTag("PerkSpawnPoint");
             SM.PerksScript.PerkSpawnPoint = TempPerkGameObject.transform;
             SM.PerksScript.PerkSpawnQuaternion = SM.PerksScript.PerkSpawnPoint.rotation;
@@ -132,6 +138,10 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < 4; i++)
             {
                 SM.PerksScript.PerkMachineAnimator[i] = SM.PerksScript.PerkMachine[i].GetComponent<Animator>();
+            }
+            for (int i = 0; i < 5; i++) 
+            {
+                SM.DropsScript.Drops[i] = EnemieDrops[i];
             }
             SM.PerksScript.NewRound();
             SM.CameraScript.player = SM.PlayerScript.Player.transform;

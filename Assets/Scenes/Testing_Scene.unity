@@ -1104,6 +1104,7 @@ GameObject:
   - component: {fileID: 1104343451}
   - component: {fileID: 1104343453}
   - component: {fileID: 1104343456}
+  - component: {fileID: 1104343458}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1157,11 +1158,18 @@ MonoBehaviour:
   MGShellParticle: {fileID: 7929767290244500183, guid: c0978343434d78346a104f2db670cc99, type: 3}
   FTFlame: {fileID: 1432300509591482738, guid: 1ecfe3176bcc6214e8f4e1f402c91f16, type: 3}
   FTHeatDistortion: {fileID: 4722407558019430614, guid: e912f48ba2085ac48ae1878cbc929760, type: 3}
+  MonsterPrefab: {fileID: 7942515786881941287, guid: c2b6cb7ecec5eb84a97fb0a494e9d9d3, type: 3}
   PerkMachinePrefabs:
   - {fileID: 2111314336227382114, guid: 53b9ffd1f8d4e444e88df088b759ae6f, type: 3}
   - {fileID: 7939925095333070082, guid: 42c746363d739cc42a4f8588f52a0812, type: 3}
   - {fileID: 4991642589731050788, guid: 19df41bb28b514d45b50942b89d36508, type: 3}
   - {fileID: 2140527674252123754, guid: 2a91723de605d9d4a9dab0e95406d3e1, type: 3}
+  EnemieDrops:
+  - {fileID: 8651071279741454599, guid: aa3b71713f99e834a86126538bff7804, type: 3}
+  - {fileID: 3137446847904397818, guid: fd67ce7fbbc97534f970feaab92ecc3b, type: 3}
+  - {fileID: 8220870249794256489, guid: c4d3f884a2b8eaf4ebf6741e36494c82, type: 3}
+  - {fileID: 6583976829515589366, guid: d6459929c62d2cb4bb82476758f10d07, type: 3}
+  - {fileID: 7151165017976795902, guid: 4accd549cb2ccf44684b1d63d50fc55f, type: 3}
 --- !u!114 &1104343449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1183,7 +1191,7 @@ MonoBehaviour:
   CameraDamageEffectValue: 2
   MovingSpeed: 5
   TestingSwitchWeapon: 1
-  WeaponValue: 3
+  WeaponValue: 1
   WeaponHeldValue: 1
   AutomaticRifleModel: {fileID: 0}
   MiniGunModel: {fileID: 0}
@@ -1263,7 +1271,7 @@ MonoBehaviour:
   MaxSpawningAmmount: 8
   SpawnedMonsterAmmount: 0
   LevelMonsterAmmount: 16
-  MonsterPrefab: {fileID: 7942515786881941287, guid: c2b6cb7ecec5eb84a97fb0a494e9d9d3, type: 3}
+  MonsterPrefab: {fileID: 0}
 --- !u!114 &1104343452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1288,7 +1296,7 @@ MonoBehaviour:
   Health: 
   HealthCalculation: 0
   TakingDamage: 0
-  IgnorePlayer: 0
+  IgnorePlayer: 1
   InitalLost: 0
   HasReachedTarget: 
   EnemyHited: {fileID: 0}
@@ -1348,6 +1356,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Points: 100000000
+  DoublePoints: 0
 --- !u!114 &1104343456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1367,17 +1376,9 @@ MonoBehaviour:
   PerkSpawnPoint: {fileID: 0}
   PerkSpawnQuaternion: {x: 0, y: 0, z: 0, w: 0}
   PerkSpawnVector: {x: 0, y: 0, z: 0}
-  PerkMachine:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  PerkMachineAnimator:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  PerkBaught: 00000000
+  PerkMachine: []
+  PerkMachineAnimator: []
+  PerkBaught: 
   PlayerDistance: 0
   CanPurchase: 0
   PerkMachineChange: 0
@@ -1406,6 +1407,52 @@ MonoBehaviour:
   PointsScript: {fileID: 1104343455}
   PerksScript: {fileID: 1104343456}
   RoundScript: {fileID: 1104343454}
+  DropsScript: {fileID: 1104343458}
+--- !u!114 &1104343458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1104343446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bbe5eddb53e898459dcf3563ae15f2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SM: {fileID: 1104343457}
+  Drops:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  ActiveDropsArray: []
+  ActiveDrops: []
+  TimeDropIsActive: 30
+  CountDownInitlised: 
+  CountDown: 
+  CountDownOverValue: 0
+  CountDownOver: 0
+  OldRandom: 0
+  RandomValue: 0
+  ClosestDrop: 0
+  PlayerDistance: 0
+  StartingDoublePointsTime: 33
+  StartingInstantKillTime: 22
+  StartingBlindEyeTime: 15
+  StartingFlameThrowerTime: 20
+  StartingMiniGunTime: 15
+  DoublePointTime: 0
+  InstantKillTime: 0
+  BlindEyeTime: 0
+  FlameThrowerTime: 0
+  MiniGunTime: 0
+  DoublePointsIsActive: 0
+  InstantKillIsActive: 0
+  BlindEyeIsActive: 0
+  FlameThrowerIsActive: 0
+  MiniGunIsActive: 0
 --- !u!1 &1123074768
 GameObject:
   m_ObjectHideFlags: 0

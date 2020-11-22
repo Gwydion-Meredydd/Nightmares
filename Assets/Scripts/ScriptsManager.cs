@@ -12,5 +12,6 @@ public class ScriptsManager : MonoBehaviour
     public PointsManager PointsScript;
     public PerksManager PerksScript;
     public RoundManager RoundScript;
+    public DropsManager DropsScript;
 
 }
