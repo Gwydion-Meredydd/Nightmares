@@ -63,6 +63,9 @@ public class GameManager : MonoBehaviour
             TempShootPoint = null;
             ChildTempForShootPoint = null;
 
+            SM.PlayerScript.AssaultRifleAudioSource = SM.PlayerScript.AutomaticRifleModel.GetComponent<AudioSource>();
+            SM.PlayerScript.MininGunAudioSource = SM.PlayerScript.MiniGunModel.GetComponent<AudioSource>();
+            SM.PlayerScript.FlameThrowerAudioSource = SM.PlayerScript.FlameThrowerModel.GetComponent<AudioSource>();
 
             ChildTempForMuzzleFlash = Instantiate(ArMuzzleFlash.gameObject, SM.PlayerScript.ARShootPoint.position, SM.PlayerScript.ARShootPoint.rotation);
             ChildTempForMuzzleFlash.transform.parent = SM.PlayerScript.ARShootPoint;

@@ -44,6 +44,9 @@ public class PlayerController : MonoBehaviour
     public float AssaultRifleFiringTime;
     public float MiniGunFiringTime;
     public float FlameThrowerFiringTime;
+    public AudioSource AssaultRifleAudioSource;
+    public AudioSource MininGunAudioSource;
+    public AudioSource FlameThrowerAudioSource;
     [HideInInspector]
     public bool Firing;
     [HideInInspector]
@@ -364,6 +367,7 @@ public class PlayerController : MonoBehaviour
                     ARBulletParticle.Emit(1);
                     ARBulletCasing.Emit(1);
                     ARMuzzleFlash.Emit(1);
+                    SM.AudioScripts.WeaponAudio();
                     CameraPunch();
                     yield return new WaitForSecondsRealtime(AssaultRifleFiringTime);
                     SM.CameraScript.yValue = TempPunchValue;
@@ -373,6 +377,7 @@ public class PlayerController : MonoBehaviour
                     MGBulletParticle.Emit(1);
                     MGBulletCasing.Emit(1);
                     MGMuzzleFlash.Emit(1);
+                    SM.AudioScripts.WeaponAudio();
                     CameraPunch();
                     yield return new WaitForSecondsRealtime(MiniGunFiringTime);
                     SM.CameraScript.yValue = TempPunchValue;
@@ -381,6 +386,7 @@ public class PlayerController : MonoBehaviour
                 case 3:
                     FTFlame.Emit(10);
                     FTHeatDistortion.Emit(1);
+                    SM.AudioScripts.WeaponAudio();
                     CameraPunch();
                     yield return new WaitForSecondsRealtime(FlameThrowerFiringTime);
                     SM.CameraScript.yValue = TempPunchValue;

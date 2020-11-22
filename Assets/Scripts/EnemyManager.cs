@@ -44,6 +44,8 @@ public class EnemyManager : MonoBehaviour
     [HideInInspector]
     public List<BoxCollider> ActiveEnemiesBoxColliders;
     [HideInInspector]
+    public List<AudioSource> ActiveEnemiesAudioSources;
+    [HideInInspector]
     public Vector3 RandomPosition;
     // Start is called before the first frame update
     void Update()
@@ -120,6 +122,7 @@ public class EnemyManager : MonoBehaviour
                             ActiveEnemiesAnimators[ArrayLength].SetInteger("DeathRandomiser", DeathValue);
                             ActiveEnemiesAgents[ArrayLength].isStopped = true;
                             ActiveEnemiesBoxColliders[ArrayLength].enabled = false;
+
                             //EnemyDied = true;
                             ActiveEnemies[ArrayLength].tag = "DeadEnemy";
                             ActiveEnemies.RemoveAt(ArrayLength);
@@ -128,6 +131,7 @@ public class EnemyManager : MonoBehaviour
                             ActiveEnemiesAgents.RemoveAt(ArrayLength);
                             ActiveEnemiesAnimators.RemoveAt(ArrayLength);
                             ActiveEnemiesBoxColliders.RemoveAt(ArrayLength);
+                            ActiveEnemiesAudioSources.RemoveAt(ArrayLength);
                             //StartCoroutine("EnemyDeathCooldown");
                             break;
                         }
@@ -290,11 +294,13 @@ public class EnemyManager : MonoBehaviour
             ActiveEnemiesAgents = new List<NavMeshAgent>(ArrayLength);
             ActiveEnemiesAnimators = new List<Animator>(ArrayLength);
             ActiveEnemiesBoxColliders = new List<BoxCollider>(ArrayLength);
+            ActiveEnemiesAudioSources = new List<AudioSource>(ArrayLength);
             foreach (GameObject Enemies in GameObject.FindGameObjectsWithTag("Enemy"))
             {
                 ActiveEnemiesAgents.Add(Enemies.GetComponent<NavMeshAgent>());
                 ActiveEnemiesAnimators.Add(Enemies.GetComponent<Animator>());
                 ActiveEnemiesBoxColliders.Add(Enemies.GetComponent<BoxCollider>());
+                ActiveEnemiesAudioSources.Add(Enemies.GetComponent<AudioSource>());
             }
             ValueofEnemies = GameObject.FindGameObjectsWithTag("Enemy");
             if (Health.Count <= ValueofEnemies.Length)

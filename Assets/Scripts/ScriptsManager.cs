@@ -13,5 +13,6 @@ public class ScriptsManager : MonoBehaviour
     public PerksManager PerksScript;
     public RoundManager RoundScript;
     public DropsManager DropsScript;
+    public AudioManager AudioScripts;
 
 }
