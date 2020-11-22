@@ -1296,7 +1296,7 @@ MonoBehaviour:
   Health: 
   HealthCalculation: 0
   TakingDamage: 0
-  IgnorePlayer: 1
+  IgnorePlayer: 0
   InitalLost: 0
   HasReachedTarget: 
   EnemyHited: {fileID: 0}
