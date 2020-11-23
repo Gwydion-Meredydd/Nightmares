@@ -20,9 +20,13 @@ public class AudioManager : MonoBehaviour
     bool MiniGunStartupSound;
     public AudioClip[] MiniGun;
     int FlameThrowerAudioValue;
-    [Range(0, 1)]
+    int OtherFlameThrowerAudioValue;
+    [Range(0, 2)]
     public float FlameThrowerCooldownTime;
     bool FlameThrowerCooldownControl;
+    [Range(0, 2)]
+    public float OverallFlameThrowerCooldownTime;
+    bool OverallFlameThrowerCooldownControl;
     public AudioClip[] FlameThrower;
     void Update()
     {
@@ -73,9 +77,14 @@ public class AudioManager : MonoBehaviour
                 {
                     SM.PlayerScript.FlameThrowerAudioSource.PlayOneShot(FlameThrower[FlameThrowerAudioValue]);
                 }
-                if (!FlameThrowerCooldownControl)
+                if (!OverallFlameThrowerCooldownControl)
                 {
-                    SM.PlayerScript.FlameThrowerAudioSource.PlayOneShot(FlameThrower[2]);
+                    //SM.PlayerScript.FlameThrowerAudioSource.PlayOneShot(FlameThrower[FlameThrowerAudioValue]);
+                    if (!FlameThrowerCooldownControl)
+                    {
+                        SM.PlayerScript.FlameThrowerAudioSource.PlayOneShot(FlameThrower[2]);
+                    }
+                    StartCoroutine(OverallFlameThrowerTime());
                     StartCoroutine(FlameThrowerCooldown());
                 }
                 FlameThrowerAudioValue = FlameThrowerAudioValue + 1;
@@ -85,6 +94,12 @@ public class AudioManager : MonoBehaviour
                 }
                 break;
         }
+    }
+    IEnumerator OverallFlameThrowerTime()
+    {
+        OverallFlameThrowerCooldownControl = true;
+        yield return new WaitForSeconds(OverallFlameThrowerCooldownTime);
+        OverallFlameThrowerCooldownControl = false;
     }
     IEnumerator FlameThrowerCooldown() 
     {

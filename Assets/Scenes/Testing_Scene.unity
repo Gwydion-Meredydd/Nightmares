@@ -1495,11 +1495,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2858e4aabbe5aef4084b69793f1e8b1c, type: 3}
   - {fileID: 8300000, guid: d97acee42121b224db4542c8a533859b, type: 3}
   - {fileID: 8300000, guid: ccd46d57af43c764e8ecb1fe7b396e61, type: 3}
-  FlameThrowerCooldownTime: 0.45
+  FlameThrowerCooldownTime: 0
+  OverallFlameThrowerCooldownTime: 0.33
   FlameThrower:
   - {fileID: 8300000, guid: 4afdf06d0811be94baf5cc132c703232, type: 3}
   - {fileID: 8300000, guid: 3fda0bcc8519e3345ba3265342105e74, type: 3}
-  - {fileID: 8300000, guid: b3edc6be331c5664c98e81cb54bf9197, type: 3}
+  - {fileID: 8300000, guid: 7fb1b66c3352e27408304ecef2d0cd4b, type: 3}
 --- !u!1 &1123074768
 GameObject:
   m_ObjectHideFlags: 0
