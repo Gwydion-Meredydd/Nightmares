@@ -15,6 +15,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void OptionsButton()
     {
+        Debug.Log("Options Menu");
         mainMenuObj.SetActive(false);
         optionsMenuObj.SetActive(true);
     }
@@ -26,6 +27,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void BackButton()
     {
+        Debug.Log("Back to Main Menu");
         mainMenuObj.SetActive(true);
         optionsMenuObj.SetActive(false);
     }
