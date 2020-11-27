@@ -1161,10 +1161,10 @@ MonoBehaviour:
   FTHeatDistortion: {fileID: 4722407558019430614, guid: e912f48ba2085ac48ae1878cbc929760, type: 3}
   MonsterPrefab: {fileID: 7942515786881941287, guid: c2b6cb7ecec5eb84a97fb0a494e9d9d3, type: 3}
   PerkMachinePrefabs:
-  - {fileID: 2111314336227382114, guid: 53b9ffd1f8d4e444e88df088b759ae6f, type: 3}
-  - {fileID: 7939925095333070082, guid: 42c746363d739cc42a4f8588f52a0812, type: 3}
-  - {fileID: 4991642589731050788, guid: 19df41bb28b514d45b50942b89d36508, type: 3}
-  - {fileID: 2140527674252123754, guid: 2a91723de605d9d4a9dab0e95406d3e1, type: 3}
+  - {fileID: 1903782216128322019, guid: 60a2bb6d93a1b6d479a0e554eccd445e, type: 3}
+  - {fileID: 2703932326508646625, guid: d1d13e9ca2f150b4ea2b4e107ad0d690, type: 3}
+  - {fileID: 3041113294870307399, guid: 9eba6a2023d976e42b67d349fd538346, type: 3}
+  - {fileID: 362079811188167840, guid: cc945e1dec170f04e8af03483d1dc859, type: 3}
   EnemieDrops:
   - {fileID: 8651071279741454599, guid: aa3b71713f99e834a86126538bff7804, type: 3}
   - {fileID: 3137446847904397818, guid: fd67ce7fbbc97534f970feaab92ecc3b, type: 3}
@@ -1300,7 +1300,7 @@ MonoBehaviour:
   Health: 
   HealthCalculation: 0
   TakingDamage: 0
-  IgnorePlayer: 1
+  IgnorePlayer: 0
   InitalLost: 0
   HasReachedTarget: 
   EnemyHited: {fileID: 0}
