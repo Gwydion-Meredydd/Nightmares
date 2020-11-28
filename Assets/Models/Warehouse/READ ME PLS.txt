@@ -1,0 +1,13 @@
+set the mesh texture mechbase to cutout in unity to make holes see through, should work
+
+all the parts to this are seperate theyre just in one prefab
+
+it should be scaled to right size, but blender scale might be different to unity so
+
+the entire room should be approx 30m X 30m X 9m
+
+i left the doorways open instead of putting stuff in the way cus i dunno if you wanted that, just put invisiwalls or make the player insta die if they go in i dunno shruggie
+
+sorreh for messy texture names n folder 
+
+fangz 2 raven for the halp, stop flamin ok

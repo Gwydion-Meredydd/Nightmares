@@ -105,6 +105,23 @@ public class EnemyManager : MonoBehaviour
                 {
                     if (EnemyHited == TemporaryActiveEnemie)
                     {
+                        ActiveEnemiesAgents[ArrayLength].speed = 0;
+                        int RandomDamageValue = Random.Range(1, 4);
+                        switch (RandomDamageValue) 
+                        {
+                            case 1:
+                                ActiveEnemiesAnimators[ArrayLength].Play("Hit 1", 2);
+                                SM.PlayerScript.PlayerAudioSource.PlayOneShot(SM.AudioScripts.EnemyHitMarkers[0]);
+                                break;
+                            case 2:
+                                ActiveEnemiesAnimators[ArrayLength].Play("Hit 2", 2);
+                                SM.PlayerScript.PlayerAudioSource.PlayOneShot(SM.AudioScripts.EnemyHitMarkers[1]);
+                                break;
+                            case 3:
+                                ActiveEnemiesAnimators[ArrayLength].Play("Hit 3", 2);
+                                SM.PlayerScript.PlayerAudioSource.PlayOneShot(SM.AudioScripts.EnemyHitMarkers[2]);
+                                break;
+                        }
                         SM.PointsScript.PointsIncrease(PointsDamage);
                         Health[ArrayLength] = Health[ArrayLength] - SM.PlayerScript.CurrentDamage;
                         if (Health[ArrayLength] <= 0)
@@ -115,6 +132,7 @@ public class EnemyManager : MonoBehaviour
                                 SM.DropsScript.DropRandom(ActiveEnemies[ArrayLength].transform.position);
                             }
                             SM.PointsScript.PointsIncrease(PointsKill);
+                            ActiveEnemiesAnimators[ArrayLength].SetBool("Hit", false);
                             ActiveEnemiesAnimators[ArrayLength].SetBool("Dead", true);
                             ActiveEnemiesAnimators[ArrayLength].SetBool("Attack", false);
                             //Attacking = false;
@@ -135,6 +153,8 @@ public class EnemyManager : MonoBehaviour
                             //StartCoroutine("EnemyDeathCooldown");
                             break;
                         }
+                        ActiveEnemiesAgents[ArrayLength].speed = 3.5f;
+                        //ActiveEnemiesAnimators[ArrayLength].SetBool("Hit", false);
                     }
                 }
                 ArrayLength = ArrayLength + 1;
@@ -184,6 +204,8 @@ public class EnemyManager : MonoBehaviour
             ActiveEnemiesAnimators[ArrayLength].SetInteger("AttackRandomiser", AttackValue);
             ActiveEnemiesAnimators[ArrayLength].SetBool("Moving", false);
             ActiveEnemiesAnimators[ArrayLength].SetBool("Attack", true);
+            ActiveEnemiesAudioSources[ArrayLength].PlayOneShot(SM.AudioScripts.EnemyAttacking[(Random.Range(0, 3))]);
+
             yield return new WaitForSecondsRealtime(0.1f);
             if (OldNumberOfEnemies == ActiveEnemies.Count)
             {
@@ -192,6 +214,14 @@ public class EnemyManager : MonoBehaviour
                 {
                     SM.PlayerScript.PlayerAnimator.SetBool("Hurt", true);
                     SM.PlayerScript.Health = SM.PlayerScript.Health - AttackDamage;
+                    if (SM.GameScript.PlayerTypeValue == 3 || SM.GameScript.PlayerTypeValue == 4)
+                    {
+                        SM.PlayerScript.PlayerAudioSource.PlayOneShot(SM.AudioScripts.PlayerHurtMale[(Random.Range(0, 3))]);
+                    }
+                    if (SM.GameScript.PlayerTypeValue == 1 || SM.GameScript.PlayerTypeValue == 2)
+                    {
+                        SM.PlayerScript.PlayerAudioSource.PlayOneShot(SM.AudioScripts.PlayerHurtFemale[(Random.Range(0, 3))]);
+                    }
                     SM.PlayerScript.CameraDamage();
                     yield return new WaitForSecondsRealtime(0.1f);
                     if (OldNumberOfEnemies == ActiveEnemies.Count)

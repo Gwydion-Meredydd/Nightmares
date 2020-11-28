@@ -79,6 +79,7 @@ public class PerksManager : MonoBehaviour
     }
     public void PlayerPerkBaught() 
     {
+        SM.PlayerScript.PlayerAudioSource.PlayOneShot(SM.AudioScripts.PerkDrinking);
         switch (PerkValue)
         {
             case 0:

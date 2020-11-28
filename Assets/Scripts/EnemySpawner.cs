@@ -27,7 +27,7 @@ public class EnemySpawner : MonoBehaviour
     public int SpawnedMonsterAmmount;
     public int LevelMonsterAmmount;
     [HideInInspector]
-    public GameObject MonsterPrefab;
+    public GameObject[] MonsterPrefab;
     void Update()
     {
         if (SM.GameScript.InGame == true && SM.GameScript.Paused == false)
@@ -86,7 +86,7 @@ public class EnemySpawner : MonoBehaviour
                     SpawnedMonsterAmmount = SpawnedMonsterAmmount + 1;
                     Vector3 SelectedSpawnPoint = LevelSpawnPoints[Random.Range(0, LevelSpawnPoints.Length)].position;
                     Quaternion QuaternionSpawning = new Quaternion(0, 0, 0, 0);
-                    Instantiate(MonsterPrefab, SelectedSpawnPoint, QuaternionSpawning);
+                    Instantiate(MonsterPrefab[Random.Range(0,3)], SelectedSpawnPoint, QuaternionSpawning);
                 }
             }
             else 

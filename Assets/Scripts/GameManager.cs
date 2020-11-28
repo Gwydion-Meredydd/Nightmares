@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     private GameObject ChildTempForMuzzleFlash;
     private GameObject TempShellPoint;
     private GameObject ChildTempForCasePoint;
-    public GameObject MonsterPrefab;
+    public GameObject[] MonsterPrefabs;
     public GameObject[] PerkMachinePrefabs;
     public GameObject[] EnemieDrops;
 
@@ -62,10 +62,10 @@ public class GameManager : MonoBehaviour
             SM.PlayerScript.ARBulletParticle = ChildTempForShootPoint.GetComponent<ParticleSystem>();
             TempShootPoint = null;
             ChildTempForShootPoint = null;
-
-            SM.PlayerScript.AssaultRifleAudioSource = SM.PlayerScript.AutomaticRifleModel.GetComponent<AudioSource>();
-            SM.PlayerScript.MininGunAudioSource = SM.PlayerScript.MiniGunModel.GetComponent<AudioSource>();
-            SM.PlayerScript.FlameThrowerAudioSource = SM.PlayerScript.FlameThrowerModel.GetComponent<AudioSource>();
+            
+            GameObject TempAudioGameObject = GameObject.FindGameObjectWithTag("WeaponMaster");
+            SM.PlayerScript.WeaponAudioSource = TempAudioGameObject.GetComponent<AudioSource>();
+            SM.PlayerScript.PlayerAudioSource = SM.PlayerScript.Player.GetComponent<AudioSource>();
 
             ChildTempForMuzzleFlash = Instantiate(ArMuzzleFlash.gameObject, SM.PlayerScript.ARShootPoint.position, SM.PlayerScript.ARShootPoint.rotation);
             ChildTempForMuzzleFlash.transform.parent = SM.PlayerScript.ARShootPoint;
@@ -125,7 +125,10 @@ public class GameManager : MonoBehaviour
             #endregion
 
             //sets special settings for other scripts such as camera script
-            SM.EnemySpawningScript.MonsterPrefab = MonsterPrefab;
+            SM.EnemySpawningScript.MonsterPrefab = new GameObject[3];
+            SM.EnemySpawningScript.MonsterPrefab[0] = MonsterPrefabs[0];
+            SM.EnemySpawningScript.MonsterPrefab[2] = MonsterPrefabs[1];
+            SM.EnemySpawningScript.MonsterPrefab[1] = MonsterPrefabs[2];
             SM.PerksScript.PerkMachine = new GameObject[4];
             SM.PerksScript.PerkMachineAnimator = new Animator[4];
             SM.PerksScript.PerkBaught = new bool[4];

@@ -44,9 +44,8 @@ public class PlayerController : MonoBehaviour
     public float AssaultRifleFiringTime;
     public float MiniGunFiringTime;
     public float FlameThrowerFiringTime;
-    public AudioSource AssaultRifleAudioSource;
-    public AudioSource MininGunAudioSource;
-    public AudioSource FlameThrowerAudioSource;
+    public AudioSource WeaponAudioSource;
+    public AudioSource PlayerAudioSource;
     [HideInInspector]
     public bool Firing;
     [HideInInspector]
@@ -85,6 +84,8 @@ public class PlayerController : MonoBehaviour
     public float PlayerRotation;
     [HideInInspector]
     public bool FacingUp, FacingDown, FacingLeft, FacingRight,PerkingUp;
+    public bool Moving;
+    public int CurrentFootStepValue;
 
 
     [Space]
@@ -118,6 +119,10 @@ public class PlayerController : MonoBehaviour
                     RayCastMethod();
                 }
             }
+            if (Moving) 
+            {
+                FootStepping();
+            }
         }
     }
     public void WeaponSwitch() 
@@ -145,6 +150,28 @@ public class PlayerController : MonoBehaviour
                 FlameThrowerModel.SetActive(true);
                 CurrentDamage = FTDamage;
                 break;
+        }
+    }
+    public void FootStepping() 
+    {
+        Vector3 Down = Player.transform.TransformDirection(Vector3.down);
+        if (Physics.Raycast(Player.transform.position, Down, out RayCastHit))
+        {
+            switch (RayCastHit.transform.gameObject.layer) 
+            {
+                case 15:
+                    CurrentFootStepValue = 0;
+                    break;
+                case 16:
+                    CurrentFootStepValue = 1;
+                    break;
+                case 17:
+                    CurrentFootStepValue = 2;
+                    break;
+                case 18:
+                    CurrentFootStepValue = 3;
+                    break;
+            }
         }
     }
     public void RayCastMethod() 
@@ -255,10 +282,12 @@ public class PlayerController : MonoBehaviour
         if (MovementDirectionValue.x != 0 || MovementDirectionValue.z != 0)//if the player is moving
         {
             PlayerAnimator.SetBool("Walk", true);
+            Moving = true;
         }
         else
         {
             PlayerAnimator.SetBool("Walk", false);
+            Moving = false;
         }
         if (Firing == true)
         {

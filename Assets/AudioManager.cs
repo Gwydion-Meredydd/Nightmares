@@ -14,6 +14,9 @@ public class AudioManager : MonoBehaviour
     [Range(1, 5)]
     public int EnemyNoiseCooldown;
     [Space]
+    public AudioClip[] EnemyHitMarkers;
+    [Space]
+    public AudioClip[] EnemyAttacking;
     [Header("Weapon Noises")]
     int AssaultRifleAudioValue;
     public AudioClip[] AssaultRifle;
@@ -28,6 +31,21 @@ public class AudioManager : MonoBehaviour
     public float OverallFlameThrowerCooldownTime;
     bool OverallFlameThrowerCooldownControl;
     public AudioClip[] FlameThrower;
+    [Space]
+    [Header("Player")]
+    [Range(0.1f, 3)]
+    public float FootstepDelay;
+    bool Footstepping;
+    public AudioClip[] FootstepDirt;
+    public AudioClip[] FootstepStone;
+    public AudioClip[] FootstepWood;
+    public AudioClip[] FootstepMetal;
+    [Space]
+    public AudioClip[] PlayerHurtMale;
+    public AudioClip[] PlayerHurtFemale;
+    [Space]
+    public AudioClip PerkDrinking;
+    
     void Update()
     {
         if (SM.GameScript.InGame)
@@ -37,6 +55,11 @@ public class AudioManager : MonoBehaviour
                 if (SM.EnemyScript.ActiveEnemies.Count > 0)
                 {
                     EnemyRandomAudio();
+                }
+                if (!Footstepping) 
+                {
+                    Footstepping = true;
+                    StartCoroutine(FootstepTiming());
                 }
             }
         }
@@ -57,7 +80,7 @@ public class AudioManager : MonoBehaviour
         switch (SM.PlayerScript.WeaponValue)
         {
             case 1:
-                SM.PlayerScript.AssaultRifleAudioSource.PlayOneShot(AssaultRifle[AssaultRifleAudioValue]);
+                SM.PlayerScript.WeaponAudioSource.PlayOneShot(AssaultRifle[AssaultRifleAudioValue]);
                 AssaultRifleAudioValue = AssaultRifleAudioValue + 1;
                 if (AssaultRifleAudioValue == 3)
                 {
@@ -67,22 +90,22 @@ public class AudioManager : MonoBehaviour
             case 2:
                 if (Input.GetMouseButtonDown(0))
                 {
-                    SM.PlayerScript.MininGunAudioSource.PlayOneShot(MiniGun[0]);
+                    SM.PlayerScript.WeaponAudioSource.PlayOneShot(MiniGun[0]);
                 }
-                SM.PlayerScript.MininGunAudioSource.PlayOneShot(MiniGun[2]);
-                SM.PlayerScript.MininGunAudioSource.PlayOneShot(MiniGun[1]);
+                SM.PlayerScript.WeaponAudioSource.PlayOneShot(MiniGun[2]);
+                SM.PlayerScript.WeaponAudioSource.PlayOneShot(MiniGun[1]);
                 break;
             case 3:
                 if (Input.GetMouseButtonDown(0))
                 {
-                    SM.PlayerScript.FlameThrowerAudioSource.PlayOneShot(FlameThrower[FlameThrowerAudioValue]);
+                    SM.PlayerScript.WeaponAudioSource.PlayOneShot(FlameThrower[FlameThrowerAudioValue]);
                 }
                 if (!OverallFlameThrowerCooldownControl)
                 {
                     //SM.PlayerScript.FlameThrowerAudioSource.PlayOneShot(FlameThrower[FlameThrowerAudioValue]);
                     if (!FlameThrowerCooldownControl)
                     {
-                        SM.PlayerScript.FlameThrowerAudioSource.PlayOneShot(FlameThrower[2]);
+                        SM.PlayerScript.WeaponAudioSource.PlayOneShot(FlameThrower[2]);
                     }
                     StartCoroutine(OverallFlameThrowerTime());
                     StartCoroutine(FlameThrowerCooldown());
@@ -94,6 +117,29 @@ public class AudioManager : MonoBehaviour
                 }
                 break;
         }
+    }
+    IEnumerator FootstepTiming()
+    {
+        yield return new WaitForSeconds(FootstepDelay);
+        if (SM.PlayerScript.Moving) 
+        {
+            switch (SM.PlayerScript.CurrentFootStepValue) 
+            {
+                case 0:
+                    SM.PlayerScript.PlayerAudioSource.PlayOneShot(FootstepDirt[(Random.Range(0, 3))]);
+                    break;
+                case 1:
+                    SM.PlayerScript.PlayerAudioSource.PlayOneShot(FootstepStone[(Random.Range(0, 3))]);
+                    break;
+                case 2:
+                    SM.PlayerScript.PlayerAudioSource.PlayOneShot(FootstepWood[(Random.Range(0, 3))]);
+                    break;
+                case 3:
+                    SM.PlayerScript.PlayerAudioSource.PlayOneShot(FootstepMetal[(Random.Range(0, 3))]);
+                    break;
+            }
+        }
+        Footstepping = false;
     }
     IEnumerator OverallFlameThrowerTime()
     {
