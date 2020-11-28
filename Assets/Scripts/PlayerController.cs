@@ -86,6 +86,7 @@ public class PlayerController : MonoBehaviour
     public bool FacingUp, FacingDown, FacingLeft, FacingRight,PerkingUp;
     public bool Moving;
     public int CurrentFootStepValue;
+    public bool Down;
 
 
     [Space]
@@ -101,29 +102,70 @@ public class PlayerController : MonoBehaviour
             if (SM.GameScript.Paused == false)
             {
                 //Is called when game is unpased and game is currently active
-
-                PlayerInputs();
-
-                //Weapon Switch Whilst Testing
-                if (TestingSwitchWeapon == true)
+                if (!Down)
                 {
-                    if (WeaponHeldValue != WeaponValue)
+                    PlayerInputs();
+
+                    //Weapon Switch Whilst Testing
+                    if (TestingSwitchWeapon == true)
                     {
-                        WeaponHeldValue = WeaponValue;
-                        WeaponSwitch();
+                        if (WeaponHeldValue != WeaponValue)
+                        {
+                            WeaponHeldValue = WeaponValue;
+                            WeaponSwitch();
+                        }
+                    }
+                    if (Firing == true && CanShoot == false)
+                    {
+                        CanShoot = true;
+                        RayCastMethod();
+                    }
+                    if (Moving)
+                    {
+                        FootStepping();
                     }
                 }
-                if (Firing == true && CanShoot == false) 
+                if (Health <= 0) 
                 {
-                    CanShoot = true;
-                    RayCastMethod();
+                    if (Down == false) 
+                    {
+                        Down = true;
+                        SM.EnemyScript.IgnorePlayer = true;
+                        PlayerAnimator.SetBool("CanRevive", false);
+                        PlayerAnimator.Play("Death", 0);
+                        if (SM.CoinScript.CoinAmmount > 0) 
+                        {
+                            StartCoroutine(PlayerDown());
+                        }
+                        else 
+                        {
+                            PlayerDead();
+                        }
+                    }
                 }
             }
-            if (Moving) 
-            {
-                FootStepping();
-            }
         }
+    }
+    public void PlayerDead() 
+    {
+
+    }
+   
+    IEnumerator PlayerDown()
+    {
+        Debug.Log("timer");
+        while (!Input.GetKey(KeyCode.E) && !Input.GetKey(KeyCode.F)) 
+        {
+            Debug.Log("InLoop");
+            yield return new WaitForSecondsRealtime(0.1f);
+        }
+        Health = StartingHealth;
+        Down = false;
+        PlayerAnimator.SetBool("CanRevive", true);
+        SM.CoinScript.CoinAmmount = SM.CoinScript.CoinAmmount - 1;
+        yield return new WaitForSecondsRealtime(3f);
+        SM.EnemyScript.IgnorePlayer = false;
+
     }
     public void WeaponSwitch() 
     {

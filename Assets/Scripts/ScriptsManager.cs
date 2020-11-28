@@ -14,5 +14,6 @@ public class ScriptsManager : MonoBehaviour
     public RoundManager RoundScript;
     public DropsManager DropsScript;
     public AudioManager AudioScripts;
+    public CoinManager CoinScript;
 
 }
