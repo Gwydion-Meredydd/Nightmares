@@ -1460,6 +1460,7 @@ MonoBehaviour:
   - {fileID: 8220870249794256489, guid: c4d3f884a2b8eaf4ebf6741e36494c82, type: 3}
   - {fileID: 6583976829515589366, guid: d6459929c62d2cb4bb82476758f10d07, type: 3}
   - {fileID: 7151165017976795902, guid: 4accd549cb2ccf44684b1d63d50fc55f, type: 3}
+  - {fileID: 1343776506803756912, guid: 4b472fe66e712cf40ba36815861ab6cc, type: 3}
 --- !u!114 &1104343449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1481,7 +1482,7 @@ MonoBehaviour:
   CameraDamageEffectValue: 2
   MovingSpeed: 5
   TestingSwitchWeapon: 1
-  WeaponValue: 1
+  WeaponValue: 3
   WeaponHeldValue: 1
   AutomaticRifleModel: {fileID: 0}
   MiniGunModel: {fileID: 0}
@@ -1725,6 +1726,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
   ActiveDropsArray: []
   ActiveDrops: []
   TimeDropIsActive: 30
@@ -1746,6 +1748,7 @@ MonoBehaviour:
   BlindEyeTime: 0
   FlameThrowerTime: 0
   MiniGunTime: 0
+  HealthBoostTime: 0
   DoublePointsIsActive: 0
   InstantKillIsActive: 0
   BlindEyeIsActive: 0

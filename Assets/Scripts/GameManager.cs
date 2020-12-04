@@ -145,7 +145,7 @@ public class GameManager : MonoBehaviour
             {
                 SM.PerksScript.PerkMachineAnimator[i] = SM.PerksScript.PerkMachine[i].GetComponent<Animator>();
             }
-            for (int i = 0; i < 5; i++) 
+            for (int i = 0; i < 6; i++) 
             {
                 SM.DropsScript.Drops[i] = EnemieDrops[i];
             }

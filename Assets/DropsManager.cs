@@ -52,6 +52,8 @@ public class DropsManager : MonoBehaviour
     public int FlameThrowerTime;
     [HideInInspector]
     public int MiniGunTime;
+    [HideInInspector]
+    public int HealthBoostTime;
     [Space]
     [HideInInspector]
     public bool DoublePointsIsActive;
@@ -157,6 +159,17 @@ public class DropsManager : MonoBehaviour
                     FlameThrowerTime = StartingFlameThrowerTime;
                 }
                 break;
+            case 19:
+                int newHealth = SM.PlayerScript.Health + SM.PlayerScript.StartingHealth / 2;
+                if (newHealth <= SM.PlayerScript.StartingHealth)
+                {
+                    SM.PlayerScript.Health = newHealth;
+                }
+                else 
+                {
+                    SM.PlayerScript.Health = SM.PlayerScript.StartingHealth;
+                }
+                break;
         }
     }
     void PlayerDistanceCalculations() 
@@ -184,7 +197,15 @@ public class DropsManager : MonoBehaviour
     {
         OldRandom = RandomValue;
         RandomValue = Random.Range(0, Drops.Length);
-        if (RandomValue == 3 || RandomValue == 4)
+        if (RandomValue == 5)
+        {
+            Debug.Log("HealthDropeed");
+            if (SM.PlayerScript.Health == SM.PlayerScript.StartingHealth) 
+            {
+                NewRandomValue();
+            }
+        }
+        else if (RandomValue == 3 || RandomValue == 4)
         {
             if (SM.PlayerScript.WeaponHeldValue == 3 || SM.PlayerScript.WeaponHeldValue == 2)
             {
