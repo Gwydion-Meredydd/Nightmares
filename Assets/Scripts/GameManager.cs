@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     [Range(1, 4)]
     public int PlayerTypeValue;
     public GameObject[] PlayerTypes;
-    public Transform PlayerStartSpawn;
+    public GameObject PlayerStartSpawn;
     public ParticleSystem ARBulletParticle;
     public ParticleSystem ArMuzzleFlash;
     public ParticleSystem ARShellParticle;
@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] MonsterPrefabs;
     public GameObject[] PerkMachinePrefabs;
     public GameObject[] EnemieDrops;
+    public GameObject[] Levels;
 
     void Update()
     {
@@ -42,9 +43,20 @@ public class GameManager : MonoBehaviour
         }
         if (StartGame == true) 
         {
+            SM.LevelScript.Levels = new GameObject[Levels.Length];
+            for (int i = 0; i < Levels.Length; i++)
+            {
+                if (Levels[i] != null)
+                {
+                    SM.LevelScript.Levels[i] = Levels[i];
+                }
+            }
+            SM.LevelScript.SpawnLevel();
+
             //spawns the correct player model depneding on the selected player in the main menu in the starting position
-            Vector3 PlayerStartingPosVector3 = PlayerStartSpawn.position;
-            Instantiate(PlayerTypes[PlayerTypeValue - 1], PlayerStartingPosVector3, PlayerStartSpawn.rotation);
+            PlayerStartSpawn = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
+            Vector3 PlayerStartingPosVector3 = PlayerStartSpawn.transform.position;
+            Instantiate(PlayerTypes[PlayerTypeValue - 1], PlayerStartingPosVector3, PlayerStartSpawn.transform.rotation);
             SM.PlayerScript.Player = GameObject.FindGameObjectWithTag("Player");
             SM.PlayerScript.PlayerCc = SM.PlayerScript.Player.GetComponent<CharacterController>();
 
@@ -164,7 +176,6 @@ public class GameManager : MonoBehaviour
             {
                 SM.EnemySpawningScript.LevelSpawnPoints[i] = TempSpawnPoints[i].transform;
             }
-
             switch (SM.PlayerScript.WeaponValue)//checks which gun is active (this is mostly for testing purposes since the player will allways start with the dafult rifle)
             {
                 case 1:

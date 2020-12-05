@@ -353,6 +353,7 @@ public class EnemyManager : MonoBehaviour
                     {
                         Health[i] = StartingHealth;
                         EnemyInitilised[i] = true;
+                        ActiveEnemiesAgents[i].speed = Random.Range(3, 4);
                     }
                 }
             }

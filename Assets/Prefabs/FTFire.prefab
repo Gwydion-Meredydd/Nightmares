@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1432300509591482748}
   - component: {fileID: 1432300509591482738}
   - component: {fileID: 1432300509591482749}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: FTFire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,9 +46,9 @@ ParticleSystem:
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 1
+  looping: 0
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -600,7 +600,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 2000
+    maxNumParticles: 500
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -975,7 +975,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 30
+        scalar: 1
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -1025,7 +1025,7 @@ ParticleSystem:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-      cycleCount: 1
+      cycleCount: 0
       repeatInterval: 0.01
       probability: 1
   SizeModule:
@@ -1040,7 +1040,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0.42793274
+          value: 0.5433197
           inSlope: 2.5121021
           outSlope: 2.5121021
           tangentMode: 0
@@ -1370,7 +1370,7 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 0}
+        key0: {r: 1, g: 1, b: 1, a: 1}
         key1: {r: 1, g: 1, b: 1, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 1}
         key3: {r: 0, g: 0, b: 0, a: 0}
@@ -3864,11 +3864,11 @@ ParticleSystem:
     radiusScale: 0.5
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 1048375
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
-    collisionMessages: 0
+    collisionMessages: 1
     collidesWithDynamic: 1
     interiorCollisions: 0
   TriggerModule:
@@ -3890,21 +3890,21 @@ ParticleSystem:
     subEmitters:
     - serializedVersion: 3
       emitter: {fileID: 0}
-      type: 0
+      type: 1
       properties: 0
       emitProbability: 1
   LightsModule:
     enabled: 1
-    ratio: 0
-    light: {fileID: 0}
-    randomDistribution: 1
-    color: 1
-    range: 1
+    ratio: 1
+    light: {fileID: 183593046588946683, guid: 40e87419d0d837844939b5aea8823597, type: 3}
+    randomDistribution: 0
+    color: 0
+    range: 0
     intensity: 1
     rangeCurve:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -3957,7 +3957,7 @@ ParticleSystem:
     intensityCurve:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -4007,7 +4007,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    maxLights: 20
+    maxLights: 200
   TrailModule:
     enabled: 0
     mode: 0

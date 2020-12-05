@@ -21,6 +21,8 @@ TagManager:
   - PerkMachine
   - Drop
   - WeaponMaster
+  - NavMeshSurface
+  - PlayerSpawnPoint
   layers:
   - Default
   - TransparentFX
@@ -42,7 +44,7 @@ TagManager:
   - Wood
   - Metal
   - HealthDrop
-  - 
+  - Fire
   - 
   - 
   - 

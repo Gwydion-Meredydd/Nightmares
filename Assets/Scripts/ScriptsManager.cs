@@ -15,5 +15,7 @@ public class ScriptsManager : MonoBehaviour
     public DropsManager DropsScript;
     public AudioManager AudioScripts;
     public CoinManager CoinScript;
+    public LevelManager LevelScript;
+    public LocalNavMeshBuilder NavMeshAreaBuilder;
 
 }
