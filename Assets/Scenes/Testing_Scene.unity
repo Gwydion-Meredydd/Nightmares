@@ -636,7 +636,7 @@ MonoBehaviour:
   StartGame: 0
   InGame: 0
   SM: {fileID: 1104343457}
-  PlayerTypeValue: 2
+  PlayerTypeValue: 1
   PlayerTypes:
   - {fileID: 1631801194856398267, guid: ce737461252a15b4992eed312f8ab825, type: 3}
   - {fileID: 2577213354603238131, guid: e83c44779b8c39549b6a6564c227ecfe, type: 3}
@@ -698,14 +698,18 @@ MonoBehaviour:
   AutomaticRifleModel: {fileID: 0}
   MiniGunModel: {fileID: 0}
   FlameThrowerModel: {fileID: 0}
+  ShotGunModel: {fileID: 0}
   ARShootPoint: {fileID: 0}
   MGShootPoint: {fileID: 0}
   FTShootPoint: {fileID: 0}
+  SGShootPoint: []
   ARCasePoint: {fileID: 0}
   MGCasePoint: {fileID: 0}
+  SGCasePoint: {fileID: 0}
   AssaultRifleFiringTime: 0.2
   MiniGunFiringTime: 0.15
   FlameThrowerFiringTime: 0.15
+  ShotGunFiringTime: 0
   WeaponAudioSource: {fileID: 0}
   PlayerAudioSource: {fileID: 0}
   Firing: 0

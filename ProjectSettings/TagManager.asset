@@ -23,6 +23,9 @@ TagManager:
   - WeaponMaster
   - NavMeshSurface
   - PlayerSpawnPoint
+  - SG
+  - SGShootPoint
+  - SGCasePoint
   layers:
   - Default
   - TransparentFX

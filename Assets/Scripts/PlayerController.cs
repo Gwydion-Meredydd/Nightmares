@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     public GameObject MiniGunModel;
     [HideInInspector]
     public GameObject FlameThrowerModel;
+    public GameObject ShotGunModel;
     [HideInInspector]
     public Transform ARShootPoint;
     [HideInInspector]
@@ -38,12 +39,16 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]
     public Transform FTShootPoint;
     [HideInInspector]
+    public Transform[] SGShootPoint;
+    [HideInInspector]
     public Transform ARCasePoint;
     [HideInInspector]
     public Transform MGCasePoint;
+    public Transform SGCasePoint;
     public float AssaultRifleFiringTime;
     public float MiniGunFiringTime;
     public float FlameThrowerFiringTime;
+    public float ShotGunFiringTime;
     public AudioSource WeaponAudioSource;
     public AudioSource PlayerAudioSource;
     [HideInInspector]
@@ -223,6 +228,7 @@ public class PlayerController : MonoBehaviour
         switch (WeaponValue)
         {
             case 1:
+                //Rifle RayCast
                 if (Physics.Raycast(ARShootPoint.position, ARShootPoint.transform.forward, out RayCastHit))
                 {
                     if (RayCastHit.transform.tag == "Enemy")
@@ -240,6 +246,7 @@ public class PlayerController : MonoBehaviour
                     }
                 }
                 break;
+            //MiniGun Raycast
             case 2:
                 if (Physics.Raycast(MGShootPoint.position, MGShootPoint.transform.forward, out RayCastHit))
                 {
@@ -258,8 +265,59 @@ public class PlayerController : MonoBehaviour
                     }
                 }
                 break;
+            //FlameThrower raycast
             case 3:
                 if (Physics.Raycast(FTShootPoint.position, FTShootPoint.transform.forward, out RayCastHit))
+                {
+                    if (RayCastHit.transform.tag == "Enemy")
+                    {
+                        HitEnemy = RayCastHit.transform.gameObject;
+                        SM.EnemyScript.EnemyHited = HitEnemy;
+                        if (SM.EnemyScript.HealthCalculation == false)
+                        {
+                            SM.EnemyScript.TakingDamage = true;
+                        }
+                    }
+                    else
+                    {
+                        HitEnemy = null;
+                    }
+                }
+                break;
+            case 4:
+                if (Physics.Raycast(SGShootPoint[0].position, SGShootPoint[0].transform.forward, out RayCastHit))
+                {
+                    if (RayCastHit.transform.tag == "Enemy")
+                    {
+                        HitEnemy = RayCastHit.transform.gameObject;
+                        SM.EnemyScript.EnemyHited = HitEnemy;
+                        if (SM.EnemyScript.HealthCalculation == false)
+                        {
+                            SM.EnemyScript.TakingDamage = true;
+                        }
+                    }
+                    else
+                    {
+                        HitEnemy = null;
+                    }
+                }
+                if (Physics.Raycast(SGShootPoint[1].position, SGShootPoint[1].transform.forward, out RayCastHit))
+                {
+                    if (RayCastHit.transform.tag == "Enemy")
+                    {
+                        HitEnemy = RayCastHit.transform.gameObject;
+                        SM.EnemyScript.EnemyHited = HitEnemy;
+                        if (SM.EnemyScript.HealthCalculation == false)
+                        {
+                            SM.EnemyScript.TakingDamage = true;
+                        }
+                    }
+                    else
+                    {
+                        HitEnemy = null;
+                    }
+                }
+                if (Physics.Raycast(SGShootPoint[2].position, SGShootPoint[2].transform.forward, out RayCastHit))
                 {
                     if (RayCastHit.transform.tag == "Enemy")
                     {
@@ -460,6 +518,16 @@ public class PlayerController : MonoBehaviour
                     SM.AudioScripts.WeaponAudio();
                     CameraPunch();
                     yield return new WaitForSecondsRealtime(FlameThrowerFiringTime);
+                    SM.CameraScript.yValue = TempPunchValue;
+                    CanShoot = false;
+                    break;
+                case 4:
+                    //MGBulletParticle.Emit(1);
+                   // MGBulletCasing.Emit(1);
+                    //MGMuzzleFlash.Emit(1);
+                    SM.AudioScripts.WeaponAudio();
+                    CameraPunch();
+                    yield return new WaitForSecondsRealtime(ShotGunFiringTime);
                     SM.CameraScript.yValue = TempPunchValue;
                     CanShoot = false;
                     break;
