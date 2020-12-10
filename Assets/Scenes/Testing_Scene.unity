@@ -216,7 +216,7 @@ RectTransform:
   - {fileID: 909432045}
   - {fileID: 1123074769}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -287,7 +287,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
@@ -379,7 +379,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &909432044
 GameObject:
@@ -538,7 +538,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
@@ -651,6 +651,9 @@ MonoBehaviour:
   MGShellParticle: {fileID: 7929767290244500183, guid: c0978343434d78346a104f2db670cc99, type: 3}
   FTFlame: {fileID: 1432300509591482738, guid: 1ecfe3176bcc6214e8f4e1f402c91f16, type: 3}
   FTHeatDistortion: {fileID: 4722407558019430614, guid: e912f48ba2085ac48ae1878cbc929760, type: 3}
+  SGBulletParticle: {fileID: 6074905120409143606, guid: ddf6e92665915704cba02d5a6b14eada, type: 3}
+  SGMuzzleFlash: {fileID: 213690822815938658, guid: 2a81ef5768efe3f48ad85adb36dac506, type: 3}
+  SGShellParticle: {fileID: 6074905120409143606, guid: 72c597efe7b7df54ca377ff98f5136f7, type: 3}
   MonsterPrefabs:
   - {fileID: 1517939874083505592, guid: 2a60c1298cb42bd40901e42dc3ef4e53, type: 3}
   - {fileID: 3486207394223403259, guid: 2591a7bc0199289498d55b379859fda3, type: 3}
@@ -693,7 +696,7 @@ MonoBehaviour:
   CameraDamageEffectValue: 2
   MovingSpeed: 5
   TestingSwitchWeapon: 1
-  WeaponValue: 1
+  WeaponValue: 3
   WeaponHeldValue: 1
   AutomaticRifleModel: {fileID: 0}
   MiniGunModel: {fileID: 0}
@@ -702,14 +705,19 @@ MonoBehaviour:
   ARShootPoint: {fileID: 0}
   MGShootPoint: {fileID: 0}
   FTShootPoint: {fileID: 0}
-  SGShootPoint: []
+  SGShootPoint:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   ARCasePoint: {fileID: 0}
   MGCasePoint: {fileID: 0}
   SGCasePoint: {fileID: 0}
   AssaultRifleFiringTime: 0.2
   MiniGunFiringTime: 0.15
   FlameThrowerFiringTime: 0.15
-  ShotGunFiringTime: 0
+  ShotGunFiringTime: 0.75
   WeaponAudioSource: {fileID: 0}
   PlayerAudioSource: {fileID: 0}
   Firing: 0
@@ -722,10 +730,19 @@ MonoBehaviour:
   MGBulletCasing: {fileID: 0}
   FTFlame: {fileID: 0}
   FTHeatDistortion: {fileID: 0}
+  SGBulletParticle:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  SGMuzzleFlash: {fileID: 0}
+  SGBulletCasing: {fileID: 0}
   CurrentDamage: 0
   ARDamage: 10
   MGDamage: 25
   FTDamage: 50
+  SGDamage: 50
   HitTarget: {fileID: 0}
   HitEnemy: {fileID: 0}
   PlayerRotation: 0
@@ -807,7 +824,7 @@ MonoBehaviour:
   Health: 
   HealthCalculation: 0
   TakingDamage: 0
-  IgnorePlayer: 1
+  IgnorePlayer: 0
   InitalLost: 0
   HasReachedTarget: 
   EnemyHited: {fileID: 0}
@@ -1021,6 +1038,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4afdf06d0811be94baf5cc132c703232, type: 3}
   - {fileID: 8300000, guid: 3fda0bcc8519e3345ba3265342105e74, type: 3}
   - {fileID: 8300000, guid: 7fb1b66c3352e27408304ecef2d0cd4b, type: 3}
+  Shotgun:
+  - {fileID: 8300000, guid: 3f9f94ef13cf5034285100ffeab42f78, type: 3}
+  - {fileID: 8300000, guid: 2e67b4ffdaa6dea4e8c785f40f1415e8, type: 3}
+  - {fileID: 8300000, guid: bd1cf8cd4c814b44988840967cdd6bce, type: 3}
   FootstepDelay: 0.45
   FootstepDirt:
   - {fileID: 8300000, guid: 424102e434fea4343a501c0bc85d355c, type: 3}
@@ -1430,7 +1451,7 @@ Transform:
   - {fileID: 1260896927}
   - {fileID: 1409356983}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &2105419483
 GameObject:

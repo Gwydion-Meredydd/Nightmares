@@ -860,7 +860,7 @@ ParticleSystem:
           m_PostInfinity: 2
           m_RotationOrder: 4
   EmissionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 4
     rateOverTime:
       serializedVersion: 2
@@ -1040,7 +1040,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0.5433197
+          value: 0
           inSlope: 2.5121021
           outSlope: 2.5121021
           tangentMode: 0
@@ -1048,8 +1048,8 @@ ParticleSystem:
           inWeight: 0.33333334
           outWeight: 0.10624999
         - serializedVersion: 3
-          time: 0.115624994
-          value: 0.77046525
+          time: 0.28268585
+          value: 0.7795137
           inSlope: 0.84826535
           outSlope: 0.84826535
           tangentMode: 0

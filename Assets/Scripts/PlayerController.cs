@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 MovementDirectionValue;
     [Header("WeaponVariables")]
     public bool TestingSwitchWeapon;
-    [Range(1, 3)]
+    [Range(1, 5)]
     public int WeaponValue;
     [HideInInspector]
     public int WeaponHeldValue;
@@ -38,7 +38,6 @@ public class PlayerController : MonoBehaviour
     public Transform MGShootPoint;
     [HideInInspector]
     public Transform FTShootPoint;
-    [HideInInspector]
     public Transform[] SGShootPoint;
     [HideInInspector]
     public Transform ARCasePoint;
@@ -71,12 +70,20 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem FTFlame;
     [HideInInspector]
     public ParticleSystem FTHeatDistortion;
+    public ParticleSystem[] SGBulletParticle;
+    [HideInInspector]
+    public ParticleSystem SGMuzzleFlash;
+    [HideInInspector]
+    public ParticleSystem SGBulletCasing;
     [HideInInspector]
     public int CurrentDamage;
     [Space]
     public int ARDamage;
     public int MGDamage;
     public int FTDamage;
+    public int SGDamage;
+    bool Scrolling;
+    float ScrollingValue;
     [HideInInspector]
     public Ray RayCastRay;
     [HideInInspector]
@@ -183,19 +190,33 @@ public class PlayerController : MonoBehaviour
                 AutomaticRifleModel.SetActive(true);
                 MiniGunModel.SetActive(false);
                 FlameThrowerModel.SetActive(false);
+                ShotGunModel.SetActive(false);
                 CurrentDamage = ARDamage;
+                PlayerAnimator.SetBool("Shotgun", false);
                 break;
             case 2:
                 AutomaticRifleModel.SetActive(false);
                 MiniGunModel.SetActive(true);
                 FlameThrowerModel.SetActive(false);
+                ShotGunModel.SetActive(false);
                 CurrentDamage = MGDamage;
+                PlayerAnimator.SetBool("Shotgun", false);
                 break;
             case 3:
                 AutomaticRifleModel.SetActive(false);
                 MiniGunModel.SetActive(false);
                 FlameThrowerModel.SetActive(true);
+                ShotGunModel.SetActive(false);
                 CurrentDamage = FTDamage;
+                PlayerAnimator.SetBool("Shotgun", false);
+                break;
+            case 4:
+                AutomaticRifleModel.SetActive(false);
+                MiniGunModel.SetActive(false);
+                FlameThrowerModel.SetActive(false);
+                ShotGunModel.SetActive(true);
+                CurrentDamage = SGDamage;
+                PlayerAnimator.SetBool("Shotgun", true);
                 break;
         }
     }
@@ -285,52 +306,23 @@ public class PlayerController : MonoBehaviour
                 }
                 break;
             case 4:
-                if (Physics.Raycast(SGShootPoint[0].position, SGShootPoint[0].transform.forward, out RayCastHit))
+                for (int i = 0; i < SGShootPoint.Length; i++)
                 {
-                    if (RayCastHit.transform.tag == "Enemy")
+                    if (Physics.Raycast(SGShootPoint[i].position, SGShootPoint[i].transform.forward, out RayCastHit))
                     {
-                        HitEnemy = RayCastHit.transform.gameObject;
-                        SM.EnemyScript.EnemyHited = HitEnemy;
-                        if (SM.EnemyScript.HealthCalculation == false)
+                        if (RayCastHit.transform.tag == "Enemy")
                         {
-                            SM.EnemyScript.TakingDamage = true;
+                            HitEnemy = RayCastHit.transform.gameObject;
+                            SM.EnemyScript.EnemyHited = HitEnemy;
+                            if (SM.EnemyScript.HealthCalculation == false)
+                            {
+                                SM.EnemyScript.TakingDamage = true;
+                            }
                         }
-                    }
-                    else
-                    {
-                        HitEnemy = null;
-                    }
-                }
-                if (Physics.Raycast(SGShootPoint[1].position, SGShootPoint[1].transform.forward, out RayCastHit))
-                {
-                    if (RayCastHit.transform.tag == "Enemy")
-                    {
-                        HitEnemy = RayCastHit.transform.gameObject;
-                        SM.EnemyScript.EnemyHited = HitEnemy;
-                        if (SM.EnemyScript.HealthCalculation == false)
+                        else
                         {
-                            SM.EnemyScript.TakingDamage = true;
+                            HitEnemy = null;
                         }
-                    }
-                    else
-                    {
-                        HitEnemy = null;
-                    }
-                }
-                if (Physics.Raycast(SGShootPoint[2].position, SGShootPoint[2].transform.forward, out RayCastHit))
-                {
-                    if (RayCastHit.transform.tag == "Enemy")
-                    {
-                        HitEnemy = RayCastHit.transform.gameObject;
-                        SM.EnemyScript.EnemyHited = HitEnemy;
-                        if (SM.EnemyScript.HealthCalculation == false)
-                        {
-                            SM.EnemyScript.TakingDamage = true;
-                        }
-                    }
-                    else
-                    {
-                        HitEnemy = null;
                     }
                 }
                 break;
@@ -345,6 +337,17 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButton(0)) //checks if the player presses the left mouse button and calls the shooting method
         {
             StartCoroutine(ShootingMethod());
+        }
+        if (Input.GetAxis("Mouse ScrollWheel") != 0f)
+        {
+            Scrolling = true;
+            ScrollingValue = Input.GetAxis("Mouse ScrollWheel");
+            Debug.Log("Scrolling");
+        }
+        if (Scrolling) 
+        {
+            Debug.Log("MethodCalled");
+            ScrollWeaponSwitchCalculation();
         }
         if (SM.PerksScript.CanPurchase)
         {
@@ -366,6 +369,48 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+    }
+    public void ScrollWeaponSwitchCalculation()
+    {
+        Debug.Log(Input.GetAxis("Mouse ScrollWheel"));
+        switch (WeaponValue)
+        {
+            case 1:
+                if (ScrollingValue > 0)
+                {
+                    Debug.Log("Scroll Up");
+                    WeaponValue = 4;
+                }
+                else if (ScrollingValue < 0)
+                {
+                    Debug.Log("Scroll Down");
+                    WeaponValue = 5;
+                }
+                break;
+            case 4:
+                if (ScrollingValue > 0)
+                {
+                    WeaponValue = 5;
+                }
+                else if (ScrollingValue < 0)
+                {
+                    WeaponValue = 1;
+                }
+                break;
+            case 5:
+                if (ScrollingValue > 0)
+                {
+                    WeaponValue = 1;
+                }
+                else if (ScrollingValue < 0)
+                {
+                    WeaponValue = 4;
+                }
+                break;
+        }
+        ScrollingValue = 0;
+        Scrolling = false;
+        WeaponSwitch();
     }
     #region Player Movement
     public void CharacterMovement()
@@ -393,7 +438,7 @@ public class PlayerController : MonoBehaviour
         {
             PlayerAnimator.SetBool("Firing", true);
         }
-        else if (!Input.GetMouseButton(0))
+        else
         {
 
             PlayerAnimator.SetBool("Firing", false);
@@ -522,9 +567,11 @@ public class PlayerController : MonoBehaviour
                     CanShoot = false;
                     break;
                 case 4:
-                    //MGBulletParticle.Emit(1);
-                   // MGBulletCasing.Emit(1);
-                    //MGMuzzleFlash.Emit(1);
+                    SGBulletParticle[0].Emit(1);
+                    SGBulletParticle[1].Emit(1);
+                    SGBulletParticle[2].Emit(1);
+                    SGBulletCasing.Emit(1);
+                    SGMuzzleFlash.Emit(1);
                     SM.AudioScripts.WeaponAudio();
                     CameraPunch();
                     yield return new WaitForSecondsRealtime(ShotGunFiringTime);

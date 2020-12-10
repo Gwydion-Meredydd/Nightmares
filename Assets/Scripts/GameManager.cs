@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour
     public ParticleSystem MGShellParticle;
     public ParticleSystem FTFlame;
     public ParticleSystem FTHeatDistortion;
+    public ParticleSystem SGBulletParticle;
+    public ParticleSystem SGMuzzleFlash;
+    public ParticleSystem SGShellParticle;
     private GameObject TempShootPoint;
     private GameObject ChildTempForShootPoint;
     private GameObject ChildTempForMuzzleFlash;
@@ -64,6 +67,7 @@ public class GameManager : MonoBehaviour
             SM.PlayerScript.AutomaticRifleModel = GameObject.FindGameObjectWithTag("AR");
             SM.PlayerScript.MiniGunModel = GameObject.FindGameObjectWithTag("MG");
             SM.PlayerScript.FlameThrowerModel = GameObject.FindGameObjectWithTag("FT");
+            SM.PlayerScript.ShotGunModel = GameObject.FindGameObjectWithTag("SG");
 
             #region Assault Rifle Starting Initlisation
             //gets all the correct variables for the player controller by using prefabs and tags to put the correct things in the correct place
@@ -136,6 +140,32 @@ public class GameManager : MonoBehaviour
 
             #endregion
 
+            #region ShotGun Starting Initlisation
+            //gets all the correct variables for the player controller by using prefabs and tags to put the correct things in the correct place
+            GameObject[] ShotgunTempShootPoint = GameObject.FindGameObjectsWithTag("SGShootPoint");
+            for (int i = 0; i < ShotgunTempShootPoint.Length; i++)
+            {
+                SM.PlayerScript.SGShootPoint[i] = ShotgunTempShootPoint[i].transform;
+                ChildTempForShootPoint = Instantiate(SGBulletParticle.gameObject, SM.PlayerScript.SGShootPoint[i].position, SM.PlayerScript.SGShootPoint[i].rotation);
+                ChildTempForShootPoint.transform.parent = SM.PlayerScript.SGShootPoint[i];
+                SM.PlayerScript.SGBulletParticle[i] = ChildTempForShootPoint.GetComponent<ParticleSystem>();
+                ChildTempForShootPoint = null;
+            } 
+            TempShootPoint = null;
+
+            ChildTempForMuzzleFlash = Instantiate(ArMuzzleFlash.gameObject, SM.PlayerScript.SGShootPoint[0].position, SM.PlayerScript.SGShootPoint[0].rotation);
+            ChildTempForMuzzleFlash.transform.parent = SM.PlayerScript.SGShootPoint[0];
+            SM.PlayerScript.SGMuzzleFlash = ChildTempForMuzzleFlash.GetComponent<ParticleSystem>();
+            ChildTempForMuzzleFlash = null;
+
+            TempShellPoint = GameObject.FindGameObjectWithTag("SGCasePoint");
+            SM.PlayerScript.SGCasePoint = TempShellPoint.transform;
+            ChildTempForCasePoint = Instantiate(ARShellParticle.gameObject, SM.PlayerScript.SGCasePoint.position, SM.PlayerScript.SGCasePoint.rotation);
+            ChildTempForCasePoint.transform.parent = SM.PlayerScript.SGCasePoint;
+            SM.PlayerScript.SGBulletCasing = ChildTempForCasePoint.GetComponent<ParticleSystem>();
+            TempShellPoint = null;
+            ChildTempForCasePoint = null;
+            #endregion
             //sets special settings for other scripts such as camera script
             SM.EnemySpawningScript.MonsterPrefab = new GameObject[3];
             SM.EnemySpawningScript.MonsterPrefab[0] = MonsterPrefabs[0];

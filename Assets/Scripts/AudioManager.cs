@@ -20,10 +20,8 @@ public class AudioManager : MonoBehaviour
     [Header("Weapon Noises")]
     int AssaultRifleAudioValue;
     public AudioClip[] AssaultRifle;
-    bool MiniGunStartupSound;
     public AudioClip[] MiniGun;
     int FlameThrowerAudioValue;
-    int OtherFlameThrowerAudioValue;
     [Range(0, 2)]
     public float FlameThrowerCooldownTime;
     bool FlameThrowerCooldownControl;
@@ -31,6 +29,8 @@ public class AudioManager : MonoBehaviour
     public float OverallFlameThrowerCooldownTime;
     bool OverallFlameThrowerCooldownControl;
     public AudioClip[] FlameThrower;
+    public AudioClip[] Shotgun;
+    int ShotGunAudioValue;
     [Space]
     [Header("Player")]
     [Range(0.1f, 3)]
@@ -114,6 +114,14 @@ public class AudioManager : MonoBehaviour
                 if (FlameThrowerAudioValue == 2)
                 {
                     FlameThrowerAudioValue = 0;
+                }
+                break;
+            case 4:
+                SM.PlayerScript.WeaponAudioSource.PlayOneShot(Shotgun[ShotGunAudioValue]);
+                ShotGunAudioValue = ShotGunAudioValue + 1;
+                if (ShotGunAudioValue == 3)
+                {
+                    ShotGunAudioValue = 0;
                 }
                 break;
         }
