@@ -1,0 +1,38 @@
+# Blender MTL File: 'minigun.blend'
+# Material Count: 3
+
+newmtl bullets
+Ns 330.818089
+Ka 0.705314 0.705314 0.705314
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -bm 0.500000 X:\\Nightmares\\Assets\\Models\\Weapons\\Minigun MKII\\Textures\\bulletnormal.png
+map_Kd X:\\Nightmares\\Assets\\Models\\Weapons\\Minigun MKII\\Textures\\bulletsbase.jpg
+
+newmtl comeandtakeit
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd X:\\Nightmares\\Assets\\Models\\Weapons\\Minigun MKII\\Textures\\comeandtakeit.png
+map_d X:\\Nightmares\\Assets\\Models\\Weapons\\Minigun MKII\\Textures\\comeandtakeit.png
+
+newmtl minigunbase
+Ns 391.351597
+Ka 0.787440 0.787440 0.787440
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -bm 0.400000 X:\\Nightmares\\Assets\\Models\\Weapons\\Minigun MKII\\Textures\\minigunnormal.png
+map_Kd X:\\Nightmares\\Assets\\Models\\Weapons\\Minigun MKII\\Textures\\minigunbase.png

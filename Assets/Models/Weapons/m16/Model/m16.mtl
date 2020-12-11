@@ -1,0 +1,38 @@
+# Blender MTL File: 'm16.blend'
+# Material Count: 3
+
+newmtl gunbase
+Ns 277.777804
+Ka 0.579710 0.579710 0.579710
+Kd 0.800000 0.800000 0.800000
+Ks 0.548309 0.548309 0.548309
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -bm 0.300000 D:\\3D\\Group Project\\AR\\Texture\\gunsbasenormal.png
+map_Kd D:\\3D\\Group Project\\AR\\Texture\\gunbase.jpg
+
+newmtl strapbase
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump D:\\3D\\Group Project\\AR\\Texture\\strapnormal.png
+map_Kd D:\\3D\\Group Project\\AR\\Texture\\strapbase.jpg
+
+newmtl woodbase
+Ns 104.395072
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump -bm 0.500000 D:\\3D\\Group Project\\AR\\Texture\\woodnorm.png
+map_Kd D:\\3D\\Group Project\\AR\\Texture\\woodbase.jpg
