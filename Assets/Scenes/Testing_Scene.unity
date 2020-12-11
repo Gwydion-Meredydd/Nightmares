@@ -696,7 +696,7 @@ MonoBehaviour:
   CameraDamageEffectValue: 2
   MovingSpeed: 5
   TestingSwitchWeapon: 1
-  WeaponValue: 3
+  WeaponValue: 1
   WeaponHeldValue: 1
   AutomaticRifleModel: {fileID: 0}
   MiniGunModel: {fileID: 0}
