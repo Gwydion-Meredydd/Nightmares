@@ -1488,7 +1488,7 @@ MonoBehaviour:
   StartGame: 0
   InGame: 0
   SM: {fileID: 1104343457}
-  PlayerTypeValue: 1
+  PlayerTypeValue: 2
   PlayerTypes:
   - {fileID: 1631801194856398267, guid: ce737461252a15b4992eed312f8ab825, type: 3}
   - {fileID: 2577213354603238131, guid: e83c44779b8c39549b6a6564c227ecfe, type: 3}
