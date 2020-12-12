@@ -1614,6 +1614,7 @@ MonoBehaviour:
   Moving: 0
   CurrentFootStepValue: 0
   Down: 0
+  HeightOcclusionPoint: {fileID: 0}
   CameraShootEffectValue: 0.573
 --- !u!114 &1104343450
 MonoBehaviour:
@@ -1984,6 +1985,8 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  HeightOcclusionObjects: []
+  HeightOcclusionReplacementObjects: []
 --- !u!114 &1104343462
 MonoBehaviour:
   m_ObjectHideFlags: 0

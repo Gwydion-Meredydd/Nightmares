@@ -55,6 +55,12 @@ public class GameManager : MonoBehaviour
                 }
             }
             SM.LevelScript.SpawnLevel();
+            SM.LevelScript.HeightOcclusionObjects = GameObject.FindGameObjectsWithTag("HeightOcclusion");
+            SM.LevelScript.HeightOcclusionReplacementObjects = GameObject.FindGameObjectsWithTag("HeightOcclusionReplacement");
+            foreach (var HeightOcclusionReplacementObjects in SM.LevelScript.HeightOcclusionReplacementObjects)
+            {
+                HeightOcclusionReplacementObjects.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            }
 
             //spawns the correct player model depneding on the selected player in the main menu in the starting position
             PlayerStartSpawn = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
@@ -225,6 +231,8 @@ public class GameManager : MonoBehaviour
             SM.PlayerScript.WeaponHeldValue = SM.PlayerScript.WeaponValue;
             SM.PlayerScript.WeaponSwitch();
             SM.PlayerScript.Health = SM.PlayerScript.StartingHealth;
+            GameObject HeightOcclusionPointTemp = GameObject.FindGameObjectWithTag("HeightOcclusionPoint");
+            SM.PlayerScript.HeightOcclusionPoint = HeightOcclusionPointTemp.transform;
             SM.CameraScript.HoldingYValue = SM.CameraScript.yValue;
             GameObject[] TempSpawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
             SM.EnemySpawningScript.LevelSpawnPoints = new Transform[TempSpawnPoints.Length];

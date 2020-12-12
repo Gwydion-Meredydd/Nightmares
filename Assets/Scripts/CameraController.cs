@@ -13,6 +13,7 @@ public class CameraController : MonoBehaviour
     public float HoldingYValue;
     public Vector3 maxPosition;
     public Vector3 minPosition;
+    RaycastHit RayCastHit;
 
     void LateUpdate()
     {
@@ -41,6 +42,32 @@ public class CameraController : MonoBehaviour
                                                       targetPosition,
                                                       smoothing);
                     //creates slight lag in the camera follow movement to make it seem smoother
+                }
+                if (Physics.Raycast(SM.PlayerScript.HeightOcclusionPoint.transform.position, SM.PlayerScript.HeightOcclusionPoint.transform.forward, out RayCastHit ,100))
+                {
+                    Debug.Log(RayCastHit.transform.name);
+                    if (RayCastHit.transform.CompareTag("Player") || RayCastHit.transform.CompareTag("Enemy"))
+                    {
+                        foreach (var HeightBlocker in SM.LevelScript.HeightOcclusionObjects)
+                        { 
+                            HeightBlocker.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+                        }
+                        foreach (var HeightBlocker in SM.LevelScript.HeightOcclusionReplacementObjects)
+                        {
+                            HeightBlocker.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                        }
+                    }
+                    else
+                    {
+                        foreach (var HeightBlocker in SM.LevelScript.HeightOcclusionObjects)
+                        {
+                            HeightBlocker.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+                        }
+                        foreach (var HeightBlocker in SM.LevelScript.HeightOcclusionReplacementObjects)
+                        {
+                            HeightBlocker.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+                        }
+                    }
                 }
             }
         }

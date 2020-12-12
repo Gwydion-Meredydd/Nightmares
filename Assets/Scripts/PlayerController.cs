@@ -111,6 +111,8 @@ public class PlayerController : MonoBehaviour
     public bool Moving;
     public int CurrentFootStepValue;
     public bool Down;
+    [HideInInspector]
+    public Transform HeightOcclusionPoint;
 
 
     [Space]

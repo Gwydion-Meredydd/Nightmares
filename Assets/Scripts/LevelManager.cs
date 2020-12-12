@@ -18,6 +18,9 @@ public class LevelManager : MonoBehaviour
     public Vector3[] CameraMaxSpace;
     [Space]
     public float[] YCamValue;
+    [Space]
+    public GameObject[] HeightOcclusionObjects;
+    public GameObject[] HeightOcclusionReplacementObjects;
 
     public void SpawnLevel() 
     {

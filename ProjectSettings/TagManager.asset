@@ -29,6 +29,9 @@ TagManager:
   - SA
   - SAShootPoint
   - SACasePoint
+  - HeightOcclusion
+  - HeightOcclusionPoint
+  - HeightOcclusionReplacement
   layers:
   - Default
   - TransparentFX
