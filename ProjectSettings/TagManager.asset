@@ -26,6 +26,9 @@ TagManager:
   - SG
   - SGShootPoint
   - SGCasePoint
+  - SA
+  - SAShootPoint
+  - SACasePoint
   layers:
   - Default
   - TransparentFX

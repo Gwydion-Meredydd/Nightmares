@@ -1488,7 +1488,7 @@ MonoBehaviour:
   StartGame: 0
   InGame: 0
   SM: {fileID: 1104343457}
-  PlayerTypeValue: 2
+  PlayerTypeValue: 1
   PlayerTypes:
   - {fileID: 1631801194856398267, guid: ce737461252a15b4992eed312f8ab825, type: 3}
   - {fileID: 2577213354603238131, guid: e83c44779b8c39549b6a6564c227ecfe, type: 3}
@@ -1554,6 +1554,7 @@ MonoBehaviour:
   MiniGunModel: {fileID: 0}
   FlameThrowerModel: {fileID: 0}
   ShotGunModel: {fileID: 0}
+  SideArmModel: {fileID: 0}
   ARShootPoint: {fileID: 0}
   MGShootPoint: {fileID: 0}
   FTShootPoint: {fileID: 0}
@@ -1563,13 +1564,16 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  SAShootPoint: {fileID: 0}
   ARCasePoint: {fileID: 0}
   MGCasePoint: {fileID: 0}
   SGCasePoint: {fileID: 0}
+  SACasePoint: {fileID: 0}
   AssaultRifleFiringTime: 0.2
   MiniGunFiringTime: 0.15
   FlameThrowerFiringTime: 0.15
   ShotGunFiringTime: 0.75
+  SideArmFiringTime: 0.15
   WeaponAudioSource: {fileID: 0}
   PlayerAudioSource: {fileID: 0}
   Firing: 0
@@ -1590,11 +1594,15 @@ MonoBehaviour:
   - {fileID: 0}
   SGMuzzleFlash: {fileID: 0}
   SGBulletCasing: {fileID: 0}
+  SABulletParticle: {fileID: 0}
+  SAMuzzleFlash: {fileID: 0}
+  SABulletCasing: {fileID: 0}
   CurrentDamage: 0
   ARDamage: 10
   MGDamage: 25
   FTDamage: 50
   SGDamage: 50
+  SADamage: 5
   HitTarget: {fileID: 0}
   HitEnemy: {fileID: 0}
   PlayerRotation: 0
@@ -1894,6 +1902,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3f9f94ef13cf5034285100ffeab42f78, type: 3}
   - {fileID: 8300000, guid: 2e67b4ffdaa6dea4e8c785f40f1415e8, type: 3}
   - {fileID: 8300000, guid: bd1cf8cd4c814b44988840967cdd6bce, type: 3}
+  SideArm:
+  - {fileID: 8300000, guid: 5fff5b7c7a4e0ed4581b2d953472d7b9, type: 3}
+  - {fileID: 8300000, guid: 09d155a49f16aba4c93af7ca08497e78, type: 3}
+  - {fileID: 8300000, guid: 1ebb5aaaf398e8448875a145d65d9bb1, type: 3}
   FootstepDelay: 0.45
   FootstepDirt:
   - {fileID: 8300000, guid: 424102e434fea4343a501c0bc85d355c, type: 3}

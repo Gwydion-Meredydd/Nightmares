@@ -31,6 +31,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip[] FlameThrower;
     public AudioClip[] Shotgun;
     int ShotGunAudioValue;
+    public AudioClip[] SideArm;
+    int SideArmAudioValue;
     [Space]
     [Header("Player")]
     [Range(0.1f, 3)]
@@ -122,6 +124,14 @@ public class AudioManager : MonoBehaviour
                 if (ShotGunAudioValue == 3)
                 {
                     ShotGunAudioValue = 0;
+                }
+                break;
+            case 5:
+                SM.PlayerScript.WeaponAudioSource.PlayOneShot(SideArm[SideArmAudioValue]);
+                SideArmAudioValue = SideArmAudioValue + 1;
+                if (SideArmAudioValue == 3)
+                {
+                    SideArmAudioValue = 0;
                 }
                 break;
         }

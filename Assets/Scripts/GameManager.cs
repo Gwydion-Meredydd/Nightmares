@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
             SM.PlayerScript.MiniGunModel = GameObject.FindGameObjectWithTag("MG");
             SM.PlayerScript.FlameThrowerModel = GameObject.FindGameObjectWithTag("FT");
             SM.PlayerScript.ShotGunModel = GameObject.FindGameObjectWithTag("SG");
+            SM.PlayerScript.SideArmModel = GameObject.FindGameObjectWithTag("SA");
 
             #region Assault Rifle Starting Initlisation
             //gets all the correct variables for the player controller by using prefabs and tags to put the correct things in the correct place
@@ -143,6 +144,7 @@ public class GameManager : MonoBehaviour
             #region ShotGun Starting Initlisation
             //gets all the correct variables for the player controller by using prefabs and tags to put the correct things in the correct place
             GameObject[] ShotgunTempShootPoint = GameObject.FindGameObjectsWithTag("SGShootPoint");
+            SM.PlayerScript.SGShootPoint = new Transform[ShotgunTempShootPoint.Length];
             for (int i = 0; i < ShotgunTempShootPoint.Length; i++)
             {
                 SM.PlayerScript.SGShootPoint[i] = ShotgunTempShootPoint[i].transform;
@@ -163,6 +165,30 @@ public class GameManager : MonoBehaviour
             ChildTempForCasePoint = Instantiate(ARShellParticle.gameObject, SM.PlayerScript.SGCasePoint.position, SM.PlayerScript.SGCasePoint.rotation);
             ChildTempForCasePoint.transform.parent = SM.PlayerScript.SGCasePoint;
             SM.PlayerScript.SGBulletCasing = ChildTempForCasePoint.GetComponent<ParticleSystem>();
+            TempShellPoint = null;
+            ChildTempForCasePoint = null;
+            #endregion
+
+            #region Side Arm Starting Initlisation
+            //gets all the correct variables for the player controller by using prefabs and tags to put the correct things in the correct place
+            TempShootPoint = GameObject.FindGameObjectWithTag("SAShootPoint");
+            SM.PlayerScript.SAShootPoint = TempShootPoint.transform;
+            ChildTempForShootPoint = Instantiate(ARBulletParticle.gameObject, SM.PlayerScript.SAShootPoint.position, SM.PlayerScript.SAShootPoint.rotation);
+            ChildTempForShootPoint.transform.parent = SM.PlayerScript.SAShootPoint;
+            SM.PlayerScript.SABulletParticle = ChildTempForShootPoint.GetComponent<ParticleSystem>();
+            TempShootPoint = null;
+            ChildTempForShootPoint = null;
+
+            ChildTempForMuzzleFlash = Instantiate(ArMuzzleFlash.gameObject, SM.PlayerScript.SAShootPoint.position, SM.PlayerScript.SAShootPoint.rotation);
+            ChildTempForMuzzleFlash.transform.parent = SM.PlayerScript.SAShootPoint;
+            SM.PlayerScript.SAMuzzleFlash = ChildTempForMuzzleFlash.GetComponent<ParticleSystem>();
+            ChildTempForMuzzleFlash = null;
+
+            TempShellPoint = GameObject.FindGameObjectWithTag("SACasePoint");
+            SM.PlayerScript.SACasePoint = TempShellPoint.transform;
+            ChildTempForCasePoint = Instantiate(ARShellParticle.gameObject, SM.PlayerScript.SACasePoint.position, SM.PlayerScript.SACasePoint.rotation);
+            ChildTempForCasePoint.transform.parent = SM.PlayerScript.SACasePoint;
+            SM.PlayerScript.SABulletCasing = ChildTempForCasePoint.GetComponent<ParticleSystem>();
             TempShellPoint = null;
             ChildTempForCasePoint = null;
             #endregion

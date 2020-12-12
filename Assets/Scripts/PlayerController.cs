@@ -31,23 +31,30 @@ public class PlayerController : MonoBehaviour
     public GameObject MiniGunModel;
     [HideInInspector]
     public GameObject FlameThrowerModel;
+    [HideInInspector]
     public GameObject ShotGunModel;
+    public GameObject SideArmModel;
     [HideInInspector]
     public Transform ARShootPoint;
     [HideInInspector]
     public Transform MGShootPoint;
     [HideInInspector]
     public Transform FTShootPoint;
+    [HideInInspector]
     public Transform[] SGShootPoint;
+    public Transform SAShootPoint;
     [HideInInspector]
     public Transform ARCasePoint;
     [HideInInspector]
     public Transform MGCasePoint;
+    [HideInInspector]
     public Transform SGCasePoint;
+    public Transform SACasePoint;
     public float AssaultRifleFiringTime;
     public float MiniGunFiringTime;
     public float FlameThrowerFiringTime;
     public float ShotGunFiringTime;
+    public float SideArmFiringTime;
     public AudioSource WeaponAudioSource;
     public AudioSource PlayerAudioSource;
     [HideInInspector]
@@ -70,11 +77,15 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem FTFlame;
     [HideInInspector]
     public ParticleSystem FTHeatDistortion;
+    [HideInInspector]
     public ParticleSystem[] SGBulletParticle;
     [HideInInspector]
     public ParticleSystem SGMuzzleFlash;
     [HideInInspector]
     public ParticleSystem SGBulletCasing;
+    public ParticleSystem SABulletParticle;
+    public ParticleSystem SAMuzzleFlash;
+    public ParticleSystem SABulletCasing;
     [HideInInspector]
     public int CurrentDamage;
     [Space]
@@ -82,6 +93,7 @@ public class PlayerController : MonoBehaviour
     public int MGDamage;
     public int FTDamage;
     public int SGDamage;
+    public int SADamage;
     bool Scrolling;
     float ScrollingValue;
     [HideInInspector]
@@ -191,23 +203,29 @@ public class PlayerController : MonoBehaviour
                 MiniGunModel.SetActive(false);
                 FlameThrowerModel.SetActive(false);
                 ShotGunModel.SetActive(false);
+                SideArmModel.SetActive(false);
                 CurrentDamage = ARDamage;
                 PlayerAnimator.SetBool("Shotgun", false);
+                PlayerAnimator.SetBool("SideArm", false);
                 break;
             case 2:
                 AutomaticRifleModel.SetActive(false);
                 MiniGunModel.SetActive(true);
                 FlameThrowerModel.SetActive(false);
                 ShotGunModel.SetActive(false);
+                SideArmModel.SetActive(false);
                 CurrentDamage = MGDamage;
                 PlayerAnimator.SetBool("Shotgun", false);
+                PlayerAnimator.SetBool("SideArm", false);
                 break;
             case 3:
                 AutomaticRifleModel.SetActive(false);
                 MiniGunModel.SetActive(false);
                 FlameThrowerModel.SetActive(true);
                 ShotGunModel.SetActive(false);
+                SideArmModel.SetActive(false);
                 CurrentDamage = FTDamage;
+                PlayerAnimator.SetBool("SideArm", false);
                 PlayerAnimator.SetBool("Shotgun", false);
                 break;
             case 4:
@@ -215,8 +233,20 @@ public class PlayerController : MonoBehaviour
                 MiniGunModel.SetActive(false);
                 FlameThrowerModel.SetActive(false);
                 ShotGunModel.SetActive(true);
+                SideArmModel.SetActive(false);
                 CurrentDamage = SGDamage;
+                PlayerAnimator.SetBool("SideArm", false);
                 PlayerAnimator.SetBool("Shotgun", true);
+                break;
+            case 5:
+                AutomaticRifleModel.SetActive(false);
+                MiniGunModel.SetActive(false);
+                FlameThrowerModel.SetActive(false);
+                ShotGunModel.SetActive(false);
+                SideArmModel.SetActive(true);
+                CurrentDamage = SADamage;
+                PlayerAnimator.SetBool("Shotgun", false);
+                PlayerAnimator.SetBool("SideArm", true);
                 break;
         }
     }
@@ -305,6 +335,7 @@ public class PlayerController : MonoBehaviour
                     }
                 }
                 break;
+                //Shotgun Raycast
             case 4:
                 for (int i = 0; i < SGShootPoint.Length; i++)
                 {
@@ -323,6 +354,24 @@ public class PlayerController : MonoBehaviour
                         {
                             HitEnemy = null;
                         }
+                    }
+                }
+                break;
+            case 5:
+                if (Physics.Raycast(SAShootPoint.position, SAShootPoint.transform.forward, out RayCastHit))
+                {
+                    if (RayCastHit.transform.tag == "Enemy")
+                    {
+                        HitEnemy = RayCastHit.transform.gameObject;
+                        SM.EnemyScript.EnemyHited = HitEnemy;
+                        if (SM.EnemyScript.HealthCalculation == false)
+                        {
+                            SM.EnemyScript.TakingDamage = true;
+                        }
+                    }
+                    else
+                    {
+                        HitEnemy = null;
                     }
                 }
                 break;
@@ -575,6 +624,16 @@ public class PlayerController : MonoBehaviour
                     SM.AudioScripts.WeaponAudio();
                     CameraPunch();
                     yield return new WaitForSecondsRealtime(ShotGunFiringTime);
+                    SM.CameraScript.yValue = TempPunchValue;
+                    CanShoot = false;
+                    break;
+                case 5:
+                    SABulletParticle.Emit(1);
+                    SABulletCasing.Emit(1);
+                    SAMuzzleFlash.Emit(1);
+                    SM.AudioScripts.WeaponAudio();
+                    CameraPunch();
+                    yield return new WaitForSecondsRealtime(SideArmFiringTime);
                     SM.CameraScript.yValue = TempPunchValue;
                     CanShoot = false;
                     break;
