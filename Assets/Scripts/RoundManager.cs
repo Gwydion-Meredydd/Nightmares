@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RoundManager : MonoBehaviour
 {
+    public ScriptsManager SM;
     public bool InActiveRound;
     public bool StartingNewRound;
     [Range(0, 10)]
@@ -14,6 +15,7 @@ public class RoundManager : MonoBehaviour
     {
         StartingNewRound = true;
         RoundNumber = RoundNumber + 1;
+        SM.GameMenuScript.RoundText.text = RoundNumber.ToString();
         yield return new WaitForSecondsRealtime(StartDelay);
         StartingNewRound = false;
         InActiveRound = true;

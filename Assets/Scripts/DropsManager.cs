@@ -160,7 +160,7 @@ public class DropsManager : MonoBehaviour
                 }
                 break;
             case 19:
-                int newHealth = SM.PlayerScript.Health + SM.PlayerScript.StartingHealth / 2;
+                float newHealth = SM.PlayerScript.Health + SM.PlayerScript.StartingHealth / 2;
                 if (newHealth <= SM.PlayerScript.StartingHealth)
                 {
                     SM.PlayerScript.Health = newHealth;

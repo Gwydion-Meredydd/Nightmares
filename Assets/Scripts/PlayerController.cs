@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]
     public CharacterController PlayerCc;
     [Header("Health")]
-    public int Health;
+    public float Health;
     public int StartingHealth;
     [Range(0, 5)]
     public float CameraDamageEffectValue;
@@ -179,16 +179,16 @@ public class PlayerController : MonoBehaviour
    
     IEnumerator PlayerDown()
     {
-        Debug.Log("timer");
         while (!Input.GetKey(KeyCode.E) && !Input.GetKey(KeyCode.F)) 
         {
-            Debug.Log("InLoop");
             yield return new WaitForSecondsRealtime(0.1f);
         }
         Health = StartingHealth;
+        SM.GameMenuScript.HealthMethod(Health);
         Down = false;
         PlayerAnimator.SetBool("CanRevive", true);
         SM.CoinScript.CoinAmmount = SM.CoinScript.CoinAmmount - 1;
+        SM.GameMenuScript.CoinMethod();
         yield return new WaitForSecondsRealtime(3f);
         SM.EnemyScript.IgnorePlayer = false;
 
@@ -393,11 +393,9 @@ public class PlayerController : MonoBehaviour
         {
             Scrolling = true;
             ScrollingValue = Input.GetAxis("Mouse ScrollWheel");
-            Debug.Log("Scrolling");
         }
         if (Scrolling) 
         {
-            Debug.Log("MethodCalled");
             ScrollWeaponSwitchCalculation();
         }
         if (SM.PerksScript.CanPurchase)
@@ -423,18 +421,15 @@ public class PlayerController : MonoBehaviour
     }
     public void ScrollWeaponSwitchCalculation()
     {
-        Debug.Log(Input.GetAxis("Mouse ScrollWheel"));
         switch (WeaponValue)
         {
             case 1:
                 if (ScrollingValue > 0)
                 {
-                    Debug.Log("Scroll Up");
                     WeaponValue = 4;
                 }
                 else if (ScrollingValue < 0)
                 {
-                    Debug.Log("Scroll Down");
                     WeaponValue = 5;
                 }
                 break;

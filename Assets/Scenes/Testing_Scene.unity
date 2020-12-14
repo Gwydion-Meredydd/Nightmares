@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 2165140}
   - component: {fileID: 2165139}
   m_Layer: 5
-  m_Name: OverlayCanvas
+  m_Name: In Game Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1436,10 +1436,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1104343447}
   - component: {fileID: 1104343457}
+  - component: {fileID: 1104343448}
   - component: {fileID: 1104343460}
   - component: {fileID: 1104343454}
   - component: {fileID: 1104343455}
-  - component: {fileID: 1104343448}
+  - component: {fileID: 1104343464}
   - component: {fileID: 1104343449}
   - component: {fileID: 1104343450}
   - component: {fileID: 1104343452}
@@ -1450,6 +1451,7 @@ GameObject:
   - component: {fileID: 1104343459}
   - component: {fileID: 1104343461}
   - component: {fileID: 1104343462}
+  - component: {fileID: 1104343463}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1677,7 +1679,7 @@ MonoBehaviour:
   PointsDamage: 10
   PointsKill: 50
   AttackingDistance: 2
-  AttackDamage: 4
+  AttackDamage: 12.5
   AttackCoolDown: 0.25
   Attacking: 0
   StartingHealth: 100
@@ -1685,7 +1687,7 @@ MonoBehaviour:
   Health: 
   HealthCalculation: 0
   TakingDamage: 0
-  IgnorePlayer: 0
+  IgnorePlayer: 1
   InitalLost: 0
   HasReachedTarget: 
   EnemyHited: {fileID: 0}
@@ -1729,6 +1731,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fffe441fe1365b4489543c9102cbd13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SM: {fileID: 1104343457}
   InActiveRound: 0
   StartingNewRound: 0
   StartDelay: 4.5
@@ -1745,7 +1748,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfa32da4f39018645addba04c615c281, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Points: 100000000
+  SM: {fileID: 1104343457}
+  Points: 0
   DoublePoints: 0
 --- !u!114 &1104343456
 MonoBehaviour:
@@ -1802,6 +1806,8 @@ MonoBehaviour:
   CoinScript: {fileID: 1104343460}
   LevelScript: {fileID: 1104343461}
   NavMeshAreaBuilder: {fileID: 1104343462}
+  GameMenuScript: {fileID: 1104343463}
+  ScoreScript: {fileID: 1104343464}
 --- !u!114 &1104343458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2001,6 +2007,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Tracked: {fileID: 1104343447}
   m_Size: {x: 0, y: 0, z: 0}
+--- !u!114 &1104343463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1104343446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45377b276c7297845832bc0a82d76e8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SM: {fileID: 1104343457}
+  MenuHasBeenInitilised: 0
+  InGameMenu: {fileID: 2165138}
+  RoundText: {fileID: 1178661347}
+  ScoreText: {fileID: 368388564}
+  HealthHearts:
+  - {fileID: 865061082}
+  - {fileID: 2127072}
+  - {fileID: 375489833}
+  - {fileID: 479598995}
+  - {fileID: 179442593}
+  - {fileID: 645454039}
+  - {fileID: 1025868537}
+  - {fileID: 1358700837}
+  Coins:
+  - {fileID: 2045780172}
+  - {fileID: 554213913}
+  - {fileID: 1900272775}
+--- !u!114 &1104343464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1104343446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5b0f15b5375b42489d2677ccc154308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Score: 0
+  Testing: 0
+  UsernameForTesting: ass
+  ScoreForTesting: 21
+  UserNamesInLeaderboard: []
+  BadWordsLibraryInitlised: 0
+  BadWords: []
+  BadWordsFile: {fileID: 4900000, guid: d4921854aa85c414eb201e116b03bb36, type: 3}
 --- !u!1 &1123074768
 GameObject:
   m_ObjectHideFlags: 0

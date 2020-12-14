@@ -11,7 +11,7 @@ public class EnemyManager : MonoBehaviour
     public int PointsKill;
     [Space]
     public float AttackingDistance;
-    public int AttackDamage;
+    public float AttackDamage;
     public float AttackCoolDown;
     [HideInInspector]
     public bool Attacking;
@@ -213,7 +213,9 @@ public class EnemyManager : MonoBehaviour
                 if (NewDistance < AttackingDistance)
                 {
                     SM.PlayerScript.PlayerAnimator.SetBool("Hurt", true);
+
                     SM.PlayerScript.Health = SM.PlayerScript.Health - AttackDamage;
+                    SM.GameMenuScript.HealthMethod(SM.PlayerScript.Health);
                     if (SM.GameScript.PlayerTypeValue == 3 || SM.GameScript.PlayerTypeValue == 4)
                     {
                         SM.PlayerScript.PlayerAudioSource.PlayOneShot(SM.AudioScripts.PlayerHurtMale[(Random.Range(0, 3))]);

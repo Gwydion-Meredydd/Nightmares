@@ -45,7 +45,6 @@ public class CameraController : MonoBehaviour
                 }
                 if (Physics.Raycast(SM.PlayerScript.HeightOcclusionPoint.transform.position, SM.PlayerScript.HeightOcclusionPoint.transform.forward, out RayCastHit ,100))
                 {
-                    Debug.Log(RayCastHit.transform.name);
                     if (RayCastHit.transform.CompareTag("Player") || RayCastHit.transform.CompareTag("Enemy"))
                     {
                         foreach (var HeightBlocker in SM.LevelScript.HeightOcclusionObjects)
