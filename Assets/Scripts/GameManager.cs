@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [Header ("Game Controllers")]
+    [Header("Game Controllers")]
+    public bool InitliseGame;
     public bool Paused;
     public bool AutoStart;
     public bool StartGame;
@@ -36,9 +37,19 @@ public class GameManager : MonoBehaviour
     public GameObject[] PerkMachinePrefabs;
     public GameObject[] EnemieDrops;
     public GameObject[] Levels;
+    [Space]
+    [Header("Menus")]
+    public GameObject MainMenu;
+    public GameObject GameMenu;
 
     void Update()
     {
+        if (!InitliseGame) 
+        {
+            MainMenu.SetActive(true);
+            GameMenu.SetActive(false);
+            InitliseGame = true;
+        }
         if (AutoStart == true) //for testing purposes instead of setting the start bool to true in the inspector this can be left on to start the game on play
         {
             AutoStart = false;
@@ -46,6 +57,8 @@ public class GameManager : MonoBehaviour
         }
         if (StartGame == true) 
         {
+            MainMenu.SetActive(false);
+            GameMenu.SetActive(true);
             SM.LevelScript.Levels = new GameObject[Levels.Length];
             for (int i = 0; i < Levels.Length; i++)
             {
@@ -258,6 +271,7 @@ public class GameManager : MonoBehaviour
                     SM.PlayerScript.FlameThrowerModel.SetActive(true);
                     break;
             }
+            StartGame = false;
         }   
     }
 }

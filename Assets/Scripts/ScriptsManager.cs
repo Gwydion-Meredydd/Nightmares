@@ -19,5 +19,6 @@ public class ScriptsManager : MonoBehaviour
     public LocalNavMeshBuilder NavMeshAreaBuilder;
     public GameMenuManager GameMenuScript;
     public ScoreManager ScoreScript;
+    public MainMenuManager MainMenuScript;
 
 }

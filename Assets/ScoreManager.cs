@@ -6,6 +6,8 @@ using System.Linq;
 
 public class ScoreManager : MonoBehaviour
 {
+    public ScriptsManager SM;
+    [Space]
     public int Score;
     [Space]
     public bool Testing;
@@ -43,7 +45,7 @@ public class ScoreManager : MonoBehaviour
     }
     public void AddNewHighScore(string UserName, int NewScore) 
     {
-        StartCoroutine(UserNameDataFetcher(UserName.ToLower(), NewScore));
+        StartCoroutine(UserNameDataFetcher(UserName.ToLower(), NewScore, true));
     }
     IEnumerator UploadNewHighScore(string UserName, int NewScore) 
     {
@@ -66,17 +68,21 @@ public class ScoreManager : MonoBehaviour
             }
         }
     }
-    IEnumerator UserNameDataFetcher(string UserName,int NewScore)
+    public void CheckUserNameFromMainMenu(string UserName) 
+    {
+        StartCoroutine(UserNameDataFetcher(UserName.ToLower().Trim(), 0, false));
+    }
+    IEnumerator UserNameDataFetcher(string UserName,int NewScore,bool NewScoreInput)
     {
         using (UnityWebRequest webRequest = UnityWebRequest.Get(WebUrl + PublicCode + "/pipe/"))
         {
             // Request and wait for the desired page.
             yield return webRequest.SendWebRequest();
 
-            UserNameChecker(webRequest.downloadHandler.text, UserName,NewScore);
+            UserNameChecker(webRequest.downloadHandler.text, UserName, NewScore, NewScoreInput);
         }
     }
-    void UserNameChecker(string DownloadedData, string UserName,int NewScore)
+    void UserNameChecker(string DownloadedData, string UserName,int NewScore, bool NewScoreInput)
     {
         bool UserNameisTaken = false;
         bool UserNameisNotSutable = false;
@@ -96,6 +102,7 @@ public class ScoreManager : MonoBehaviour
                 UserNameisTaken = true;
             }
         }
+        Debug.Log(UserName);
         foreach (var CheckedBadWords in BadWords)
         {
             if (CheckedBadWords.ToString().Trim().ToLower().Equals(UserName.Trim().ToLower()))
@@ -106,15 +113,39 @@ public class ScoreManager : MonoBehaviour
         }
         if (!UserNameisTaken && !UserNameisNotSutable)
         {
-            StartCoroutine(UploadNewHighScore(UserName, NewScore));
+            Debug.Log("Name Accepted");
+            if (NewScoreInput)
+            {
+                StartCoroutine(UploadNewHighScore(UserName, NewScore));
+            }
+            else
+            {
+                SM.MainMenuScript.UserNameIsOkay();
+            }
         }
-        else if (UserNameisTaken) 
+        else if (UserNameisTaken)
         {
-            UserNameTaken();
+            Debug.Log("Name Taken");
+            if (NewScoreInput)
+            {
+                UserNameTaken();
+            }
+            else
+            {
+                SM.MainMenuScript.UserNameNotAvailable();
+            }
         }
-        else if (UserNameisNotSutable) 
+        else if (UserNameisNotSutable)
         {
-            UserNameNotSuitable();
+            Debug.Log("Name not Appropriate");
+            if (NewScoreInput)
+            {
+                UserNameNotSuitable();
+            }
+            else
+            {
+                SM.MainMenuScript.UserNameNotSuitable();
+            }
         }
     }
     void UserNameTaken() 
