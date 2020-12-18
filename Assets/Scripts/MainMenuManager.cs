@@ -17,6 +17,7 @@ public class MainMenuManager : MonoBehaviour
     public GameObject Loading;
     public void StartGame()
     {
+        mainMenuObj.SetActive(true);
         if (UserNameEntered)
         {
             SM.GameScript.StartGame = true;

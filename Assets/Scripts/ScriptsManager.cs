@@ -9,6 +9,7 @@ public class ScriptsManager : MonoBehaviour
     public CameraController CameraScript;
     public EnemyManager EnemyScript;
     public EnemySpawner EnemySpawningScript;
+    public EnemyDespawn EnemyDespawn;
     public PointsManager PointsScript;
     public PerksManager PerksScript;
     public RoundManager RoundScript;
@@ -20,5 +21,5 @@ public class ScriptsManager : MonoBehaviour
     public GameMenuManager GameMenuScript;
     public ScoreManager ScoreScript;
     public MainMenuManager MainMenuScript;
-
+    public DeathScreenManager DeathScreenManager;
 }

@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour
     public ScriptsManager SM;
     [Space]
     public GameObject[] Levels;
+    public GameObject SpawnedLevel;
     [Space]
     [Range(1, 4)]
     public int LevelValue;
@@ -32,5 +33,6 @@ public class LevelManager : MonoBehaviour
         SM.NavMeshAreaBuilder.LevelReadyForNavmesh();
         SM.CameraScript.yValue = YCamValue[LevelArrayValue];
         SM.CameraScript.HoldingYValue = YCamValue[LevelArrayValue];
+        SpawnedLevel = GameObject.FindGameObjectWithTag("Level");
     }
 }

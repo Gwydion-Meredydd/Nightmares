@@ -155,16 +155,19 @@ public class PlayerController : MonoBehaviour
                 {
                     if (Down == false) 
                     {
+                        Debug.Log("DownMethod");
                         Down = true;
                         SM.EnemyScript.IgnorePlayer = true;
                         PlayerAnimator.SetBool("CanRevive", false);
                         PlayerAnimator.Play("Death", 0);
                         if (SM.CoinScript.CoinAmmount > 0) 
                         {
+                            Debug.Log("Down");
                             StartCoroutine(PlayerDown());
                         }
                         else 
                         {
+                            Debug.Log("Dead");
                             PlayerDead();
                         }
                     }
@@ -174,7 +177,7 @@ public class PlayerController : MonoBehaviour
     }
     public void PlayerDead() 
     {
-
+        SM.DeathScreenManager.PlayerDead();
     }
    
     IEnumerator PlayerDown()

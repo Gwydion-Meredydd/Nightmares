@@ -244,6 +244,7 @@ public class GameManager : MonoBehaviour
             SM.PlayerScript.WeaponHeldValue = SM.PlayerScript.WeaponValue;
             SM.PlayerScript.WeaponSwitch();
             SM.PlayerScript.Health = SM.PlayerScript.StartingHealth;
+            SM.GameMenuScript.HealthMethod(SM.PlayerScript.Health); 
             GameObject HeightOcclusionPointTemp = GameObject.FindGameObjectWithTag("HeightOcclusionPoint");
             SM.PlayerScript.HeightOcclusionPoint = HeightOcclusionPointTemp.transform;
             SM.CameraScript.HoldingYValue = SM.CameraScript.yValue;
