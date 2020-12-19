@@ -9,24 +9,43 @@ public class MainMenuManager : MonoBehaviour
     public ScriptsManager SM;
     public GameObject mainMenuObj;
     public GameObject optionsMenuObj;
+    public GameObject CharactersOption;
+    public GameObject LevelSelectionOption;
     [Space]
     public InputField UsernameInputField;
     public string UserName;
     public bool UserNameEntered;
     public GameObject[] UserNameErrorText;
     public GameObject Loading;
-    public void StartGame()
+    public void PlayButton()
     {
         mainMenuObj.SetActive(true);
         if (UserNameEntered)
         {
-            SM.GameScript.StartGame = true;
+            CharacterSelection();
         }
         else 
         {
             StartCoroutine(NoUsernameEntered(0));
         }
 
+    }
+    public void CharacterSelection() 
+    {
+        mainMenuObj.SetActive(false);
+        CharactersOption.SetActive(true);
+    }
+    public void CharacterSelected(int SelectionOption) 
+    {
+        SM.GameScript.PlayerTypeValue = SelectionOption;
+        LevelSelectionOption.SetActive(true);
+        CharactersOption.SetActive(false);
+    }
+    public void MapSelected(int LevelValue) 
+    {
+        LevelSelectionOption.SetActive(false);
+        SM.LevelScript.LevelValue = LevelValue;
+        SM.GameScript.StartGame = true;
     }
     public void UserNameFinished(InputField NewInputField) 
     {
