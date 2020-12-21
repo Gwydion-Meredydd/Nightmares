@@ -9,7 +9,9 @@ public class MainMenuManager : MonoBehaviour
     public ScriptsManager SM;
     public GameObject mainMenuObj;
     public GameObject optionsMenuObj;
+    public GameObject CharacterGameobjects;
     public GameObject CharactersOption;
+    public GameObject LevelGameObjects;
     public GameObject LevelSelectionOption;
     [Space]
     public InputField UsernameInputField;
@@ -34,16 +36,20 @@ public class MainMenuManager : MonoBehaviour
     {
         mainMenuObj.SetActive(false);
         CharactersOption.SetActive(true);
+        CharacterGameobjects.SetActive(true);
     }
     public void CharacterSelected(int SelectionOption) 
     {
         SM.GameScript.PlayerTypeValue = SelectionOption;
         LevelSelectionOption.SetActive(true);
+        LevelGameObjects.SetActive(true);
         CharactersOption.SetActive(false);
+        CharacterGameobjects.SetActive(false);
     }
     public void MapSelected(int LevelValue) 
     {
         LevelSelectionOption.SetActive(false);
+        LevelGameObjects.SetActive(false);
         SM.LevelScript.LevelValue = LevelValue;
         SM.GameScript.StartGame = true;
     }
