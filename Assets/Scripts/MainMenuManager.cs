@@ -13,6 +13,7 @@ public class MainMenuManager : MonoBehaviour
     public GameObject CharactersOption;
     public GameObject LevelGameObjects;
     public GameObject LevelSelectionOption;
+    public GameObject HighScoreObj;
     [Space]
     public InputField UsernameInputField;
     public string UserName;
@@ -31,6 +32,17 @@ public class MainMenuManager : MonoBehaviour
             StartCoroutine(NoUsernameEntered(0));
         }
 
+    }
+    public void HighScoreToggle() 
+    {
+        if (HighScoreObj.activeInHierarchy) 
+        {
+            HighScoreObj.SetActive(false);
+        }
+        else 
+        {
+            HighScoreObj.SetActive(true);
+        }
     }
     public void CharacterSelection() 
     {

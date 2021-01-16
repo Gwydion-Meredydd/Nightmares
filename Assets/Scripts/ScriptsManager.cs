@@ -22,4 +22,5 @@ public class ScriptsManager : MonoBehaviour
     public ScoreManager ScoreScript;
     public MainMenuManager MainMenuScript;
     public DeathScreenManager DeathScreenManager;
+    public Fade FadeManager;
 }
