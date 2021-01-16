@@ -73,6 +73,12 @@ public class MainMenuManager : MonoBehaviour
         Debug.Log(UserName);
         SM.ScoreScript.CheckUserNameFromMainMenu(UserName);
     }
+    public void ServerIsDown()
+    {
+        UserNameEntered = true;
+        Loading.SetActive(false);
+        StartCoroutine(NoUsernameEntered(4));
+    }
     public void UserNameIsOkay() 
     {
         UserNameEntered = true;

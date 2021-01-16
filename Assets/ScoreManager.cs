@@ -23,13 +23,14 @@ public class ScoreManager : MonoBehaviour
     public List<string> BadWords;
     public TextAsset BadWordsFile;
     [Space]
+    public string ErrorCode1, ErrorCode2, ErrorCode3,ErrorCode4;
     public int UserNameInLeaderboard;
     public GameObject[] HighScoreFieldsPerent;
     public Text[] HighScoreFieldsName;
     public Text[] HighScoreFieldsScore;
     void Start()
     {
-        FindAllHighScoreFields();
+        //FindAllHighScoreFields();
     }
     private void Update()
     {
@@ -49,10 +50,10 @@ public class ScoreManager : MonoBehaviour
             }
         }
     }
-    void FindAllHighScoreFields() 
+    public void FindAllHighScoreFields() 
     {
         SM.FadeManager.InstantFadeIn();
-        SM.FadeManager.FadeOut();
+        SM.MainMenuScript.HighScoreObj.SetActive(true);
         HighScoreFieldsPerent = GameObject.FindGameObjectsWithTag("HighScoreMenu");
         HighScoreFieldsName = new Text[HighScoreFieldsPerent.Length];
         HighScoreFieldsScore = new Text[HighScoreFieldsPerent.Length];
@@ -67,11 +68,13 @@ public class ScoreManager : MonoBehaviour
     }
     IEnumerator FetchDataAmmount()
     {
+        yield return new WaitForSecondsRealtime(1);
         using (UnityWebRequest webRequest = UnityWebRequest.Get(WebUrl + PublicCode + "/pipe/"))
         {
+            Debug.Log(1);
             // Request and wait for the desired page.
             yield return webRequest.SendWebRequest();
-
+            Debug.Log(2);
             DataAmmount(webRequest.downloadHandler.text);
         }
 
@@ -79,31 +82,51 @@ public class ScoreManager : MonoBehaviour
     void DataAmmount(string DownloadedData)
     {
         string[] Data = DownloadedData.Split(new char[] { '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
-        UserNamesInLeaderboard = new string[Data.Length];
-        ScoreInLeaderboard = new int[Data.Length];
-        for (int i = 0; i < Data.Length; i++)
+        if (Data[0].ToString().Trim().Equals(ErrorCode1.ToString().Trim()))
         {
-            Debug.Log(Data[i]);
-            string[] DataInfo = Data[i].Split(new char[] { '|' });
-            UserNamesInLeaderboard[i] = DataInfo[0];
-            int.TryParse(DataInfo[1], out ScoreInLeaderboard[i]);
-            HighScoreFieldsName[i].text = UserNamesInLeaderboard[i];
-            HighScoreFieldsScore[i].text = ScoreInLeaderboard[i].ToString();
+            Debug.Log("Error");
         }
-        UserNameInLeaderboard = 0;
-        foreach (var CheckedUserName in UserNamesInLeaderboard)
+        else
         {
-            UserNameInLeaderboard = UserNameInLeaderboard + 1;
-        }
-        foreach (GameObject HighScoreFieldPerent in HighScoreFieldsPerent)
-        {
-            HighScoreFieldPerent.SetActive(false);
-        }
-        for (int i = 0; i < UserNameInLeaderboard; i++)
-        {
-            HighScoreFieldsPerent[i].SetActive(true);
+            SM.MainMenuScript.HighScoreObj.SetActive(true);
+            HighScoreFieldsPerent = GameObject.FindGameObjectsWithTag("HighScoreMenu");
+            HighScoreFieldsName = new Text[HighScoreFieldsPerent.Length];
+            HighScoreFieldsScore = new Text[HighScoreFieldsPerent.Length];
+            GameObject[] TempTextName = GameObject.FindGameObjectsWithTag("HighScoreTextName");
+            GameObject[] TempTextScore = GameObject.FindGameObjectsWithTag("HighScoreTextScore");
+            for (int i = 0; i < HighScoreFieldsPerent.Length; i++)
+            {
+                HighScoreFieldsName[i] = TempTextName[i].GetComponent<Text>();
+                HighScoreFieldsScore[i] = TempTextScore[i].GetComponent<Text>();
+            }
+            UserNamesInLeaderboard = new string[Data.Length];
+            ScoreInLeaderboard = new int[Data.Length];
+            for (int i = 0; i < Data.Length; i++)
+            {
+                Debug.Log(Data[i]);
+                string[] DataInfo = Data[i].Split(new char[] { '|' });
+                UserNamesInLeaderboard[i] = DataInfo[0];
+                Debug.Log(DataInfo[0] + " " + DataInfo[1]);
+                int.TryParse(DataInfo[1], out ScoreInLeaderboard[i]);
+                HighScoreFieldsName[i].text = UserNamesInLeaderboard[i];
+                HighScoreFieldsScore[i].text = ScoreInLeaderboard[i].ToString();
+            }
+            UserNameInLeaderboard = 0;
+            foreach (var CheckedUserName in UserNamesInLeaderboard)
+            {
+                UserNameInLeaderboard = UserNameInLeaderboard + 1;
+            }
+            foreach (GameObject HighScoreFieldPerent in HighScoreFieldsPerent)
+            {
+                HighScoreFieldPerent.SetActive(false);
+            }
+            for (int i = 0; i < UserNameInLeaderboard; i++)
+            {
+                HighScoreFieldsPerent[i].SetActive(true);
+            }
         }
         SM.MainMenuScript.HighScoreObj.SetActive(false);
+        SM.FadeManager.FadeOut();
     }
     void TestHighScore() 
     {
@@ -111,6 +134,8 @@ public class ScoreManager : MonoBehaviour
     }
     public void AddNewHighScore(string UserName, int NewScore) 
     {
+        SM.FadeManager.FadeIn();
+        SM.MainMenuScript.HighScoreObj.SetActive(true);
         StartCoroutine(UserNameDataFetcher(UserName.ToLower(), NewScore, true));
     }
     IEnumerator UploadNewHighScore(string UserName, int NewScore) 
@@ -131,8 +156,10 @@ public class ScoreManager : MonoBehaviour
             else
             {
                 Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
+                SM.FadeManager.FadeOut();
             }
         }
+
     }
     public void CheckUserNameFromMainMenu(string UserName) 
     {
@@ -153,66 +180,82 @@ public class ScoreManager : MonoBehaviour
         bool UserNameisTaken = false;
         bool UserNameisNotSutable = false;
         string[] Data = DownloadedData.Split(new char[] { '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
-        UserNamesInLeaderboard = new string[Data.Length];
-        for (int i = 0; i < Data.Length; i++)
+        if (Data[0].ToString().Trim().Equals(ErrorCode1.ToString().Trim())||
+            Data[0].ToString().Trim().Equals(ErrorCode2.ToString().Trim())|| 
+            Data[0].ToString().Trim().Equals(ErrorCode3.ToString().Trim())||
+            Data[0].ToString().Trim().Equals(ErrorCode4.ToString().Trim()))
         {
-            string[] DataInfo = Data[i].Split(new char[] { '|' });
-            UserNamesInLeaderboard[i] = DataInfo[0];
+            Debug.Log("ServerDown");
+            SM.MainMenuScript.ServerIsDown();
         }
-        UserNameInLeaderboard = 0;
-        foreach (var CheckedUserName in UserNamesInLeaderboard)
+        else
         {
-            UserNameInLeaderboard = UserNameInLeaderboard + 1;
-            Debug.Log(CheckedUserName + " " + UserName);
-            if (CheckedUserName.Equals(UserName))
+            UserNamesInLeaderboard = new string[Data.Length];
+            ScoreInLeaderboard = new int[Data.Length];
+            for (int i = 0; i < Data.Length; i++)
             {
-                Debug.Log("Username AllreadyTaken");
-                UserNameisTaken = true;
+                string[] DataInfo = Data[i].Split(new char[] { '|' });
+                UserNamesInLeaderboard[i] = DataInfo[0];
+                Debug.Log(DataInfo[0]);
+                int.TryParse(DataInfo[1], out ScoreInLeaderboard[i]);
+                HighScoreFieldsName[i].text = UserNamesInLeaderboard[i];
+                HighScoreFieldsScore[i].text = ScoreInLeaderboard[i].ToString();
             }
-        }
-        Debug.Log(UserName);
-        foreach (var CheckedBadWords in BadWords)
-        {
-            if (CheckedBadWords.ToString().Trim().ToLower().Equals(UserName.Trim().ToLower()))
+            UserNameInLeaderboard = 0;
+            foreach (var CheckedUserName in UserNamesInLeaderboard)
             {
-                Debug.Log("Username AllreadyTaken");
-                UserNameisNotSutable = true;
+                UserNameInLeaderboard = UserNameInLeaderboard + 1;
+                Debug.Log(CheckedUserName + " " + UserName);
+                if (CheckedUserName.Equals(UserName))
+                {
+                    Debug.Log("Username AllreadyTaken");
+                    UserNameisTaken = true;
+                }
             }
-        }
-        if (!UserNameisTaken && !UserNameisNotSutable)
-        {
-            Debug.Log("Name Accepted");
-            if (NewScoreInput)
+            Debug.Log(UserName);
+            foreach (var CheckedBadWords in BadWords)
             {
-                StartCoroutine(UploadNewHighScore(UserName, NewScore));
+                if (CheckedBadWords.ToString().Trim().ToLower().Equals(UserName.Trim().ToLower()))
+                {
+                    Debug.Log("Username AllreadyTaken");
+                    UserNameisNotSutable = true;
+                }
             }
-            else
+            if (!UserNameisTaken && !UserNameisNotSutable)
             {
-                SM.MainMenuScript.UserNameIsOkay();
+                Debug.Log("Name Accepted");
+                if (NewScoreInput)
+                {
+                    StartCoroutine(UploadNewHighScore(UserName, NewScore));
+                }
+                else
+                {
+                    SM.MainMenuScript.UserNameIsOkay();
+                }
             }
-        }
-        else if (UserNameisTaken)
-        {
-            Debug.Log("Name Taken");
-            if (NewScoreInput)
+            else if (UserNameisTaken)
             {
-                UserNameTaken();
+                Debug.Log("Name Taken");
+                if (NewScoreInput)
+                {
+                    UserNameTaken();
+                }
+                else
+                {
+                    SM.MainMenuScript.UserNameNotAvailable();
+                }
             }
-            else
+            else if (UserNameisNotSutable)
             {
-                SM.MainMenuScript.UserNameNotAvailable();
-            }
-        }
-        else if (UserNameisNotSutable)
-        {
-            Debug.Log("Name not Appropriate");
-            if (NewScoreInput)
-            {
-                UserNameNotSuitable();
-            }
-            else
-            {
-                SM.MainMenuScript.UserNameNotSuitable();
+                Debug.Log("Name not Appropriate");
+                if (NewScoreInput)
+                {
+                    UserNameNotSuitable();
+                }
+                else
+                {
+                    SM.MainMenuScript.UserNameNotSuitable();
+                }
             }
         }
     }
