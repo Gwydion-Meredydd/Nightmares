@@ -14,6 +14,7 @@ public class MainMenuManager : MonoBehaviour
     public GameObject LevelGameObjects;
     public GameObject LevelSelectionOption;
     public GameObject HighScoreObj;
+    public GameObject HighScoreLoading;
     [Space]
     public InputField UsernameInputField;
     public string UserName;
@@ -37,11 +38,15 @@ public class MainMenuManager : MonoBehaviour
     {
         if (HighScoreObj.activeInHierarchy) 
         {
+            SM.ScoreScript.YourScore.SetActive(false);
+            SM.ScoreScript.HighScoreScore.text = "";
+            SM.ScoreScript.HighScoreScore.text = "";
             HighScoreObj.SetActive(false);
         }
         else 
         {
             HighScoreObj.SetActive(true);
+            SM.ScoreScript.RefreshLeaderboardOnUpload();
         }
     }
     public void CharacterSelection() 
@@ -103,12 +108,6 @@ public class MainMenuManager : MonoBehaviour
         mainMenuObj.SetActive(false);
         optionsMenuObj.SetActive(true);
     }
-
-    public void Leaderboards()
-    {
-        Debug.Log("Leaderboards Loading");
-    }
-
     public void BackButton()
     {
         Debug.Log("Back to Main Menu");

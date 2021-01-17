@@ -28,9 +28,12 @@ public class ScoreManager : MonoBehaviour
     public GameObject[] HighScoreFieldsPerent;
     public Text[] HighScoreFieldsName;
     public Text[] HighScoreFieldsScore;
+    public GameObject YourScore;
+    public Text HighScoreName;
+    public Text HighScoreScore;
     void Start()
     {
-        //FindAllHighScoreFields();
+        FindAllHighScoreFields();
     }
     private void Update()
     {
@@ -52,6 +55,8 @@ public class ScoreManager : MonoBehaviour
     }
     public void FindAllHighScoreFields() 
     {
+        YourScore.SetActive(false);
+        SM.MainMenuScript.HighScoreLoading.SetActive(true);
         SM.FadeManager.InstantFadeIn();
         SM.MainMenuScript.HighScoreObj.SetActive(true);
         HighScoreFieldsPerent = GameObject.FindGameObjectsWithTag("HighScoreMenu");
@@ -71,20 +76,30 @@ public class ScoreManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(1);
         using (UnityWebRequest webRequest = UnityWebRequest.Get(WebUrl + PublicCode + "/pipe/"))
         {
-            Debug.Log(1);
-            // Request and wait for the desired page.
-            yield return webRequest.SendWebRequest();
-            Debug.Log(2);
-            DataAmmount(webRequest.downloadHandler.text);
+            if (webRequest.isNetworkError)
+            {
+                Debug.Log(": Error: " + webRequest.error);
+            }
+            else
+            {
+                Debug.Log(1);
+                // Request and wait for the desired page.
+                yield return webRequest.SendWebRequest();
+                Debug.Log(2);
+                DataAmmount(webRequest.downloadHandler.text);
+            }
         }
 
     }
     void DataAmmount(string DownloadedData)
     {
         string[] Data = DownloadedData.Split(new char[] { '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
-        if (Data[0].ToString().Trim().Equals(ErrorCode1.ToString().Trim()))
+        if (Data[0].ToString().Trim().Equals(ErrorCode1.ToString().Trim()) ||
+            Data[0].ToString().Trim().Equals(ErrorCode2.ToString().Trim()) ||
+            Data[0].ToString().Trim().Equals(ErrorCode3.ToString().Trim()) ||
+            Data[0].ToString().Trim().Equals(ErrorCode4.ToString().Trim()))
         {
-            Debug.Log("Error");
+            Debug.Log("ServerDown");
         }
         else
         {
@@ -125,7 +140,70 @@ public class ScoreManager : MonoBehaviour
                 HighScoreFieldsPerent[i].SetActive(true);
             }
         }
+        SM.MainMenuScript.HighScoreLoading.SetActive(false);
         SM.MainMenuScript.HighScoreObj.SetActive(false);
+        SM.FadeManager.FadeOut();
+    }
+    public void RefreshLeaderboardOnUpload() 
+    {
+        SM.MainMenuScript.HighScoreLoading.SetActive(true);
+        StartCoroutine(RefreshLeaderboardWebRequest());
+    }
+    IEnumerator RefreshLeaderboardWebRequest()
+    {
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(WebUrl + PublicCode + "/pipe/"))
+        {
+            if (webRequest.isNetworkError)
+            {
+                Debug.Log(": Error: " + webRequest.error);
+            }
+            else
+            {
+                yield return webRequest.SendWebRequest();
+                RefreshLeaderboard(webRequest.downloadHandler.text);
+            }
+        }
+    }
+    public void RefreshLeaderboard(string DownloadedData) 
+    {
+        string[] Data = DownloadedData.Split(new char[] { '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
+        if (Data[0].ToString().Trim().Equals(ErrorCode1.ToString().Trim()) ||
+            Data[0].ToString().Trim().Equals(ErrorCode2.ToString().Trim()) ||
+            Data[0].ToString().Trim().Equals(ErrorCode3.ToString().Trim()) ||
+            Data[0].ToString().Trim().Equals(ErrorCode4.ToString().Trim()))
+        {
+            Debug.Log("ServerDown");
+        }
+        else
+        {
+            SM.MainMenuScript.HighScoreObj.SetActive(true);
+            UserNamesInLeaderboard = new string[Data.Length];
+            ScoreInLeaderboard = new int[Data.Length];
+            for (int i = 0; i < Data.Length; i++)
+            {
+                Debug.Log(Data[i]);
+                string[] DataInfo = Data[i].Split(new char[] { '|' });
+                UserNamesInLeaderboard[i] = DataInfo[0];
+                Debug.Log(DataInfo[0] + " " + DataInfo[1]);
+                int.TryParse(DataInfo[1], out ScoreInLeaderboard[i]);
+                HighScoreFieldsName[i].text = UserNamesInLeaderboard[i];
+                HighScoreFieldsScore[i].text = ScoreInLeaderboard[i].ToString();
+            }
+            UserNameInLeaderboard = 0;
+            foreach (var CheckedUserName in UserNamesInLeaderboard)
+            {
+                UserNameInLeaderboard = UserNameInLeaderboard + 1;
+            }
+            foreach (GameObject HighScoreFieldPerent in HighScoreFieldsPerent)
+            {
+                HighScoreFieldPerent.SetActive(false);
+            }
+            for (int i = 0; i < UserNameInLeaderboard; i++)
+            {
+                HighScoreFieldsPerent[i].SetActive(true);
+            }
+        }
+        SM.MainMenuScript.HighScoreLoading.SetActive(false);
         SM.FadeManager.FadeOut();
     }
     void TestHighScore() 
@@ -134,11 +212,11 @@ public class ScoreManager : MonoBehaviour
     }
     public void AddNewHighScore(string UserName, int NewScore) 
     {
-        SM.FadeManager.FadeIn();
+        SM.FadeManager.InstantFadeIn();
         SM.MainMenuScript.HighScoreObj.SetActive(true);
         StartCoroutine(UserNameDataFetcher(UserName.ToLower(), NewScore, true));
     }
-    IEnumerator UploadNewHighScore(string UserName, int NewScore) 
+    IEnumerator UploadNewHighScore(string UserName, int NewScore)
     {
         Debug.Log("UserName is okay");
         using (UnityWebRequest webRequest = UnityWebRequest.Get(WebUrl + PrivateCode + "/add/" + UserName + "/" + NewScore))
@@ -156,10 +234,27 @@ public class ScoreManager : MonoBehaviour
             else
             {
                 Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
+                using (UnityWebRequest DownloadedData = UnityWebRequest.Get(WebUrl + PublicCode + "/pipe/"))
+                {
+                    if (webRequest.isNetworkError)
+                    {
+                        Debug.Log(": Error: " + webRequest.error);
+                    }
+                    else
+                    {
+                        // Request and wait for the desired page.
+                        yield return DownloadedData.SendWebRequest();
+                    }
+                }
+                SM.MainMenuScript.HighScoreObj.SetActive(false);
+                yield return new WaitForSecondsRealtime(2);
+                SM.MainMenuScript.HighScoreToggle();
+                YourScore.SetActive(true);
+                HighScoreName.text = SM.MainMenuScript.UserName.ToString();
+                HighScoreScore.text = Score.ToString();
                 SM.FadeManager.FadeOut();
             }
         }
-
     }
     public void CheckUserNameFromMainMenu(string UserName) 
     {
@@ -169,10 +264,17 @@ public class ScoreManager : MonoBehaviour
     {
         using (UnityWebRequest webRequest = UnityWebRequest.Get(WebUrl + PublicCode + "/pipe/"))
         {
-            // Request and wait for the desired page.
-            yield return webRequest.SendWebRequest();
+            if (webRequest.isNetworkError)
+            {
+                Debug.Log(": Error: " + webRequest.error);
+            }
+            else
+            {
+                // Request and wait for the desired page.
+                yield return webRequest.SendWebRequest();
 
-            UserNameChecker(webRequest.downloadHandler.text, UserName, NewScore, NewScoreInput);
+                UserNameChecker(webRequest.downloadHandler.text, UserName, NewScore, NewScoreInput);
+            }
         }
     }
     void UserNameChecker(string DownloadedData, string UserName,int NewScore, bool NewScoreInput)
@@ -192,19 +294,16 @@ public class ScoreManager : MonoBehaviour
         {
             UserNamesInLeaderboard = new string[Data.Length];
             ScoreInLeaderboard = new int[Data.Length];
+            UserNameInLeaderboard = 0;
             for (int i = 0; i < Data.Length; i++)
             {
                 string[] DataInfo = Data[i].Split(new char[] { '|' });
                 UserNamesInLeaderboard[i] = DataInfo[0];
-                Debug.Log(DataInfo[0]);
+                UserNameInLeaderboard = UserNameInLeaderboard + 1;
                 int.TryParse(DataInfo[1], out ScoreInLeaderboard[i]);
-                HighScoreFieldsName[i].text = UserNamesInLeaderboard[i];
-                HighScoreFieldsScore[i].text = ScoreInLeaderboard[i].ToString();
             }
-            UserNameInLeaderboard = 0;
             foreach (var CheckedUserName in UserNamesInLeaderboard)
             {
-                UserNameInLeaderboard = UserNameInLeaderboard + 1;
                 Debug.Log(CheckedUserName + " " + UserName);
                 if (CheckedUserName.Equals(UserName))
                 {

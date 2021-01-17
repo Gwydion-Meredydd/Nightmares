@@ -10,6 +10,7 @@ public class GameMenuManager : MonoBehaviour
     public GameObject InGameMenu;
     public Text RoundText;
     public Text ScoreText;
+    public GameObject InsertCoin;
     public GameObject[] HealthHearts;
     public GameObject[] Coins;
     void Update()
