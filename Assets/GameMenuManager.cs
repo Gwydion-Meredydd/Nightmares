@@ -13,6 +13,8 @@ public class GameMenuManager : MonoBehaviour
     public GameObject InsertCoin;
     public GameObject[] HealthHearts;
     public GameObject[] Coins;
+    public GameObject[] DropsIcon;
+    public Text[] DropsIconText;
     void Update()
     {
         if (SM.GameScript.InGame == true)
@@ -30,6 +32,14 @@ public class GameMenuManager : MonoBehaviour
     {
         InGameMenu.SetActive(true);
         MenuHasBeenInitilised = true;
+        foreach (GameObject DropIcon in DropsIcon)
+        {
+            DropIcon.SetActive(false);
+        }
+        foreach (Text DropTimeText in DropsIconText)
+        {
+            DropTimeText.text = "";
+        }
     }
     public void CoinMethod()
     {
@@ -59,6 +69,10 @@ public class GameMenuManager : MonoBehaviour
     }
     public void HealthMethod(float NewHealth)
     {
+        for (int i = 0; i < HealthHearts.Length; i++)
+        {
+            HealthHearts[i].SetActive(false);
+        }
         switch (NewHealth)
         {
             case 0:
@@ -68,74 +82,99 @@ public class GameMenuManager : MonoBehaviour
                 }
                 break;
             case 12.5f:
-                for (int i = 0; i < HealthHearts.Length - 7; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     HealthHearts[i].SetActive(true);
-                }
-                for (int i = 1; i < HealthHearts.Length; i++)
-                {
-                    HealthHearts[i].SetActive(false);
                 }
                 break;
             case 25:
-                for (int i = 0; i < HealthHearts.Length - 6; i++)
+                for (int i = 0; i < 2; i++)
                 {
                     HealthHearts[i].SetActive(true);
-                }
-                for (int i = 2; i < HealthHearts.Length; i++)
-                {
-                    HealthHearts[i].SetActive(false);
                 }
                 break;
             case 37.5f:
-                for (int i = 0; i < HealthHearts.Length - 5; i++)
+                for (int i = 0; i < 3; i++)
                 {
                     HealthHearts[i].SetActive(true);
-                }
-                for (int i = 3; i < HealthHearts.Length; i++)
-                {
-                    HealthHearts[i].SetActive(false);
                 }
                 break;
             case 50:
-                for (int i = 0; i < HealthHearts.Length - 4; i++)
+                for (int i = 0; i < 4; i++)
                 {
                     HealthHearts[i].SetActive(true);
-                }
-                for (int i = 4; i < HealthHearts.Length; i++)
-                {
-                    HealthHearts[i].SetActive(false);
                 }
                 break;
             case 62.5f:
-                for (int i = 0; i < HealthHearts.Length - 3; i++)
+                for (int i = 0; i < 5; i++)
                 {
                     HealthHearts[i].SetActive(true);
-                }
-                for (int i = 5; i < HealthHearts.Length; i++)
-                {
-                    HealthHearts[i].SetActive(false);
                 }
                 break;
             case 75:
-                for (int i = 0; i < HealthHearts.Length - 2; i++)
+                for (int i = 0; i < 6; i++)
                 {
                     HealthHearts[i].SetActive(true);
                 }
-                HealthHearts[6].SetActive(false);
-                HealthHearts[7].SetActive(false);
                 break;
             case 87.5f:
-                for (int i = 0; i < HealthHearts.Length - 1; i++)
+                for (int i = 0; i < 7; i++)
                 {
                     HealthHearts[i].SetActive(true);
                 }
-                HealthHearts[7].SetActive(false);
                 break;
             case 100:
-                foreach (var Heart in HealthHearts)
+                for (int i = 0; i < 8; i++)
                 {
-                    Heart.SetActive(true);
+                    HealthHearts[i].SetActive(true);
+                }
+                break;
+            case 112.5f:
+                for (int i = 0; i < 9; i++)
+                {
+                    HealthHearts[i].SetActive(true);
+                }
+                break;
+            case 125:
+                for (int i = 0; i < 10; i++)
+                {
+                    HealthHearts[i].SetActive(true);
+                }
+                break;
+            case 137.5f:
+                for (int i = 0; i < 11; i++)
+                {
+                    HealthHearts[i].SetActive(true);
+                }
+                break;
+            case 150:
+                for (int i = 0; i < 12; i++)
+                {
+                    HealthHearts[i].SetActive(true);
+                }
+                break;
+            case 162.5f:
+                for (int i = 0; i < 13; i++)
+                {
+                    HealthHearts[i].SetActive(true);
+                }
+                break;
+            case 175:
+                for (int i = 0; i < 14; i++)
+                {
+                    HealthHearts[i].SetActive(true);
+                }
+                break;
+            case 187.5f:
+                for (int i = 0; i <15; i++)
+                {
+                    HealthHearts[i].SetActive(true);
+                }
+                break;
+            case 200:
+                for (int i = 0; i < 16; i++)
+                {
+                    HealthHearts[i].SetActive(true);
                 }
                 break;
         }

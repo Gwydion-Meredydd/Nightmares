@@ -49,6 +49,12 @@ public class MainMenuManager : MonoBehaviour
             SM.ScoreScript.RefreshLeaderboardOnUpload();
         }
     }
+    public void CharacterSelectionReturn() 
+    {
+        mainMenuObj.SetActive(true);
+        CharactersOption.SetActive(false);
+        CharacterGameobjects.SetActive(false);
+    }
     public void CharacterSelection() 
     {
         mainMenuObj.SetActive(false);
@@ -62,6 +68,13 @@ public class MainMenuManager : MonoBehaviour
         LevelGameObjects.SetActive(true);
         CharactersOption.SetActive(false);
         CharacterGameobjects.SetActive(false);
+    }
+    public void MapSelectedReturn()
+    {
+        LevelSelectionOption.SetActive(false);
+        LevelGameObjects.SetActive(false);
+        CharactersOption.SetActive(true);
+        CharacterGameobjects.SetActive(true);
     }
     public void MapSelected(int LevelValue) 
     {
