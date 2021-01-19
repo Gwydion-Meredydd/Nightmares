@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DropsManager : MonoBehaviour
 {
@@ -267,14 +268,18 @@ public class DropsManager : MonoBehaviour
     {
         DoublePointTime = StartingDoublePointsTime;
         DoublePointsIsActive = true;
+        SM.GameMenuScript.DropsIcon[1].SetActive(true);
+        SM.GameMenuScript.DropsIconText[1].text = DoublePointTime.ToString();
         while (DoublePointsIsActive)
         {
             SM.PointsScript.DoublePoints = true;
             DoublePointTime = DoublePointTime - 1;
+            SM.GameMenuScript.DropsIconText[1].text = DoublePointTime.ToString();
             yield return new WaitForSeconds(1f);
             if(DoublePointTime <= 0) 
             {
                 SM.PointsScript.DoublePoints = false;
+                SM.GameMenuScript.DropsIcon[1].SetActive(false);
                 DoublePointsIsActive = false;
             }
         }
@@ -283,14 +288,18 @@ public class DropsManager : MonoBehaviour
     {
         InstantKillTime = StartingInstantKillTime;
         InstantKillIsActive = true;
+        SM.GameMenuScript.DropsIcon[2].SetActive(true);
+        SM.GameMenuScript.DropsIconText[2].text = InstantKillTime.ToString();
         while (InstantKillIsActive)
         {
             SM.PlayerScript.CurrentDamage = SM.EnemyScript.StartingHealth;
             InstantKillTime = InstantKillTime - 1;
+            SM.GameMenuScript.DropsIconText[2].text = InstantKillTime.ToString();
             yield return new WaitForSeconds(1f);
             if (InstantKillTime <= 0)
             {
                 InstantKillIsActive = false;
+                SM.GameMenuScript.DropsIcon[2].SetActive(false);
                 SM.PlayerScript.WeaponSwitch();
             }
         }
@@ -298,15 +307,19 @@ public class DropsManager : MonoBehaviour
     IEnumerator BlindEye()
     {
         BlindEyeTime = StartingBlindEyeTime;
+        SM.GameMenuScript.DropsIcon[0].SetActive(true);
+        SM.GameMenuScript.DropsIconText[0].text = BlindEyeTime.ToString();
         BlindEyeIsActive = true;
         while (BlindEyeIsActive)
         {
             SM.EnemyScript.IgnorePlayer = true;
             BlindEyeTime = BlindEyeTime - 1;
+            SM.GameMenuScript.DropsIconText[0].text = BlindEyeTime.ToString();
             yield return new WaitForSeconds(1f);
             if (BlindEyeTime <= 0)
             {
                 SM.EnemyScript.IgnorePlayer = false;
+                SM.GameMenuScript.DropsIcon[0].SetActive(false);
                 BlindEyeIsActive = false;
             }
         }

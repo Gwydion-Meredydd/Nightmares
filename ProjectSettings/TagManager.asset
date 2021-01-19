@@ -33,6 +33,9 @@ TagManager:
   - HeightOcclusionPoint
   - HeightOcclusionReplacement
   - Level
+  - HighScoreMenu
+  - HighScoreTextName
+  - HighScoreTextScore
   layers:
   - Default
   - TransparentFX
@@ -56,7 +59,7 @@ TagManager:
   - HealthDrop
   - Fire
   - MidSG
-  - 
+  - PlayerBlock
   - 
   - 
   - 

@@ -29,16 +29,10 @@ public class DeathScreenManager : MonoBehaviour
     }
     IEnumerator ImageFadeToBlack()
     {
+        SM.ScoreScript.AddNewHighScore(SM.MainMenuScript.UserName, SM.ScoreScript.Score);
         DeathScreen.SetActive(true);
-        Color TempColour = DeathFadeBlack.color;
-        TempColour.a = 0;
-        DeathFadeBlack.color = TempColour;
-        while (DeathFadeBlack.color.a != 1)
-        {
-            TempColour.a = TempColour.a + 0.1f;
-            yield return new WaitForEndOfFrame();
-            DeathFadeBlack.color = TempColour;
-        }
+        SM.FadeManager.FadeIn();
+        yield return new  WaitForSecondsRealtime(1);
         foreach (var EnemyAudioSource in SM.EnemyScript.ActiveEnemiesAudioSources)
         {
             EnemyAudioSource.volume = 0;

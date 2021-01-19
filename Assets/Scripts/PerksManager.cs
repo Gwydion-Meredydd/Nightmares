@@ -85,6 +85,7 @@ public class PerksManager : MonoBehaviour
             case 0:
                 SM.PlayerScript.StartingHealth = 200;
                 SM.PlayerScript.Health = SM.PlayerScript.StartingHealth;
+                SM.GameMenuScript.HealthMethod(SM.PlayerScript.Health);
                 break;
             case 1:
                 SM.PlayerScript.ARDamage = SM.PlayerScript.ARDamage * 2;

@@ -182,10 +182,12 @@ public class PlayerController : MonoBehaviour
    
     IEnumerator PlayerDown()
     {
+        SM.GameMenuScript.InsertCoin.SetActive(true);
         while (!Input.GetKey(KeyCode.E) && !Input.GetKey(KeyCode.F)) 
         {
             yield return new WaitForSecondsRealtime(0.1f);
         }
+        SM.GameMenuScript.InsertCoin.SetActive(false);
         Health = StartingHealth;
         SM.GameMenuScript.HealthMethod(Health);
         Down = false;

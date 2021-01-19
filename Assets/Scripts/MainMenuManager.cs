@@ -13,6 +13,8 @@ public class MainMenuManager : MonoBehaviour
     public GameObject CharactersOption;
     public GameObject LevelGameObjects;
     public GameObject LevelSelectionOption;
+    public GameObject HighScoreObj;
+    public GameObject HighScoreLoading;
     [Space]
     public InputField UsernameInputField;
     public string UserName;
@@ -32,6 +34,27 @@ public class MainMenuManager : MonoBehaviour
         }
 
     }
+    public void HighScoreToggle() 
+    {
+        if (HighScoreObj.activeInHierarchy) 
+        {
+            SM.ScoreScript.YourScore.SetActive(false);
+            SM.ScoreScript.HighScoreScore.text = "";
+            SM.ScoreScript.HighScoreScore.text = "";
+            HighScoreObj.SetActive(false);
+        }
+        else 
+        {
+            HighScoreObj.SetActive(true);
+            SM.ScoreScript.RefreshLeaderboardOnUpload();
+        }
+    }
+    public void CharacterSelectionReturn() 
+    {
+        mainMenuObj.SetActive(true);
+        CharactersOption.SetActive(false);
+        CharacterGameobjects.SetActive(false);
+    }
     public void CharacterSelection() 
     {
         mainMenuObj.SetActive(false);
@@ -45,6 +68,13 @@ public class MainMenuManager : MonoBehaviour
         LevelGameObjects.SetActive(true);
         CharactersOption.SetActive(false);
         CharacterGameobjects.SetActive(false);
+    }
+    public void MapSelectedReturn()
+    {
+        LevelSelectionOption.SetActive(false);
+        LevelGameObjects.SetActive(false);
+        CharactersOption.SetActive(true);
+        CharacterGameobjects.SetActive(true);
     }
     public void MapSelected(int LevelValue) 
     {
@@ -60,6 +90,12 @@ public class MainMenuManager : MonoBehaviour
         UserName = NewInputField.text.ToString();
         Debug.Log(UserName);
         SM.ScoreScript.CheckUserNameFromMainMenu(UserName);
+    }
+    public void ServerIsDown()
+    {
+        UserNameEntered = true;
+        Loading.SetActive(false);
+        StartCoroutine(NoUsernameEntered(4));
     }
     public void UserNameIsOkay() 
     {
@@ -85,12 +121,6 @@ public class MainMenuManager : MonoBehaviour
         mainMenuObj.SetActive(false);
         optionsMenuObj.SetActive(true);
     }
-
-    public void Leaderboards()
-    {
-        Debug.Log("Leaderboards Loading");
-    }
-
     public void BackButton()
     {
         Debug.Log("Back to Main Menu");
