@@ -18857,14 +18857,14 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.759434, g: 0.9747061, b: 1, a: 1}
-  m_Intensity: 0.33
+  m_Color: {r: 0.62960434, g: 0.6273585, b: 1, a: 1}
+  m_Intensity: 0.52
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 0.603
@@ -19403,6 +19403,7 @@ GameObject:
   - component: {fileID: 718833366}
   - component: {fileID: 718833368}
   - component: {fileID: 718833367}
+  - component: {fileID: 718833369}
   m_Layer: 5
   m_Name: InsertCoin
   m_TagString: Untagged
@@ -19471,6 +19472,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 718833365}
   m_CullTransparentMesh: 0
+--- !u!114 &718833369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718833365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 14, y: -10.59}
+  m_UseGraphicAlpha: 1
 --- !u!1 &723795103
 GameObject:
   m_ObjectHideFlags: 0
@@ -24137,7 +24153,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2000, y: 1150}
+  m_SizeDelta: {x: 2002, y: 1167.15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &909432046
 MonoBehaviour:
@@ -28291,6 +28307,7 @@ GameObject:
   - component: {fileID: 1104343465}
   - component: {fileID: 1104343466}
   - component: {fileID: 1104343467}
+  - component: {fileID: 1104343468}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -29001,6 +29018,19 @@ MonoBehaviour:
   TestingFadeOut: 0
   TestingInstantFadeIn: 0
   TestingInstantFadeOut: 0
+--- !u!114 &1104343468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1104343446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aff01b944f57424e8e12ed281bbf438, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SM: {fileID: 1104343457}
 --- !u!1 &1106883728
 GameObject:
   m_ObjectHideFlags: 0
@@ -29590,7 +29620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
