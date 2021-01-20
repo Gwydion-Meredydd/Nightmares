@@ -23,6 +23,8 @@ public class EnemyManager : MonoBehaviour
     [HideInInspector]
     public bool HealthCalculation;
     [HideInInspector]
+    public bool PauseMovement;
+    [HideInInspector]
     public bool TakingDamage;
     public bool IgnorePlayer;
     [HideInInspector]
@@ -55,6 +57,7 @@ public class EnemyManager : MonoBehaviour
         {
             if (SM.GameScript.Paused == false)
             {
+                PauseMovement = false;
                 if (TakingDamage == false && EnemyDied == false && Attacking == false && HealthCalculation == false)
                 {
                     FetchActiveEnemies();
@@ -64,7 +67,7 @@ public class EnemyManager : MonoBehaviour
                     HealthManager();
                     //TakingDamage = false;
                 }
-                if (TakingDamage == false && EnemyDied == false && Attacking == false && HealthCalculation == false && IgnorePlayer == false) 
+                if (TakingDamage == false && EnemyDied == false && Attacking == false && HealthCalculation == false && IgnorePlayer == false)
                 {
                     AttackPlayer();
                 }
@@ -83,6 +86,29 @@ public class EnemyManager : MonoBehaviour
                         ChaseRandom();
                     }
                 }
+            }
+            else
+            {
+                if (PauseMovement == false)
+                {
+                    //PausedInitlised();
+                }
+            }
+        }
+    }
+    public void PausedInitlised() 
+    {
+        PauseMovement = true;
+        int OldLength = ActiveEnemies.Count;
+        for (int i = 0; i < OldLength; i++)
+        {
+            if (ActiveEnemiesAgents[i] != null)
+            { 
+                ActiveEnemiesAgents[i].speed = 0;
+            }
+            else
+            {
+                break;
             }
         }
     }
