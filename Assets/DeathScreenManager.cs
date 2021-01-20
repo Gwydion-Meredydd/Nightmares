@@ -31,6 +31,10 @@ public class DeathScreenManager : MonoBehaviour
     {
         SM.ScoreScript.AddNewHighScore(SM.MainMenuScript.UserName, SM.ScoreScript.Score);
         DeathScreen.SetActive(true);
+        if (SM.GameScript.Paused)
+        {
+            SM.PauseMenuManager.PauseToggle();
+        }
         SM.FadeManager.FadeIn();
         yield return new  WaitForSecondsRealtime(1);
         foreach (var EnemyAudioSource in SM.EnemyScript.ActiveEnemiesAudioSources)

@@ -23,4 +23,5 @@ public class ScriptsManager : MonoBehaviour
     public MainMenuManager MainMenuScript;
     public DeathScreenManager DeathScreenManager;
     public Fade FadeManager;
+    public PauseMenuManager PauseMenuManager;
 }

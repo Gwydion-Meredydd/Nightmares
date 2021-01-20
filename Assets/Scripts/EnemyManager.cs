@@ -57,7 +57,10 @@ public class EnemyManager : MonoBehaviour
         {
             if (SM.GameScript.Paused == false)
             {
-                PauseMovement = false;
+                if (PauseMovement == true) 
+                {
+                    PauseDisabled();
+                }
                 if (TakingDamage == false && EnemyDied == false && Attacking == false && HealthCalculation == false)
                 {
                     FetchActiveEnemies();
@@ -91,8 +94,25 @@ public class EnemyManager : MonoBehaviour
             {
                 if (PauseMovement == false)
                 {
-                    //PausedInitlised();
+                    PausedInitlised();
                 }
+            }
+        }
+    }
+    public void PauseDisabled() 
+    {
+        PauseMovement = false;
+        int OldLength = ActiveEnemies.Count;
+        for (int i = 0; i < OldLength; i++)
+        {
+            if (ActiveEnemiesAgents[i] != null)
+            {
+                ActiveEnemiesAnimators[i].SetBool("Moving", true);
+                ActiveEnemiesAgents[i].speed = Random.Range(3, 4);
+            }
+            else
+            {
+                break;
             }
         }
     }
@@ -103,7 +123,8 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < OldLength; i++)
         {
             if (ActiveEnemiesAgents[i] != null)
-            { 
+            {
+                ActiveEnemiesAnimators[i].SetBool("Moving", false);
                 ActiveEnemiesAgents[i].speed = 0;
             }
             else

@@ -173,6 +173,11 @@ public class PlayerController : MonoBehaviour
                     }
                 }
             }
+            else 
+            {
+                PlayerAnimator.SetBool("Walk", false);
+                PlayerAnimator.SetBool("Firing", false);
+            }
         }
     }
     public void PlayerDead() 
