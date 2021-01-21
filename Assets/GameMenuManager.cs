@@ -15,6 +15,7 @@ public class GameMenuManager : MonoBehaviour
     public GameObject[] Coins;
     public GameObject[] DropsIcon;
     public Text[] DropsIconText;
+    public Text PerkText;
     void Update()
     {
         if (SM.GameScript.InGame == true)

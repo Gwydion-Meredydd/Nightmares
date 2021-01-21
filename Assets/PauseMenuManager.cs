@@ -13,25 +13,30 @@ public class PauseMenuManager : MonoBehaviour
     public GameObject OptionsVideo;
     [Space]
     public AudioMixer Mixer;
+    public bool ScreenMode = false;
+    private void Start()
+    {
+        FullScreenToggle();
+    }
     public void Update()
     {
-        if (SM.GameScript.InGame) 
+        if (SM.GameScript.InGame)
         {
-            if (Input.GetKeyDown(KeyCode.Escape)) 
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
                 PauseToggle();
             }
         }
     }
-    public void PauseToggle() 
+    public void PauseToggle()
     {
-        if (SM.GameScript.Paused) 
+        if (SM.GameScript.Paused)
         {
             SM.GameScript.Paused = false;
             SM.GameMenuScript.InGameMenu.SetActive(true);
             PauseMenu.SetActive(false);
         }
-        else 
+        else
         {
             SM.GameScript.Paused = true;
             SM.GameMenuScript.InGameMenu.SetActive(false);
@@ -42,9 +47,9 @@ public class PauseMenuManager : MonoBehaviour
             OptionsVideo.SetActive(false);
         }
     }
-    public void OptionsMenuToggle() 
+    public void OptionsMenuToggle()
     {
-        if (OptionsSubMenu.activeInHierarchy) 
+        if (OptionsSubMenu.activeInHierarchy)
         {
             OptionsSubMenu.SetActive(false);
             PausedSubMenu.SetActive(true);
@@ -62,7 +67,7 @@ public class PauseMenuManager : MonoBehaviour
             OptionsAudio.SetActive(true);
             OptionsVideo.SetActive(false);
         }
-        else 
+        else
         {
             OptionsAudio.SetActive(false);
             OptionsVideo.SetActive(false);
@@ -75,12 +80,68 @@ public class PauseMenuManager : MonoBehaviour
             OptionsAudio.SetActive(false);
             OptionsVideo.SetActive(true);
         }
-        else 
+        else
         {
             OptionsAudio.SetActive(false);
             OptionsVideo.SetActive(false);
         }
     }
+    public void FullScreenToggle() 
+    {
+        if (!ScreenMode) 
+        {
+            ScreenMode = true;
+            Screen.fullScreen = Screen.fullScreen;
+        }
+        else 
+        {
+            ScreenMode = false;
+            Screen.fullScreen = !Screen.fullScreen;
+        }
+    }
+    public void ResolutionDropDown(int DropDownValue) 
+    {
+        switch (DropDownValue) 
+        {
+            case 0:
+                Screen.SetResolution(1080, 720, ScreenMode);
+                break;
+            case 1:
+                Screen.SetResolution(1280, 1080, ScreenMode);
+                break;
+            case 2:
+                Screen.SetResolution(1920, 1080, ScreenMode);
+                break;
+        }
+    }
+    public void QualityDropDown(int DropDownValue) 
+    {
+        switch (DropDownValue)
+        {
+            case 0:
+                QualitySettings.SetQualityLevel(0, true);
+                break;
+            case 1:
+                QualitySettings.SetQualityLevel(2, true);
+                break;
+            case 2:
+                QualitySettings.SetQualityLevel(5, true);
+                break;
+        }
+    }
+    public void MasterSlider(float SliderValue)
+    {
+        Mixer.SetFloat("Master", Mathf.Log10(SliderValue) * 20);
+    }
+    public void AudioSlider(float SliderValue)
+    {
+        Mixer.SetFloat("Audio", Mathf.Log10(SliderValue) * 20);
+    }
+    public void MusicSlider(float SliderValue)
+    {
+        Mixer.SetFloat("Music", Mathf.Log10(SliderValue) * 20);
+    }
+
     public void MainMenuReturn() 
     {
         SM.PlayerScript.PlayerDead();

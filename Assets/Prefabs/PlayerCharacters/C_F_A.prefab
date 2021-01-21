@@ -1025,7 +1025,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 1.75
-  m_Radius: 0.5
+  m_Radius: 0.4
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -1040,7 +1040,7 @@ AudioSource:
   m_GameObject: {fileID: 1631801194856398267}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1499470339646859575, guid: c7a9290f621a59f419890a4cb3b5ef9b, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.413
@@ -2006,7 +2006,7 @@ AudioSource:
   m_GameObject: {fileID: 3469173837003587167}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1499470339646859575, guid: c7a9290f621a59f419890a4cb3b5ef9b, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.5

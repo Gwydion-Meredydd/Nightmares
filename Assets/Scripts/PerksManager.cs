@@ -57,10 +57,58 @@ public class PerksManager : MonoBehaviour
         if (PlayerDistance < 4)
         {
             CanPurchase = true;
+            InDistance();
         }
         else
         {
             CanPurchase = false;
+            SM.GameMenuScript.PerkText.text = "";
+        }
+    }
+    public void InDistance() 
+    {
+        switch (PerkValue) 
+        {
+            case 0:
+                if (!PerkBaught[PerkValue])
+                {
+                    SM.GameMenuScript.PerkText.text = "PRESS F TO PURCHASE PERK FOR " + HealthPerkCost;
+                }
+                else
+                {
+                    SM.GameMenuScript.PerkText.text = "";
+                }
+                break;
+            case 1:
+                if (!PerkBaught[PerkValue])
+                {
+                    SM.GameMenuScript.PerkText.text = "PRESS F TO PURCHASE PERK FOR " + DamagePerkCost;
+                }
+                else
+                {
+                    SM.GameMenuScript.PerkText.text = "";
+                }
+                break;
+            case 2:
+                if (!PerkBaught[PerkValue])
+                {
+                    SM.GameMenuScript.PerkText.text = "PRESS F TO PURCHASE PERK FOR " + SpeedPerkCost;
+                }
+                else
+                {
+                    SM.GameMenuScript.PerkText.text = "";
+                }
+                break;
+            case 3:
+                if (!PerkBaught[PerkValue])
+                {
+                    SM.GameMenuScript.PerkText.text = "PRESS F TO PURCHASE PERK FOR " + IncreasedPointsPerkCost;
+                }
+                else
+                {
+                    SM.GameMenuScript.PerkText.text = "";
+                }
+                break;
         }
     }
     public void NewRound()
@@ -91,6 +139,8 @@ public class PerksManager : MonoBehaviour
                 SM.PlayerScript.ARDamage = SM.PlayerScript.ARDamage * 2;
                 SM.PlayerScript.MGDamage = SM.PlayerScript.MGDamage * 2;
                 SM.PlayerScript.FTDamage = SM.PlayerScript.FTDamage * 2;
+                SM.PlayerScript.SGDamage = SM.PlayerScript.SGDamage * 2;
+                SM.PlayerScript.SADamage = SM.PlayerScript.SADamage * 2;
                 SM.PlayerScript.WeaponSwitch();
                 break;
             case 2:

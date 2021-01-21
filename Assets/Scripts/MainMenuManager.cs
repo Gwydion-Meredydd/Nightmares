@@ -9,6 +9,8 @@ public class MainMenuManager : MonoBehaviour
     public ScriptsManager SM;
     public GameObject mainMenuObj;
     public GameObject optionsMenuObj;
+    public GameObject OptionsAudio;
+    public GameObject OptionsVideo;
     public GameObject CharacterGameobjects;
     public GameObject CharactersOption;
     public GameObject LevelGameObjects;
@@ -33,6 +35,32 @@ public class MainMenuManager : MonoBehaviour
             StartCoroutine(NoUsernameEntered(0));
         }
 
+    }
+    public void AudioOptions()
+    {
+        if (!OptionsAudio.activeInHierarchy)
+        {
+            OptionsAudio.SetActive(true);
+            OptionsVideo.SetActive(false);
+        }
+        else
+        {
+            OptionsAudio.SetActive(false);
+            OptionsVideo.SetActive(false);
+        }
+    }
+    public void VideoOptions()
+    {
+        if (!OptionsVideo.activeInHierarchy)
+        {
+            OptionsAudio.SetActive(false);
+            OptionsVideo.SetActive(true);
+        }
+        else
+        {
+            OptionsAudio.SetActive(false);
+            OptionsVideo.SetActive(false);
+        }
     }
     public void HighScoreToggle() 
     {
@@ -126,6 +154,8 @@ public class MainMenuManager : MonoBehaviour
         Debug.Log("Back to Main Menu");
         mainMenuObj.SetActive(true);
         optionsMenuObj.SetActive(false);
+        OptionsAudio.SetActive(false);
+        OptionsVideo.SetActive(false);
     }
 
     public void QuitGame()

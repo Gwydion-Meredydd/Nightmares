@@ -50,6 +50,7 @@ public class DeathScreenManager : MonoBehaviour
     {
         SM.GameScript.Paused = true;
         SM.GameMenuScript.MenuHasBeenInitilised = false;
+        SM.MainMenuScript.HighScoreToggle();
         SM.GameScript.MainMenu.SetActive(true);
         SM.GameScript.GameMenu.SetActive(false);
         SM.EnemyScript.Health = new List<int>(0);
