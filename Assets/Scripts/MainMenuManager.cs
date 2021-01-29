@@ -15,8 +15,9 @@ public class MainMenuManager : MonoBehaviour
     public GameObject CharactersOption;
     public GameObject LevelGameObjects;
     public GameObject LevelSelectionOption;
-    public GameObject HighScoreObj;
-    public GameObject HighScoreLoading;
+    public GameObject HighScoreRoot;
+    public GameObject[] HighScorePerent;
+    public GameObject[] HighScoreLoading;
     [Space]
     public InputField UsernameInputField;
     public string UserName;
@@ -64,16 +65,22 @@ public class MainMenuManager : MonoBehaviour
     }
     public void HighScoreToggle() 
     {
-        if (HighScoreObj.activeInHierarchy) 
+        if (HighScoreRoot.activeInHierarchy) 
         {
-            SM.ScoreScript.YourScore.SetActive(false);
-            SM.ScoreScript.HighScoreScore.text = "";
-            SM.ScoreScript.HighScoreScore.text = "";
-            HighScoreObj.SetActive(false);
+            SM.ScoreScript.YourScore1.SetActive(false);
+            SM.ScoreScript.HighScoreScore1.text = "";
+            SM.ScoreScript.HighScoreScore1.text = "";
+            HighScoreRoot.SetActive(false);
+            HighScorePerent[0].SetActive(false);
+            HighScorePerent[1].SetActive(false);
+            HighScorePerent[2].SetActive(false);
+            HighScorePerent[3].SetActive(false);
+            HighScorePerent[4].SetActive(false);
         }
         else 
         {
-            HighScoreObj.SetActive(true);
+            HighScoreRoot.SetActive(true);
+
             SM.ScoreScript.RefreshLeaderboardOnUpload();
         }
     }

@@ -33,9 +33,21 @@ TagManager:
   - HeightOcclusionPoint
   - HeightOcclusionReplacement
   - Level
-  - HighScoreMenu
-  - HighScoreTextName
-  - HighScoreTextScore
+  - HighScoreMenu1
+  - HighScoreMenu2
+  - HighScoreMenu3
+  - HighScoreMenu4
+  - HighScoreMenu5
+  - HighScoreTextName1
+  - HighScoreTextName2
+  - HighScoreTextName3
+  - HighScoreTextName4
+  - HighScoreTextName5
+  - HighScoreTextScore1
+  - HighScoreTextScore2
+  - HighScoreTextScore3
+  - HighScoreTextScore4
+  - HighScoreTextScore5
   layers:
   - Default
   - TransparentFX
