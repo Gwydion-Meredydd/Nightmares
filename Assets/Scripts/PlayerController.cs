@@ -626,6 +626,8 @@ public class PlayerController : MonoBehaviour
                     SGBulletParticle[0].Emit(1);
                     SGBulletParticle[1].Emit(1);
                     SGBulletParticle[2].Emit(1);
+                    SGBulletParticle[3].Emit(1);
+                    SGBulletParticle[4].Emit(1);
                     SGBulletCasing.Emit(1);
                     SGMuzzleFlash.Emit(1);
                     SM.AudioScripts.WeaponAudio();

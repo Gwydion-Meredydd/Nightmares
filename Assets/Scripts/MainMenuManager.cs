@@ -18,6 +18,7 @@ public class MainMenuManager : MonoBehaviour
     public GameObject HighScoreRoot;
     public GameObject[] HighScorePerent;
     public GameObject[] HighScoreLoading;
+    public GameObject HighScoreButtons;
     [Space]
     public InputField UsernameInputField;
     public string UserName;
@@ -76,13 +77,20 @@ public class MainMenuManager : MonoBehaviour
             HighScorePerent[2].SetActive(false);
             HighScorePerent[3].SetActive(false);
             HighScorePerent[4].SetActive(false);
+            HighScoreButtons.SetActive(false);
         }
         else 
         {
             HighScoreRoot.SetActive(true);
-
+            HighScoreButtons.SetActive(true);
             SM.ScoreScript.RefreshLeaderboardOnUpload();
         }
+    }
+    public void HighSocreValueToggle(int HighScoreValue) 
+    {
+        SM.ScoreScript.LeaderboardValue = HighScoreValue;
+        HighScorePerent[HighScoreValue - 1].SetActive(true);
+        SM.ScoreScript.RefreshLeaderboardOnUpload();
     }
     public void CharacterSelectionReturn() 
     {
