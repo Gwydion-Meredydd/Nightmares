@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "qNrTOVSfQ0ELozpmcmLQvia3YL6Fo4q3rZP6fktHouN+zyH6d91FAKSjN2cPg1wRk4D3WFLBEr7axuv9P0A2Zw==",
+  "success": true,
+  "projectFilePath": "X:\\Nightmares\\ServerCode\\NightMaresServer\\NightMaresServer\\NightMaresServer.csproj",
+  "expectedPackageFiles": [
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}

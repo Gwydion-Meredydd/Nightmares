@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Testing_Scene.unity
     guid: 237419a25eb5b4a439849e6340e226cd
   - enabled: 1
-    path: Assets/Mirror/Examples/Cloud/PongWithListServer/Scenes/ListServerLobbyScenePong.unity
-    guid: 1f04219b066ed4646a078c4c3b2b9180
-  - enabled: 1
-    path: Assets/Mirror/Examples/Cloud/PongWithListServer/Scenes/PongGameScene.unity
-    guid: 75b237ba71346fd4f9b72184410f2190
+    path: Assets/Scenes/MultiplayerTesting.unity
+    guid: 3fc1c192a5093b54db3b34264ec8fa1a
   m_configObjects: {}

@@ -29,7 +29,8 @@ public class DeathScreenManager : MonoBehaviour
     }
     IEnumerator ImageFadeToBlack()
     {
-        SM.ScoreScript.AddNewHighScore(SM.MainMenuScript.UserName, SM.ScoreScript.Score);
+        int Score = Mathf.RoundToInt( SM.ScoreScript.Score);
+        SM.ScoreScript.AddNewHighScore(SM.MainMenuScript.UserName, Score);
         DeathScreen.SetActive(true);
         if (SM.GameScript.Paused)
         {

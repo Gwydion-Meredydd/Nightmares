@@ -14,6 +14,8 @@ public class CameraController : MonoBehaviour
     public Vector3 maxPosition;
     public Vector3 minPosition;
     RaycastHit RayCastHit;
+    private SkinnedMeshRenderer[] EnemySkinedMeshRenderes;
+
 
     void LateUpdate()
     {
@@ -55,6 +57,16 @@ public class CameraController : MonoBehaviour
                         {
                             HeightBlocker.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
                         }
+                        foreach (GameObject AboveEnemy in SM.LevelScript.HeightOccludedEnemies)
+                        {
+                            Debug.Log("Normal skin");
+                            EnemySkinedMeshRenderes = AboveEnemy.GetComponentsInChildren<SkinnedMeshRenderer>();
+                            foreach (SkinnedMeshRenderer SkinRenders in EnemySkinedMeshRenderes)
+                            {
+                                SkinRenders.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+                            }
+                            EnemySkinedMeshRenderes = null;
+                        }
                     }
                     else
                     {
@@ -65,6 +77,16 @@ public class CameraController : MonoBehaviour
                         foreach (var HeightBlocker in SM.LevelScript.HeightOcclusionReplacementObjects)
                         {
                             HeightBlocker.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+                        }
+                        foreach (GameObject AboveEnemy in SM.LevelScript.HeightOccludedEnemies)
+                        {
+                            Debug.Log("Transpent skin");
+                            EnemySkinedMeshRenderes = AboveEnemy.GetComponentsInChildren<SkinnedMeshRenderer>();
+                            foreach (SkinnedMeshRenderer SkinRenders in EnemySkinedMeshRenderes)
+                            {
+                                SkinRenders.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+                            }
+                            EnemySkinedMeshRenderes = null;
                         }
                     }
                 }

@@ -49,6 +49,7 @@ public class EnemyManager : MonoBehaviour
     public List<AudioSource> ActiveEnemiesAudioSources;
     [HideInInspector]
     public Vector3 RandomPosition;
+    private SkinnedMeshRenderer[] EnemieSkinnedMeshes;
     // Start is called before the first frame update
     void Update()
     {
@@ -89,12 +90,50 @@ public class EnemyManager : MonoBehaviour
                         ChaseRandom();
                     }
                 }
+                EnemyAbovePlayerCheck();
             }
             else
             {
                 if (PauseMovement == false)
                 {
                     PausedInitlised();
+                }
+            }
+        }
+    }
+    public void EnemyAbovePlayerCheck()
+    {
+        float OcclusionHeight = SM.LevelScript.HeightOcclusionValue;
+        foreach (GameObject Enemie in ActiveEnemies)
+        {
+            if (Enemie.transform.position.y > OcclusionHeight)
+            {
+                if (SM.LevelScript.HeightOccludedEnemies.Count == 0)
+                {
+                    SM.LevelScript.HeightOccludedEnemies.Add(Enemie);
+                }
+                else 
+                {
+                    if (!SM.LevelScript.HeightOccludedEnemies.Contains(Enemie)) 
+                    {
+                        SM.LevelScript.HeightOccludedEnemies.Add(Enemie);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < SM.LevelScript.HeightOccludedEnemies.Count; i++)
+                {
+                    if (Enemie == SM.LevelScript.HeightOccludedEnemies[i])
+                    {
+                        EnemieSkinnedMeshes = Enemie.GetComponentsInChildren<SkinnedMeshRenderer>();
+                        foreach (SkinnedMeshRenderer SkinRenders in EnemieSkinnedMeshes)
+                        {
+                            SkinRenders.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+                        }
+                        EnemieSkinnedMeshes = null;
+                        SM.LevelScript.HeightOccludedEnemies.RemoveAt(i);
+                    }
                 }
             }
         }

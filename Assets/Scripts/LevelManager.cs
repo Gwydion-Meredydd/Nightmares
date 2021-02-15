@@ -20,8 +20,11 @@ public class LevelManager : MonoBehaviour
     [Space]
     public float[] YCamValue;
     [Space]
+    public float HeightOcclusionValue;
+    public float[] HeighOcclusionLevel;
     public GameObject[] HeightOcclusionObjects;
     public GameObject[] HeightOcclusionReplacementObjects;
+    public List <GameObject> HeightOccludedEnemies;
 
     public void SpawnLevel() 
     {
@@ -33,6 +36,7 @@ public class LevelManager : MonoBehaviour
         SM.NavMeshAreaBuilder.LevelReadyForNavmesh();
         SM.CameraScript.yValue = YCamValue[LevelArrayValue];
         SM.CameraScript.HoldingYValue = YCamValue[LevelArrayValue];
+        HeightOcclusionValue = HeighOcclusionLevel[LevelArrayValue];
         SpawnedLevel = GameObject.FindGameObjectWithTag("Level");
     }
 }

@@ -203,10 +203,8 @@ public class ScoreManager : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log(1);
                         // Request and wait for the desired page.
                         yield return webRequest.SendWebRequest();
-                        Debug.Log(2);
                         DataAmmount(webRequest.downloadHandler.text);
                     }
                 }
@@ -283,7 +281,6 @@ public class ScoreManager : MonoBehaviour
     }
     void DataAmmount(string DownloadedData)
     {
-        Debug.Log(DownloadedData);
         switch (LeaderboardValue)
         {
             case 1:
@@ -312,10 +309,8 @@ public class ScoreManager : MonoBehaviour
                     ScoreInLeaderboard1 = new int[Data1.Length];
                     for (int i = 0; i < Data1.Length; i++)
                     {
-                        Debug.Log(Data1[i]);
                         string[] DataInfo1 = Data1[i].Split(new char[] { '|' });
                         UserNamesInLeaderboard1[i] = DataInfo1[0];
-                        Debug.Log(DataInfo1[0] + " " + DataInfo1[1]);
                         int.TryParse(DataInfo1[1], out ScoreInLeaderboard1[i]);
                         HighScoreFieldsName1[i].text = UserNamesInLeaderboard1[i];
                         HighScoreFieldsScore1[i].text = ScoreInLeaderboard1[i].ToString();
@@ -1130,25 +1125,21 @@ public class ScoreManager : MonoBehaviour
                     }
                     foreach (var CheckedUserName in UserNamesInLeaderboard1)
                     {
-                        Debug.Log(CheckedUserName + " " + UserName);
                         if (CheckedUserName.Equals(UserName))
                         {
                             Debug.Log("Username AllreadyTaken");
                             UserNameisTaken1 = true;
                         }
                     }
-                    Debug.Log(UserName);
                     foreach (var CheckedBadWords in BadWords)
                     {
                         if (CheckedBadWords.ToString().Trim().ToLower().Equals(UserName.Trim().ToLower()))
                         {
-                            Debug.Log("Username AllreadyTaken");
                             UserNameisNotSutable1 = true;
                         }
                     }
                     if (!UserNameisTaken1 && !UserNameisNotSutable1)
                     {
-                        Debug.Log("Name Accepted");
                         if (NewScoreInput)
                         {
                             StartCoroutine(UploadNewHighScore(UserName, NewScore));
@@ -1160,7 +1151,6 @@ public class ScoreManager : MonoBehaviour
                     }
                     else if (UserNameisTaken1)
                     {
-                        Debug.Log("Name Taken");
                         if (NewScoreInput)
                         {
                             UserNameTaken();
@@ -1172,7 +1162,6 @@ public class ScoreManager : MonoBehaviour
                     }
                     else if (UserNameisNotSutable1)
                     {
-                        Debug.Log("Name not Appropriate");
                         if (NewScoreInput)
                         {
                             UserNameNotSuitable();
