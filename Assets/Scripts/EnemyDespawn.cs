@@ -21,6 +21,7 @@ public class EnemyDespawn : MonoBehaviour
     public Plane[] planes;
     [HideInInspector]
     public bool DeletingEnemy;
+    private SkinnedMeshRenderer[] EnemieSkinnedMeshes;
 
     void Update()
     {
@@ -68,6 +69,19 @@ public class EnemyDespawn : MonoBehaviour
             foreach (GameObject Enemies in GameObject.FindGameObjectsWithTag("DeadEnemy"))
             {
                 DeadEnemies.Add(Enemies);
+                for (int i = 0; i < SM.LevelScript.HeightOccludedEnemies.Count; i++)
+                {
+                    if (Enemies == SM.LevelScript.HeightOccludedEnemies[i])
+                    {
+                        EnemieSkinnedMeshes = Enemies.GetComponentsInChildren<SkinnedMeshRenderer>();
+                        foreach (SkinnedMeshRenderer SkinRenders in EnemieSkinnedMeshes)
+                        {
+                            SkinRenders.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+                        }
+                        EnemieSkinnedMeshes = null;
+                        SM.LevelScript.HeightOccludedEnemies.RemoveAt(i);
+                    }
+                }
                 DeadEnemiesCollider.Add(Enemies.GetComponentInChildren<Collider>());
                 DeadEnemiesAnimator.Add(Enemies.GetComponent<Animator>());
                 if (DeadEnemiesAnimator[CountValue].GetBool("Attack") == true)

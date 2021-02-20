@@ -47,6 +47,13 @@ public class AudioManager : MonoBehaviour
     public AudioClip[] PlayerHurtFemale;
     [Space]
     public AudioClip PerkDrinking;
+    [Space]
+    public AudioSource GameSFXAudioSource;
+    public AudioClip NewRound;
+    public AudioClip MenuClick;
+    [Space]
+    [Header("Music")]
+    public GameObject MainMenuMusic;
     
     void Update()
     {

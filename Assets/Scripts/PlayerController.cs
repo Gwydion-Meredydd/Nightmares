@@ -113,6 +113,8 @@ public class PlayerController : MonoBehaviour
     public bool Down;
     [HideInInspector]
     public Transform HeightOcclusionPoint;
+    [Space]
+    [Header("Server")]
 
 
     [Space]
@@ -121,62 +123,67 @@ public class PlayerController : MonoBehaviour
     [Range(0, 1)]
     public float CameraShootEffectValue;
     float TempPunchValue;
+    #region SinglePlayer
+
     void Update()
     {
-        if (SM.GameScript.InGame == true)
+        if (!SM.GameScript.Server)
         {
-            if (SM.GameScript.Paused == false)
+            if (SM.GameScript.InGame == true)
             {
-                //Is called when game is unpased and game is currently active
-                if (!Down)
+                if (SM.GameScript.Paused == false)
                 {
-                    PlayerInputs();
+                    //Is called when game is unpased and game is currently active
+                    if (!Down)
+                    {
+                        PlayerInputs();
 
-                    //Weapon Switch Whilst Testing
-                    if (TestingSwitchWeapon == true)
-                    {
-                        if (WeaponHeldValue != WeaponValue)
+                        //Weapon Switch Whilst Testing
+                        if (TestingSwitchWeapon == true)
                         {
-                            WeaponHeldValue = WeaponValue;
-                            WeaponSwitch();
+                            if (WeaponHeldValue != WeaponValue)
+                            {
+                                WeaponHeldValue = WeaponValue;
+                                WeaponSwitch();
+                            }
+                        }
+                        if (Firing == true && CanShoot == false)
+                        {
+                            CanShoot = true;
+                            RayCastMethod();
+                        }
+                        if (Moving)
+                        {
+                            FootStepping();
                         }
                     }
-                    if (Firing == true && CanShoot == false)
+                    if (Health <= 0)
                     {
-                        CanShoot = true;
-                        RayCastMethod();
-                    }
-                    if (Moving)
-                    {
-                        FootStepping();
+                        if (Down == false)
+                        {
+                            Debug.Log("DownMethod");
+                            Down = true;
+                            SM.EnemyScript.IgnorePlayer = true;
+                            PlayerAnimator.SetBool("CanRevive", false);
+                            PlayerAnimator.Play("Death", 0);
+                            if (SM.CoinScript.CoinAmmount > 0)
+                            {
+                                Debug.Log("Down");
+                                StartCoroutine(PlayerDown());
+                            }
+                            else
+                            {
+                                Debug.Log("Dead");
+                                PlayerDead();
+                            }
+                        }
                     }
                 }
-                if (Health <= 0) 
+                else
                 {
-                    if (Down == false) 
-                    {
-                        Debug.Log("DownMethod");
-                        Down = true;
-                        SM.EnemyScript.IgnorePlayer = true;
-                        PlayerAnimator.SetBool("CanRevive", false);
-                        PlayerAnimator.Play("Death", 0);
-                        if (SM.CoinScript.CoinAmmount > 0) 
-                        {
-                            Debug.Log("Down");
-                            StartCoroutine(PlayerDown());
-                        }
-                        else 
-                        {
-                            Debug.Log("Dead");
-                            PlayerDead();
-                        }
-                    }
+                    PlayerAnimator.SetBool("Walk", false);
+                    PlayerAnimator.SetBool("Firing", false);
                 }
-            }
-            else 
-            {
-                PlayerAnimator.SetBool("Walk", false);
-                PlayerAnimator.SetBool("Firing", false);
             }
         }
     }
@@ -672,5 +679,27 @@ public class PlayerController : MonoBehaviour
         //method that changes the zoom level of the camera to show that the player is firing
         TempPunchValue = SM.CameraScript.yValue;
         SM.CameraScript.yValue -= CameraShootEffectValue;
+    }
+    #endregion
+    private void FixedUpdate()
+    {
+        if (SM.GameScript.Server)
+        {
+            if (SM.GameScript.PlayerInstantiated)
+            {
+                SendInputToServer();
+            }
+        }
+    }
+    private void SendInputToServer()
+    {
+        bool[] _inputs = new bool[]
+        {
+            Input.GetKey(KeyCode.W),
+            Input.GetKey(KeyCode.S),
+            Input.GetKey(KeyCode.A),
+            Input.GetKey(KeyCode.D)
+        };
+        ClientSend.PlayerMovement(_inputs);
     }
 }

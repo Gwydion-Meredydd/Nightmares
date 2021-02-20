@@ -10,7 +10,7 @@ public class LevelManager : MonoBehaviour
     public GameObject[] Levels;
     public GameObject SpawnedLevel;
     [Space]
-    [Range(1, 4)]
+    [Range(1, 5)]
     public int LevelValue;
     [Space]
     public Vector3[] NavMeshBuildArea;

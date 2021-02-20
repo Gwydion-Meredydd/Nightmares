@@ -7,6 +7,7 @@ using System;
 
 public class ClientManager : MonoBehaviour
 {
+    public  bool HasJoined;
     public static ClientManager instance;
     public static int dataBufferSize = 4096;
 
@@ -39,6 +40,10 @@ public class ClientManager : MonoBehaviour
     }
 
     private void OnApplicationQuit()
+    {
+        DisconnectClient();
+    }
+    public void DisconnectClient() 
     {
         Disconnect();
     }
@@ -270,6 +275,7 @@ public class ClientManager : MonoBehaviour
     {
         if (isConnected) 
         {
+            HasJoined = false;
             isConnected = false;
             tcp.socket.Close();
             udp.socket.Close();

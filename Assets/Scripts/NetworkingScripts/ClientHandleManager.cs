@@ -6,6 +6,7 @@ using System.Net.Sockets;
 
 public class ClientHandleManager : MonoBehaviour
 {
+    public bool HasJoined;
     public static void Welcome(Packet _packet) 
     {
         string _msg = _packet.ReadString();
@@ -13,6 +14,7 @@ public class ClientHandleManager : MonoBehaviour
 
         Debug.Log($"Message from Server: {_msg}");
         ClientManager.instance.myID = _myId;
+        ClientManager.instance.HasJoined = true;
         ClientSend.WelcomeReceived();
 
         ClientManager.instance.udp.Connect(((IPEndPoint)ClientManager.instance.tcp.socket.Client.LocalEndPoint).Port);
@@ -23,21 +25,20 @@ public class ClientHandleManager : MonoBehaviour
         string _username = _packet.ReadString();
         Vector3 _position = _packet.ReadVector3();
         Quaternion _rotation = _packet.ReadQuaternion();
-
-        _GameManager.instance.SpawnPlayer(_id, _username, _position, _rotation);
+        Debug.Log(_username);
+        GameManager.instance.SpawnPlayer(_id, _username, _position, _rotation);
     }
     public static void PlayerPosition(Packet _packet) 
     {
         int _id = _packet.ReadInt();
         Vector3 _position = _packet.ReadVector3();
-
-        _GameManager.players[_id].transform.position = _position;
+        GameManager.players[_id].transform.position = _position;
     }
     public static void PlayerRotation(Packet _packet)
     {
         int _id = _packet.ReadInt();
         Quaternion _rotation = _packet.ReadQuaternion();
 
-        _GameManager.players[_id].transform.rotation = _rotation;
+        GameManager.players[_id].transform.rotation = _rotation;
     }
 }
