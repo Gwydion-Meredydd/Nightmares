@@ -323,6 +323,7 @@ public class GameManager : MonoBehaviour
     }
     public void SpawnPlayer(int _id, string _username, Vector3 _position, Quaternion _rotation)
     {
+       // SM.HostingManager.SwitchScene();
         GameObject _player;
         if (_id == ClientManager.instance.myID)
         {
@@ -335,6 +336,8 @@ public class GameManager : MonoBehaviour
         _player.GetComponent<_PlayerManager>().id = _id;
         _player.GetComponent<_PlayerManager>().username = _username;
         players.Add(_id, _player.GetComponent<_PlayerManager>());
+        SM.PlayerScript.Player = _player;
         PlayerInstantiated = true;
+       // SM.HostingManager.SwitchScene();
     }
 }

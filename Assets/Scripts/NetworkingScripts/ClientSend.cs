@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class ClientSend : MonoBehaviour
 {
-    private static void SendTCPData(Packet _packet) 
+    private static void SendTCPData(Packet _packet)
     {
         _packet.WriteLength();
         ClientManager.instance.tcp.SendData(_packet);
     }
 
-    private static void SendUDPData(Packet _packet) 
+    private static void SendUDPData(Packet _packet)
     {
         _packet.WriteLength();
         ClientManager.instance.udp.SendData(_packet);
     }
 
     #region Packet
-    
-    public static void WelcomeReceived() 
+
+    public static void WelcomeReceived()
     {
-        using(Packet _packet = new Packet((int)ClientPackets.welcomeReceived))
+        using (Packet _packet = new Packet((int)ClientPackets.welcomeReceived))
         {
             _packet.Write(ClientManager.instance.myID);
             _packet.Write(MultiplayerMenuManager.instance.UserName);
@@ -28,7 +28,7 @@ public class ClientSend : MonoBehaviour
             SendTCPData(_packet);
         }
     }
-    public static void PlayerMovement(bool[] _inputs) 
+    public static void PlayerMovement(bool[] _inputs)
     {
         using (Packet _packet = new Packet((int)ClientPackets.playerMovement))
         {
@@ -37,7 +37,15 @@ public class ClientSend : MonoBehaviour
             {
                 _packet.Write(_input);
             }
-            _packet.Write(GameManager.players[ClientManager.instance.myID].transform.rotation);
+            SendUDPData(_packet);
+        }
+    }
+    public static void PlayerRotation(Vector3 PlayerRotation) 
+    {
+        using (Packet _packet = new Packet((int)ClientPackets.playerRotation))
+        {
+            _packet.Write(PlayerRotation);
+            //_packet.Write(GameManager.players[ClientManager.instance.myID].transform.rotation);
 
             SendUDPData(_packet);
         }

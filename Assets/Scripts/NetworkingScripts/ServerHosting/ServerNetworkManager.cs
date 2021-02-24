@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ServerNetworkManager : MonoBehaviour
 {
+    public ScriptsManager SM;
+
     public static ServerNetworkManager instance;
 
     public GameObject playerPrefab;
@@ -31,8 +33,12 @@ public class ServerNetworkManager : MonoBehaviour
         ServerServer.Stop();
     }
 
-    public ServerPlayer InstantiatePlayer() 
+    public  ServerPlayer InstantiatePlayer() 
     {
         return Instantiate(playerPrefab, Vector3.zero, Quaternion.identity).GetComponent<ServerPlayer>();
+    }
+    public void  SwitchScene() 
+    {
+        SM.HostingManager.SwitchScene();
     }
 }

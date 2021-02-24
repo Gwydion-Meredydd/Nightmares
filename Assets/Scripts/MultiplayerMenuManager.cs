@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MultiplayerMenuManager : MonoBehaviour
 {
@@ -25,5 +26,9 @@ public class MultiplayerMenuManager : MonoBehaviour
     {
         StartMenu.SetActive(false);
         ClientManager.instance.ConnectToServer();
+    }
+    public void HostScene() 
+    {
+        SceneManager.LoadScene("HostingScene", LoadSceneMode.Additive);
     }
 }

@@ -180,7 +180,9 @@ public class ServerClient
 
     public void SendIntoGame(string _playerName)
     {
+        Debug.Log("send into game");
         player = ServerNetworkManager.instance.InstantiatePlayer();
+        ServerNetworkManager.instance.SwitchScene();
         player.Initialize(id, _playerName);
 
         foreach (ServerClient _client in ServerServer.clients.Values)

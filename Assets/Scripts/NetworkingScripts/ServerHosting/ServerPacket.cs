@@ -16,7 +16,8 @@ public enum ServerServerPackets
 public enum ServerClientPackets
 {
     welcomeReceived = 1,
-    playerMovement
+    playerMovement,
+    playerRotation
 }
 
 public class ServerPacket : IDisposable

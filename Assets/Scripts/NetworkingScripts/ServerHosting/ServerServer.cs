@@ -43,6 +43,7 @@ public class ServerServer
         Debug.Log($"Incomming Connection from {_client.Client.RemoteEndPoint}...");
         for (int i = 1; i <= MaxPlayers; i++)
         {
+            
             if (clients[i].tcp.socket == null)
             {
                 clients[i].tcp.Connect(_client);
@@ -117,6 +118,7 @@ public class ServerServer
             {
                 {(int)ServerClientPackets.welcomeReceived,ServerServerHandle.WelcomeReceived },
                 {(int)ServerClientPackets.playerMovement,ServerServerHandle.PlayerMovement },
+                {(int)ServerClientPackets.playerRotation,ServerServerHandle.PlayerRotation },
             };
         Debug.Log("Initialized packets.");
     }

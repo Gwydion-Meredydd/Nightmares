@@ -681,17 +681,19 @@ public class PlayerController : MonoBehaviour
         SM.CameraScript.yValue -= CameraShootEffectValue;
     }
     #endregion
-    private void FixedUpdate()
+    public void FixedUpdate()
     {
         if (SM.GameScript.Server)
         {
             if (SM.GameScript.PlayerInstantiated)
             {
-                SendInputToServer();
+                SendKeyInputToServer();
+                PlayerRotationalCalculation();
+                SendRotationInputToServer();
             }
         }
     }
-    private void SendInputToServer()
+    private void SendKeyInputToServer()
     {
         bool[] _inputs = new bool[]
         {
@@ -701,5 +703,15 @@ public class PlayerController : MonoBehaviour
             Input.GetKey(KeyCode.D)
         };
         ClientSend.PlayerMovement(_inputs);
+    }
+    private void SendRotationInputToServer() 
+    {
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit, 100))
+        {
+           Vector3 MousePos = new Vector3 (hit.point.x, Player.transform.position.y, hit.point.z);
+            ClientSend.PlayerRotation(MousePos);
+        }
     }
 }

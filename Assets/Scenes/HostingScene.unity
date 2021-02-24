@@ -132,8 +132,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1664924013}
+  - component: {fileID: 1664924015}
   - component: {fileID: 1664924012}
   - component: {fileID: 1664924011}
+  - component: {fileID: 1664924014}
   m_Layer: 0
   m_Name: ScriptManager
   m_TagString: Untagged
@@ -165,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb9dc23a120a48d488c419bf7b9ca541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SM: {fileID: 1664924015}
   playerPrefab: {fileID: 1631801194856398267, guid: fb3824462bb6aa4438780b1be38038f3, type: 3}
 --- !u!4 &1664924013
 Transform:
@@ -180,3 +183,53 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1664924014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664924010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c61ea2a62589df24da256c84a91c73cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HostingScene: HostingScene
+  MultiplayerScene: MultiplayerTesting
+  IsHosting: 0
+  SceneMode: 0
+--- !u!114 &1664924015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664924010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a24a6ae4a4bad04b8143eed6c65cf8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameScript: {fileID: 0}
+  PlayerScript: {fileID: 0}
+  CameraScript: {fileID: 0}
+  EnemyScript: {fileID: 0}
+  EnemySpawningScript: {fileID: 0}
+  EnemyDespawn: {fileID: 0}
+  PointsScript: {fileID: 0}
+  PerksScript: {fileID: 0}
+  RoundScript: {fileID: 0}
+  DropsScript: {fileID: 0}
+  AudioScripts: {fileID: 0}
+  CoinScript: {fileID: 0}
+  LevelScript: {fileID: 0}
+  NavMeshAreaBuilder: {fileID: 0}
+  GameMenuScript: {fileID: 0}
+  ScoreScript: {fileID: 0}
+  MainMenuScript: {fileID: 0}
+  DeathScreenManager: {fileID: 0}
+  FadeManager: {fileID: 0}
+  PauseMenuManager: {fileID: 0}
+  Client_Manager: {fileID: 0}
+  HostingManager: {fileID: 1664924014}

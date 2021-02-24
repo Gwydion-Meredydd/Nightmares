@@ -25,4 +25,5 @@ public class ScriptsManager : MonoBehaviour
     public Fade FadeManager;
     public PauseMenuManager PauseMenuManager;
     public ClientManager Client_Manager;
+    public ServerHostingManager HostingManager;
 }

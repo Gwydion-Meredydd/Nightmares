@@ -95,7 +95,7 @@ public class ServerSend
             _packet.Write(_Player.id);
             _packet.Write(_Player.transform.rotation);
 
-            SendUDPDataToAll(_Player.id, _packet);
+            SendUDPDataToAll(_packet);
         }
     }
     #endregion

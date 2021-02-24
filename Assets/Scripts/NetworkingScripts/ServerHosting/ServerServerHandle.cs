@@ -9,6 +9,7 @@ public class ServerServerHandle
     {
         int _clientIdCheck = _packet.ReadInt();
         string _username = _packet.ReadString();
+        Debug.Log(_fromClient);
 
         Debug.Log($"{ServerServer.clients[_fromClient].tcp.socket.Client.RemoteEndPoint} connected successfully and is now player {_fromClient}.");
         if (_fromClient != _clientIdCheck)
@@ -24,8 +25,11 @@ public class ServerServerHandle
         {
             _inputs[i] = _packet.ReadBool();
         }
-        Quaternion _rotation = _packet.ReadQuaternion();
-
-        ServerServer.clients[_fromClient].player.SetInputs(_inputs, _rotation);
+        ServerServer.clients[_fromClient].player.SetInputs(_inputs);
+    }
+    public static void PlayerRotation(int _fromClient, ServerPacket _packet) 
+    {
+        Vector3 NewRotation = _packet.ReadVector3();
+        ServerServer.clients[_fromClient].player.SetRotation(NewRotation);
     }
 }

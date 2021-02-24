@@ -8,15 +8,9 @@ public class ServerPlayer: MonoBehaviour
     public int id;
     public string username;
     public CharacterController controller;
-    public float gravity = -18f;
     public float moveSpeed = 0.1f;
-    private float yVelocity = 0f;
     private bool[] inputs;
-    private void start() 
-    {
-        gravity *= Time.fixedDeltaTime * Time.fixedDeltaTime;
-        moveSpeed *= Time.fixedDeltaTime;
-    }
+
     public void Initialize(int _id, string _username)
     {
         id = _id;
@@ -48,23 +42,20 @@ public class ServerPlayer: MonoBehaviour
 
     private void Move(Vector2 _inputDirection)
     {
-        Vector3 _moveDirection = transform.right * _inputDirection.x + transform.forward * _inputDirection.y;
-        _moveDirection /= moveSpeed;
-        if (controller.isGrounded) 
-        {
-            yVelocity = 0;
-        }
-        yVelocity += gravity;
-        _moveDirection.y = yVelocity;
-        controller.Move(_moveDirection);
+        Vector3 _moveDirection = new Vector3 (_inputDirection.x, -1 , _inputDirection.y);
+        controller.Move((_moveDirection * moveSpeed)*Time.fixedUnscaledDeltaTime);
 
         ServerSend.PlayerPosition(this);
-        ServerSend.PlayerRotation(this);
+
     }
 
-    public void SetInputs(bool[] _inputs, Quaternion _rotation)
+    public void SetInputs(bool[] _inputs)
     {
         inputs = _inputs;
-        transform.rotation = _rotation;
+    }
+    public void SetRotation(Vector3 Rotation) 
+    {
+        this.transform.LookAt(Rotation);
+        ServerSend.PlayerRotation(this);
     }
 }
