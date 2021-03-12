@@ -53,8 +53,7 @@ public class GameManager : MonoBehaviour
 
     public static Dictionary<int, _PlayerManager> players = new Dictionary<int, _PlayerManager>();
 
-    public GameObject localPlayerPrefab;
-    public GameObject playerPrefab;
+    public GameObject[] ClientPlayers;
 
     void Update()
     {
@@ -308,36 +307,75 @@ public class GameManager : MonoBehaviour
                     Destroy(this);
                 }
             }
-            if (PlayerInstantiated) 
-            {
-                GameObject TempPlayer = GameObject.FindGameObjectWithTag("Player");
-                SM.CameraScript.player = TempPlayer.transform;
-                CameraInstantiated = true;
-            }
             if (!LevelInstanitated) 
             {
-                LevelInstanitated = true;
-                SM.LevelScript.SpawnLevel();
-            }
+                LevelInstanitated = true;            }
         }
     }
     public void SpawnPlayer(int _id, string _username, Vector3 _position, Quaternion _rotation)
     {
-       // SM.HostingManager.SwitchScene();
         GameObject _player;
         if (_id == ClientManager.instance.myID)
         {
-            _player = Instantiate(localPlayerPrefab, _position, _rotation);
+            switch (_id)
+            {
+                case 1:
+                    _player = Instantiate(ClientPlayers[0], _position, _rotation);
+                    SM.CameraScript.player = _player.transform;
+                    _player.GetComponent<_PlayerManager>().id = _id;
+                    _player.GetComponent<_PlayerManager>().username = _username;
+                    players.Add(_id, _player.GetComponent<_PlayerManager>());
+                    SM.PlayerScript.Player = _player;
+                    break;
+                case 2:
+                    _player = Instantiate(ClientPlayers[1], _position, _rotation);
+                    SM.CameraScript.player = _player.transform;
+                    _player.GetComponent<_PlayerManager>().id = _id;
+                    _player.GetComponent<_PlayerManager>().username = _username;
+                    players.Add(_id, _player.GetComponent<_PlayerManager>());
+                    SM.PlayerScript.Player = _player;
+                    break;
+                case 3:
+                    _player = Instantiate(ClientPlayers[2], _position, _rotation);
+                    SM.CameraScript.player = _player.transform;
+                    _player.GetComponent<_PlayerManager>().id = _id;
+                    _player.GetComponent<_PlayerManager>().username = _username;
+                    players.Add(_id, _player.GetComponent<_PlayerManager>());
+                    SM.PlayerScript.Player = _player;
+                    break;
+                case 4:
+                    _player = Instantiate(ClientPlayers[3], _position, _rotation);
+                    SM.CameraScript.player = _player.transform;
+                    _player.GetComponent<_PlayerManager>().id = _id;
+                    _player.GetComponent<_PlayerManager>().username = _username;
+                    players.Add(_id, _player.GetComponent<_PlayerManager>());
+                    SM.PlayerScript.Player = _player;
+                    break;
+            }
+            CameraInstantiated = true;
         }
         else
         {
-            _player = Instantiate(playerPrefab, _position, _rotation);
+            switch (_id)
+            {
+                case 1:
+                    _player = Instantiate(ClientPlayers[0], _position, _rotation);
+                    players.Add(_id, _player.GetComponent<_PlayerManager>());
+                    break;
+                case 2:
+                    _player = Instantiate(ClientPlayers[1], _position, _rotation);
+                    players.Add(_id, _player.GetComponent<_PlayerManager>());
+                    break;
+                case 3:
+                    _player = Instantiate(ClientPlayers[2], _position, _rotation);
+                    players.Add(_id, _player.GetComponent<_PlayerManager>());
+                    break;
+                case 4:
+                    _player = Instantiate(ClientPlayers[3], _position, _rotation);
+                    players.Add(_id, _player.GetComponent<_PlayerManager>());
+                    break;
+            }
         }
-        _player.GetComponent<_PlayerManager>().id = _id;
-        _player.GetComponent<_PlayerManager>().username = _username;
-        players.Add(_id, _player.GetComponent<_PlayerManager>());
-        SM.PlayerScript.Player = _player;
         PlayerInstantiated = true;
-       // SM.HostingManager.SwitchScene();
     }
 }

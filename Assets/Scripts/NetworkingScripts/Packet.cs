@@ -7,6 +7,9 @@ using UnityEngine;
 public enum ServerPackets
 {
     welcome = 1,
+    playerJoined,
+    readyOrNot,
+    LobbyIsReady,
     spawnPlayer,
     playerPosition,
     playerRotation
@@ -16,8 +19,12 @@ public enum ServerPackets
 public enum ClientPackets
 {
     welcomeReceived = 1,
+    playerIsReady,
+    playerNotReady,
+    clientNeedsPlayer,
     playerMovement,
-    playerRotation    
+    playerrotation,
+    SendUsername
 }
 
 public class Packet : IDisposable

@@ -8,6 +8,8 @@ public class LevelManager : MonoBehaviour
     public ScriptsManager SM;
     [Space]
     public GameObject[] Levels;
+    public bool MultiplayerLevelSpawned;
+    public GameObject MultiplayerLevel;
     public GameObject SpawnedLevel;
     [Space]
     [Range(1, 5)]
@@ -38,5 +40,21 @@ public class LevelManager : MonoBehaviour
         SM.CameraScript.HoldingYValue = YCamValue[LevelArrayValue];
         HeightOcclusionValue = HeighOcclusionLevel[LevelArrayValue];
         SpawnedLevel = GameObject.FindGameObjectWithTag("Level");
+    }
+    public void SpawnMultiplayerLevel()
+    {
+        if (!MultiplayerLevelSpawned)
+        {
+            MultiplayerLevelSpawned = true;
+            Instantiate(MultiplayerLevel, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
+            SM.CameraScript.minPosition = CameraMinSpace[0];
+            SM.CameraScript.maxPosition = CameraMaxSpace[0];
+            SM.NavMeshAreaBuilder.m_Size = NavMeshBuildArea[0];
+            SM.NavMeshAreaBuilder.LevelReadyForNavmesh();
+            SM.CameraScript.yValue = YCamValue[0];
+            SM.CameraScript.HoldingYValue = YCamValue[0];
+            HeightOcclusionValue = HeighOcclusionLevel[0];
+            SpawnedLevel = GameObject.FindGameObjectWithTag("Level");
+        }
     }
 }

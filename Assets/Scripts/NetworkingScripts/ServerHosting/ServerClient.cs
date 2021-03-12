@@ -5,14 +5,17 @@ using UnityEngine;
 using System.Net;
 using System.Net.Sockets;
 
+[System.Serializable]
 public class ServerClient
 {
+    public static ServerClient instance;
     public static int dataBufferSize = 4096;
 
     public int id;
     public ServerPlayer player;
     public TCP tcp;
     public UDP udp;
+
 
     public ServerClient(int _clientID)
     {
@@ -181,10 +184,10 @@ public class ServerClient
     public void SendIntoGame(string _playerName)
     {
         Debug.Log("send into game");
+        ServerNetworkManager.instance.SwitchToServer();
         player = ServerNetworkManager.instance.InstantiatePlayer();
-        ServerNetworkManager.instance.SwitchScene();
         player.Initialize(id, _playerName);
-
+        ServerNetworkManager.instance.SwitchToClient();
         foreach (ServerClient _client in ServerServer.clients.Values)
         {
             if (_client.player != null)
@@ -203,7 +206,43 @@ public class ServerClient
             }
         }
     }
-
+    public void SendUsernames() 
+    {
+        string Usernames;
+        switch (ServerHostingManager.Instance.ConnectedClients) 
+        {
+            case 0:
+                Usernames = "";
+                ServerSend.SendUsernames(Usernames);
+                break;
+            case 1:
+                Usernames = ServerHostingManager.Instance.ConnectedClientsUsernames[0];
+                    ServerSend.SendUsernames(Usernames);
+                break;
+            case 2:
+                Usernames = ServerHostingManager.Instance.ConnectedClientsUsernames[0] +"*"
+                    + ServerHostingManager.Instance.ConnectedClientsUsernames[1];
+                    ServerSend.SendUsernames(Usernames);
+                break;
+            case 3:
+                Usernames = ServerHostingManager.Instance.ConnectedClientsUsernames[0] + "*"
+                    + ServerHostingManager.Instance.ConnectedClientsUsernames[1] + "*"
+                    + ServerHostingManager.Instance.ConnectedClientsUsernames[2];
+                    ServerSend.SendUsernames(Usernames);
+                break;
+            case 4:
+                Usernames = ServerHostingManager.Instance.ConnectedClientsUsernames[0] + "*"
+                    + ServerHostingManager.Instance.ConnectedClientsUsernames[1] + "*"
+                    + ServerHostingManager.Instance.ConnectedClientsUsernames[2] + "*"
+                    + ServerHostingManager.Instance.ConnectedClientsUsernames[3];
+                    ServerSend.SendUsernames(Usernames);
+                break;
+        }
+    }
+    public void ReadyToggle() 
+    {
+        ServerSend.SendReadyOrNot();
+    }
     private void Disconnect()
     {
         Debug.Log($"{tcp.socket.Client.RemoteEndPoint} has disconnected.");
@@ -211,9 +250,26 @@ public class ServerClient
         ServerThreadManager.ExecuteOnMainThread(() =>
             {
 
-                UnityEngine.Object.Destroy(player.gameObject);
-                player = null;
+                if (player != null)
+                {
+                    UnityEngine.Object.Destroy(player.gameObject);
+                    player = null;
+                }
             });
+        int ClientValue = 0;
+        foreach (string ClientIP in ServerHostingManager.Instance.ConnectedClientsIP)
+        {  
+            if (ClientIP == tcp.socket.Client.RemoteEndPoint.ToString()) 
+            {
+                Debug.Log("Client Number " + ClientValue + " Has Disconnect from the server...");
+                ServerHostingManager.Instance.ConnectedClientsIP.RemoveAt(ClientValue);
+                ServerHostingManager.Instance.ConnectedClientsUsernames.RemoveAt(ClientValue);
+                ServerHostingManager.Instance.ConnectedClients = ServerHostingManager.Instance.ConnectedClients - 1;
+                break;
+            }
+            ClientValue = ClientValue + 1;
+        }
+        SendUsernames();
         tcp.Disconnect();
         udp.Disconnect();
     }

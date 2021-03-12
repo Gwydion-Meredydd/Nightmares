@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Net;
 using System.Net.Sockets;
 using System;
+using UnityEngine.UI;
 
 public class ClientManager : MonoBehaviour
 {
@@ -46,6 +47,31 @@ public class ClientManager : MonoBehaviour
     public void DisconnectClient() 
     {
         Disconnect();
+    }
+
+    public void ClientReadyToggle(Text ButtonText)  
+    {
+        if (HasJoined)
+        {
+            if (ButtonText.text == "Ready-Up")
+            {
+                ClientUnReady();
+                ButtonText.text = "Un-Ready";
+            }
+            else if (ButtonText.text == "Un-Ready")
+            {
+                ButtonText.text = "Ready-Up";
+                ClientReady();
+            }
+        }
+    }
+    public void ClientReady() 
+    {
+        ClientSend.PlayerIsReady();
+    }
+    public void ClientUnReady() 
+    {
+        ClientSend.PlayerNotReady();
     }
 
     public void ConnectToServer()
@@ -264,6 +290,9 @@ public class ClientManager : MonoBehaviour
         packetHandlers = new Dictionary<int, PacketHandler>()
         {
             {(int) ServerPackets.welcome,ClientHandleManager.Welcome},
+            {(int) ServerPackets.playerJoined, ClientHandleManager.PlayerJoined },
+            {(int) ServerPackets.readyOrNot, ClientHandleManager.ReadyOrNot },
+            {(int) ServerPackets.LobbyIsReady, ClientHandleManager.LobbyisReady },
             {(int) ServerPackets.spawnPlayer, ClientHandleManager.SpawnPlayer },
             {(int) ServerPackets.playerPosition, ClientHandleManager.PlayerPosition },
             {(int) ServerPackets.playerRotation, ClientHandleManager.PlayerRotation },

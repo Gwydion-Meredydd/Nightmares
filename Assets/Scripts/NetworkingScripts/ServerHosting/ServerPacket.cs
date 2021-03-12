@@ -7,6 +7,9 @@ using System.Text;
 public enum ServerServerPackets
 {
     welcome = 1,
+    playerJoined,
+    readyOrNot,
+    LobbyIsReady,
     spawnPlayer,
     playerPosition,
     playerRotation
@@ -16,8 +19,12 @@ public enum ServerServerPackets
 public enum ServerClientPackets
 {
     welcomeReceived = 1,
+    playerIsReady,
+    playerNotReady,
+    clientNeedsPlayer,
     playerMovement,
-    playerRotation
+    playerrotation,
+    sendUsername
 }
 
 public class ServerPacket : IDisposable

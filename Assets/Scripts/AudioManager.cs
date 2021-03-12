@@ -49,9 +49,10 @@ public class AudioManager : MonoBehaviour
     public AudioClip PerkDrinking;
     [Space]
     public AudioSource GameSFXAudioSource;
-    public AudioClip NewRound;
-    public AudioClip MenuClick;
     [Space]
+    [Header("Misc")]
+    public AudioClip MenuSFX;
+    public AudioClip NewRound;
     [Header("Music")]
     public GameObject MainMenuMusic;
     
@@ -72,6 +73,10 @@ public class AudioManager : MonoBehaviour
                 }
             }
         }
+    }
+    public void PlayMenuSFX()
+    {
+        GameSFXAudioSource.PlayOneShot(MenuSFX);
     }
     void EnemyRandomAudio()
     {

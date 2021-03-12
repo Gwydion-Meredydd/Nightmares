@@ -9,6 +9,7 @@ public class ServerNetworkManager : MonoBehaviour
     public static ServerNetworkManager instance;
 
     public GameObject playerPrefab;
+    public GameObject ServerLevel;
     private void Awake()
     {
         if (instance == null) 
@@ -40,5 +41,13 @@ public class ServerNetworkManager : MonoBehaviour
     public void  SwitchScene() 
     {
         SM.HostingManager.SwitchScene();
+    }
+    public void SwitchToClient()
+    {
+        SM.HostingManager.SwitchSceneToClient();
+    }
+    public void SwitchToServer()
+    {
+        SM.HostingManager.SwitchSceneToServer();
     }
 }

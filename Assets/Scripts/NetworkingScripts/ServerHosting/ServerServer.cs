@@ -34,8 +34,7 @@ public class ServerServer
 
 
         Debug.Log($"Server Started on {Port}.");
-
-    }
+     }
     private static void TPCConnectCallBack(IAsyncResult _result)
     {
         TcpClient _client = tcpListener.EndAcceptTcpClient(_result);
@@ -117,8 +116,11 @@ public class ServerServer
         packetHandlers = new Dictionary<int, PacketHandler>()
             {
                 {(int)ServerClientPackets.welcomeReceived,ServerServerHandle.WelcomeReceived },
+                {(int)ServerClientPackets.playerIsReady,ServerServerHandle.PlayerIsReady },
+                {(int)ServerClientPackets.playerNotReady,ServerServerHandle.PlayerNotReady },
+                {(int)ServerClientPackets.clientNeedsPlayer,ServerServerHandle.ClientNeedsPlayer },
                 {(int)ServerClientPackets.playerMovement,ServerServerHandle.PlayerMovement },
-                {(int)ServerClientPackets.playerRotation,ServerServerHandle.PlayerRotation },
+                {(int)ServerClientPackets.playerrotation,ServerServerHandle.PlayerRotation },
             };
         Debug.Log("Initialized packets.");
     }

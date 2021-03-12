@@ -15,7 +15,8 @@ public class ServerPlayer: MonoBehaviour
     {
         id = _id;
         username = _username;
-
+        ServerHostingManager.Instance.ConnectedClientsClass.Add(this);
+        ServerHostingManager.Instance.ConnectedClients = ServerHostingManager.Instance.ConnectedClients + 1;
         inputs = new bool[4];
     }
     public void FixedUpdate()

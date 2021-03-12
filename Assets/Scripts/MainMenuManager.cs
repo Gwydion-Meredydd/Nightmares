@@ -40,6 +40,7 @@ public class MainMenuManager : MonoBehaviour
     }
     public void AudioOptions()
     {
+        SM.AudioScripts.PlayMenuSFX();
         if (!OptionsAudio.activeInHierarchy)
         {
             OptionsAudio.SetActive(true);
@@ -53,6 +54,7 @@ public class MainMenuManager : MonoBehaviour
     }
     public void VideoOptions()
     {
+        SM.AudioScripts.PlayMenuSFX();
         if (!OptionsVideo.activeInHierarchy)
         {
             OptionsAudio.SetActive(false);
@@ -66,6 +68,7 @@ public class MainMenuManager : MonoBehaviour
     }
     public void HighScoreToggle() 
     {
+        SM.AudioScripts.PlayMenuSFX();
         if (HighScoreRoot.activeInHierarchy) 
         {
             SM.ScoreScript.YourScore1.SetActive(false);
@@ -88,24 +91,28 @@ public class MainMenuManager : MonoBehaviour
     }
     public void HighSocreValueToggle(int HighScoreValue) 
     {
+        SM.AudioScripts.PlayMenuSFX();
         SM.ScoreScript.LeaderboardValue = HighScoreValue;
         HighScorePerent[HighScoreValue - 1].SetActive(true);
         SM.ScoreScript.RefreshLeaderboardOnUpload();
     }
     public void CharacterSelectionReturn() 
     {
+        SM.AudioScripts.PlayMenuSFX();
         mainMenuObj.SetActive(true);
         CharactersOption.SetActive(false);
         CharacterGameobjects.SetActive(false);
     }
     public void CharacterSelection() 
     {
+        SM.AudioScripts.PlayMenuSFX();
         mainMenuObj.SetActive(false);
         CharactersOption.SetActive(true);
         CharacterGameobjects.SetActive(true);
     }
     public void CharacterSelected(int SelectionOption) 
     {
+        SM.AudioScripts.PlayMenuSFX();
         SM.GameScript.PlayerTypeValue = SelectionOption;
         LevelSelectionOption.SetActive(true);
         LevelGameObjects.SetActive(true);
@@ -114,6 +121,7 @@ public class MainMenuManager : MonoBehaviour
     }
     public void MapSelectedReturn()
     {
+        SM.AudioScripts.PlayMenuSFX();
         LevelSelectionOption.SetActive(false);
         LevelGameObjects.SetActive(false);
         CharactersOption.SetActive(true);
@@ -121,6 +129,7 @@ public class MainMenuManager : MonoBehaviour
     }
     public void MapSelected(int LevelValue) 
     {
+        SM.AudioScripts.PlayMenuSFX();
         LevelSelectionOption.SetActive(false);
         LevelGameObjects.SetActive(false);
         SM.LevelScript.LevelValue = LevelValue;
@@ -160,12 +169,14 @@ public class MainMenuManager : MonoBehaviour
     }
     public void OptionsButton()
     {
+        SM.AudioScripts.PlayMenuSFX();
         Debug.Log("Options Menu");
         mainMenuObj.SetActive(false);
         optionsMenuObj.SetActive(true);
     }
     public void BackButton()
     {
+        SM.AudioScripts.PlayMenuSFX();
         Debug.Log("Back to Main Menu");
         mainMenuObj.SetActive(true);
         optionsMenuObj.SetActive(false);

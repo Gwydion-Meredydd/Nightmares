@@ -98,5 +98,36 @@ public class ServerSend
             SendUDPDataToAll(_packet);
         }
     }
+    public static void SendUsernames(string _Username)
+    {
+        using (ServerPacket _packet = new ServerPacket((int)ServerServerPackets.playerJoined))
+        {
+            _packet.Write(_Username);
+            SendTCPDataToAll(_packet);
+
+        }
+
+    }
+    public static void LobbyIsReady(bool Ready) 
+    {
+        using (ServerPacket _packet = new ServerPacket((int)ServerServerPackets.LobbyIsReady))
+        {
+            _packet.Write(Ready);
+            SendTCPDataToAll(_packet);
+
+        }
+    }
+    public static void SendReadyOrNot() 
+    {
+        using (ServerPacket _packet = new ServerPacket((int)ServerServerPackets.readyOrNot)) 
+        {
+            _packet.Write(ServerHostingManager.Instance.ClientReady.Count);
+            for (int i = 0; i < ServerHostingManager.Instance.ClientReady.Count; i++)
+            {
+                _packet.Write(ServerHostingManager.Instance.ClientReady[i]);
+            }
+            SendUDPDataToAll(_packet);
+        }
+    }
     #endregion
 }

@@ -169,6 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SM: {fileID: 1664924015}
   playerPrefab: {fileID: 1631801194856398267, guid: fb3824462bb6aa4438780b1be38038f3, type: 3}
+  ServerLevel: {fileID: 9221961737330444168, guid: 8c1fcbba49ad8b24d8db62b20635e294, type: 3}
 --- !u!4 &1664924013
 Transform:
   m_ObjectHideFlags: 0
@@ -195,10 +196,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c61ea2a62589df24da256c84a91c73cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InstanceHolder: {fileID: 1664924014}
   HostingScene: HostingScene
   MultiplayerScene: MultiplayerTesting
   IsHosting: 0
   SceneMode: 0
+  ConnectedClients: 0
+  ConnectedClientsUsernames: []
+  ConnectedClientsIP: []
+  ConnectedClientsClass: []
+  ClientReady: 
+  EnoughPlayerHaveJoined: 0
+  AllPlayersReady: 0
+  CountDownInitilised: 0
+  StartCountDownTime: 5
+  CountDownTime: 0
+  SpawnGame: 0
+  SpawnLevel: 0
 --- !u!114 &1664924015
 MonoBehaviour:
   m_ObjectHideFlags: 0

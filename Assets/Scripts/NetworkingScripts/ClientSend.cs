@@ -28,6 +28,16 @@ public class ClientSend : MonoBehaviour
             SendTCPData(_packet);
         }
     }
+    public static void ClientNeedsPlayer() 
+    {
+        using (Packet _packet = new Packet((int)ClientPackets.clientNeedsPlayer))
+        {
+            _packet.Write(ClientManager.instance.myID);
+            _packet.Write(MultiplayerMenuManager.instance.UserName);
+
+            SendTCPData(_packet);
+        }
+    }
     public static void PlayerMovement(bool[] _inputs)
     {
         using (Packet _packet = new Packet((int)ClientPackets.playerMovement))
@@ -42,12 +52,40 @@ public class ClientSend : MonoBehaviour
     }
     public static void PlayerRotation(Vector3 PlayerRotation) 
     {
-        using (Packet _packet = new Packet((int)ClientPackets.playerRotation))
+        using (Packet _packet = new Packet((int)ClientPackets.playerrotation))
         {
             _packet.Write(PlayerRotation);
-            //_packet.Write(GameManager.players[ClientManager.instance.myID].transform.rotation);
 
             SendUDPData(_packet);
+        }
+    }
+    public static void SendUsername(string PlayerUsername) 
+    {
+        using (Packet _packet = new Packet((int)ClientPackets.SendUsername))
+        {
+            _packet.Write(PlayerUsername);
+
+            SendUDPData(_packet);
+        }
+    }
+    public static void PlayerIsReady() 
+    {
+        bool PlayerReady = true;
+        using (Packet _packet = new Packet((int)ClientPackets.playerIsReady))
+        {
+            _packet.Write(ClientManager.instance.myID);
+            _packet.Write(PlayerReady);
+            SendTCPData(_packet);
+        }
+    }
+    public static void PlayerNotReady()
+    {
+        bool PlayerReady = false;
+        using (Packet _packet = new Packet((int)ClientPackets.playerNotReady))
+        {
+            _packet.Write(ClientManager.instance.myID);
+            _packet.Write(PlayerReady);
+            SendTCPData(_packet);
         }
     }
     #endregion
