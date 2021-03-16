@@ -184,10 +184,8 @@ public class ServerClient
     public void SendIntoGame(string _playerName)
     {
         Debug.Log("send into game");
-        ServerNetworkManager.instance.SwitchToServer();
         player = ServerNetworkManager.instance.InstantiatePlayer();
         player.Initialize(id, _playerName);
-        ServerNetworkManager.instance.SwitchToClient();
         foreach (ServerClient _client in ServerServer.clients.Values)
         {
             if (_client.player != null)

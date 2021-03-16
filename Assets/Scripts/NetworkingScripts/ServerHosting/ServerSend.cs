@@ -85,7 +85,7 @@ public class ServerSend
             _packet.Write(_Player.id);
             _packet.Write(_Player.transform.position);
 
-            SendUDPDataToAll(_packet);
+            SendTCPDataToAll(_packet);
         }
     }
     public static void PlayerRotation(ServerPlayer _Player)
@@ -95,7 +95,7 @@ public class ServerSend
             _packet.Write(_Player.id);
             _packet.Write(_Player.transform.rotation);
 
-            SendUDPDataToAll(_packet);
+            SendTCPDataToAll(_packet);
         }
     }
     public static void SendUsernames(string _Username)
@@ -126,7 +126,7 @@ public class ServerSend
             {
                 _packet.Write(ServerHostingManager.Instance.ClientReady[i]);
             }
-            SendUDPDataToAll(_packet);
+            SendTCPDataToAll(_packet);
         }
     }
     #endregion

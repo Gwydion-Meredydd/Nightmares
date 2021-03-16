@@ -77,6 +77,7 @@ public class ClientSend : MonoBehaviour
             _packet.Write(PlayerReady);
             SendTCPData(_packet);
         }
+        Debug.Log("PlayerReadySent");
     }
     public static void PlayerNotReady()
     {
@@ -87,6 +88,7 @@ public class ClientSend : MonoBehaviour
             _packet.Write(PlayerReady);
             SendTCPData(_packet);
         }
+        Debug.Log("PlayerNotReadySent");
     }
     #endregion
 }

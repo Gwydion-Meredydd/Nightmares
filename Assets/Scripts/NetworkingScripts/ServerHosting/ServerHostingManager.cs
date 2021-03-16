@@ -11,11 +11,6 @@ public class ServerHostingManager : MonoBehaviour
     public ServerHostingManager InstanceHolder;
     public static ServerHostingManager Instance;
 
-    public string HostingScene;
-    public string MultiplayerScene;
-    public bool IsHosting;
-    public ActiveScene SceneMode = ActiveScene.Client;
-
     public int ConnectedClients;
     public List<string> ConnectedClientsUsernames;
     public List<string> ConnectedClientsIP;
@@ -28,17 +23,10 @@ public class ServerHostingManager : MonoBehaviour
     public float CountDownTime;
     public bool SpawnGame;
     public bool SpawnLevel;
-    public enum ActiveScene
-    {
-        Client,
-        Server
 
-    };
     private void Awake()
     {
         Instance = InstanceHolder;
-        IsHosting = true;
-        StartCoroutine(StartHostingScene());
     }
 
     private void FixedUpdate()
@@ -104,7 +92,14 @@ public class ServerHostingManager : MonoBehaviour
     }
     public void InstantiateLevel()
     {
-        Instantiate(ServerNetworkManager.instance.ServerLevel, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
+        try 
+        {
+            Instantiate(ServerNetworkManager.instance.ServerLevel, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
+        }
+        catch
+        {
+            Debug.Log("failed to spawn collisons...");
+        }
         SpawnLevel = true;
         ServerSend.LobbyIsReady(true);
     }
@@ -119,46 +114,13 @@ public class ServerHostingManager : MonoBehaviour
         while (AllPlayersReady && EnoughPlayerHaveJoined && CountDownInitilised && CountDownTime < StartCountDownTime)
         {
             CountDownTime = CountDownTime + 0.01f;
-            yield return null;
+            yield return new  WaitForSeconds(0.01f);
         }
         if (AllPlayersReady && EnoughPlayerHaveJoined && CountDownInitilised && CountDownTime > StartCountDownTime)
         {
             Debug.Log("SPAWN LEVEL & PLAYERS");
             SpawnGame = true;
         }
-    }
-    IEnumerator StartHostingScene() 
-    {
-        while (!SceneManager.GetSceneByName(HostingScene).isLoaded) 
-        {
-            Debug.Log("LOADING SERVER");
-            yield return null;
-        }
-        SwitchScene();
-        yield return null;
-    }
-    public void SwitchScene() 
-    {
-        if (SceneMode == ActiveScene.Client) 
-        {
-            SceneMode = ActiveScene.Server;
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName(HostingScene));
-        }
-        else 
-        {
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName(MultiplayerScene));
-            SceneMode = ActiveScene.Client;
-        }
-    }
-    public void SwitchSceneToServer()
-    {
-        SceneMode = ActiveScene.Server;
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName(HostingScene));
-    }
-    public void SwitchSceneToClient()
-    {
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName(MultiplayerScene));
-        SceneMode = ActiveScene.Client;
     }
     public void RemoveClient(int OldClientValue)
     {

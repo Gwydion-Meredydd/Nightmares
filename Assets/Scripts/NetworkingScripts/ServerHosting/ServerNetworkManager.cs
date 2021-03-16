@@ -1,6 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PlayFab;
+//using PlayFab.Networking;
+using PlayFab.MultiplayerAgent.Model;
 
 public class ServerNetworkManager : MonoBehaviour
 {
@@ -10,6 +14,9 @@ public class ServerNetworkManager : MonoBehaviour
 
     public GameObject playerPrefab;
     public GameObject ServerLevel;
+    public int Port;
+    public int MaxPlayer;
+    public string HostID;
     private void Awake()
     {
         if (instance == null) 
@@ -22,32 +29,71 @@ public class ServerNetworkManager : MonoBehaviour
             Destroy(this);
         }
     }
-    private void Start()
+    public void Start()
     {
-        QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 60;
-        ServerServer.Start(4, 27005);
+        StartServer();
+    }
+    public void StartServer()
+    {
+        
+        PlayFabMultiplayerAgentAPI.Start();
+        PlayFabMultiplayerAgentAPI.IsDebugging = true;
+        PlayFabMultiplayerAgentAPI.OnMaintenanceCallback += OnMaintenance;
+        PlayFabMultiplayerAgentAPI.OnShutDownCallback += OnShutdown;
+        PlayFabMultiplayerAgentAPI.OnServerActiveCallback += OnServerActive;
+        PlayFabMultiplayerAgentAPI.OnAgentErrorCallback += OnAgentError;
+        StartCoroutine(ReadyForPlayers());
+        StartCoroutine(ShutdownServerInXTime());
 
+    }
+    IEnumerator ShutdownServerInXTime()
+    {
+        yield return new WaitForSeconds(300f);
+        StartShutdownProcess();
     }
     private void OnApplicationQuit() 
     {
         ServerServer.Stop();
     }
-
+    IEnumerator ReadyForPlayers()
+    {
+        yield return new WaitForSeconds(.5f);
+        PlayFabMultiplayerAgentAPI.ReadyForPlayers();
+    }
     public  ServerPlayer InstantiatePlayer() 
     {
         return Instantiate(playerPrefab, Vector3.zero, Quaternion.identity).GetComponent<ServerPlayer>();
     }
-    public void  SwitchScene() 
+    private void OnMaintenance(DateTime? NextScheduledMaintenanceUtc)
     {
-        SM.HostingManager.SwitchScene();
+        Debug.LogFormat("Maintenance scheduled for: {0}", NextScheduledMaintenanceUtc.Value.ToLongDateString());
     }
-    public void SwitchToClient()
+    private void OnShutdown()
     {
-        SM.HostingManager.SwitchSceneToClient();
+        StartShutdownProcess();
     }
-    public void SwitchToServer()
+
+    private void StartShutdownProcess()
     {
-        SM.HostingManager.SwitchSceneToServer();
+        Debug.Log("Server is shutting down");
+        StartCoroutine(ShutdownServer());
+    }
+
+    private void OnServerActive()
+    {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
+        ServerServer.Start(MaxPlayer, Port, HostID);
+        Debug.Log("ServerStart");
+        Debug.Log("Server Started From Agent Activation");
+    }
+    private void OnAgentError(string error)
+    {
+        Debug.Log(error);
+    }
+    IEnumerator ShutdownServer()
+    {
+        yield return new WaitForSeconds(5f);
+        Application.Quit();
     }
 }

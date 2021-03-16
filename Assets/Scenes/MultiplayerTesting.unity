@@ -3081,6 +3081,7 @@ MonoBehaviour:
   PauseMenuManager: {fileID: 0}
   Client_Manager: {fileID: 1604270281}
   HostingManager: {fileID: 0}
+  serverNetworkManager: {fileID: 0}
 --- !u!4 &1604270278
 Transform:
   m_ObjectHideFlags: 0
@@ -3144,9 +3145,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasJoined: 0
-  ip: 127.0.0.1
-  port: 27005
+  buildId: 92990928-943a-49a3-99e4-c8272ef53f91
+  ip: 20.82.217.161
+  port: 30000
   myID: 0
+  isConnected: 0
 --- !u!114 &1604270282
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -90,6 +90,7 @@ public class ClientHandleManager : MonoBehaviour
     }
     public static void ReadyOrNot(Packet _packet) 
     {
+        Debug.Log("Ready Toggle Received From Server...");
         bool[] ReadyRNot = new bool[_packet.ReadInt()];
         for (int i = 0; i < ReadyRNot.Length; i++)
         {
@@ -100,6 +101,7 @@ public class ClientHandleManager : MonoBehaviour
     }
     public static void LobbyisReady(Packet _packet) 
     {
+        Debug.Log("Lobby is Ready from server...");
         bool isLobbyReady = _packet.ReadBool();
         if (isLobbyReady) 
         {

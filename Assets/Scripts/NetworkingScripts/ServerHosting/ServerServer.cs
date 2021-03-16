@@ -18,14 +18,32 @@ public class ServerServer
     private static TcpListener tcpListener;
     private static UdpClient udpListener;
 
-    public static void Start(int _MaxPlayers, int _port)
+    public static void Start(int _MaxPlayers, int _port, string HostID)
     {
         MaxPlayers = _MaxPlayers;
         Port = _port;
 
+        string ExternalIP = new WebClient().DownloadString("http://icanhazip.com");
+        //Debug.Log(ExternalIP);
+        string myHost = System.Net.Dns.GetHostName();
+        string myIP = null;
+        int DNSHOSTVALUE = 0;
+
+        for (int i = 0; i <= System.Net.Dns.GetHostEntry(myHost).AddressList.Length - 1; i++)
+        {
+            myIP = System.Net.Dns.GetHostEntry(myHost).AddressList[i].ToString();
+            if (myIP.Trim() == ExternalIP.Trim())
+            {
+                DNSHOSTVALUE = i;
+                break;
+            }
+        }
+       // Debug.Log(HostID.ToString());
+        //IPAddress HostIp = IPAddress.Parse(HostID);
         Debug.Log("Starting Server...");
         InitializeServerData();
         tcpListener = new TcpListener(IPAddress.Any, Port);
+
         tcpListener.Start();
         tcpListener.BeginAcceptTcpClient(new AsyncCallback(TPCConnectCallBack), null);
 
@@ -33,8 +51,9 @@ public class ServerServer
         udpListener.BeginReceive(UDPReceiveCallback, null);
 
 
-        Debug.Log($"Server Started on {Port}.");
-     }
+       // Debug.Log($"Server Started on {HostIp.ToString()} {Port}.");
+
+    }
     private static void TPCConnectCallBack(IAsyncResult _result)
     {
         TcpClient _client = tcpListener.EndAcceptTcpClient(_result);

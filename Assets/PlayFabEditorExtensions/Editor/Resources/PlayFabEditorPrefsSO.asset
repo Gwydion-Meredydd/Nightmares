@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d0199c11aa6f514784c5c69cd8378d8, type: 3}
+  m_Name: PlayFabEditorPrefsSO
+  m_EditorClassIdentifier: 
+  DevAccountEmail: MADMANANIMATIONS@GMAIL.COM
+  DevAccountToken: t4t1xygt7xyz8iijhuy15zyarkg4uye1q7hyguwntaaxhitjmcq81yoq9mqmrs1zrf5swwq5x6fesps1bk1snf58rsse81hxdmkcx8n77wshnmitcpesqja4144e7panfkzzxbio7x8yo9rpe1oepzbk137k3w4tnxhd7c33ipo6dc6jd1xdpad64t3trbzi6u6igdie
+  SelectedStudio: Introverts games
+  SdkPath: Assets/PlayFabSDK
+  EdExPath: 
+  LocalCloudScriptPath: 
+  PanelIsShown: 0
+  curMainMenuIdx: 1
+  curSubMenuIdx: 2

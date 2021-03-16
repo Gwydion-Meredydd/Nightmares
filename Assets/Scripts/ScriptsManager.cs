@@ -26,4 +26,5 @@ public class ScriptsManager : MonoBehaviour
     public PauseMenuManager PauseMenuManager;
     public ClientManager Client_Manager;
     public ServerHostingManager HostingManager;
+    public ServerNetworkManager serverNetworkManager;
 }

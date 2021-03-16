@@ -5,6 +5,9 @@ using System.Net;
 using System.Net.Sockets;
 using System;
 using UnityEngine.UI;
+using PlayFab;
+using PlayFab.ClientModels;
+using PlayFab.MultiplayerModels;
 
 public class ClientManager : MonoBehaviour
 {
@@ -12,13 +15,14 @@ public class ClientManager : MonoBehaviour
     public static ClientManager instance;
     public static int dataBufferSize = 4096;
 
+    public string buildId = "";
     public string ip = "127.0.0.1";
     public int port = 27005;
     public int myID = 0;
     public TCP tcp;
     public UDP udp;
 
-    private bool isConnected = false;
+    public bool isConnected = false;
     private delegate void PacketHandler(Packet _packet);
     private static Dictionary<int,PacketHandler> packetHandlers;
 
@@ -36,8 +40,8 @@ public class ClientManager : MonoBehaviour
     }
     private void Start()
     {
-        tcp = new TCP();
-        udp = new UDP();
+        //tcp = new TCP();
+        //udp = new UDP();
     }
 
     private void OnApplicationQuit()
@@ -76,10 +80,73 @@ public class ClientManager : MonoBehaviour
 
     public void ConnectToServer()
     {
-        InitalizeClientData();
+        Debug.Log("[ClientStartUp].LoginRemoteUser");
 
+        //We need to login a user to get at PlayFab API's. 
+        LoginWithCustomIDRequest request = new LoginWithCustomIDRequest()
+        {
+            TitleId = PlayFabSettings.TitleId,
+            CreateAccount = true,
+            CustomId = GUIDUtility.getUniqueID()
+        };
+
+        PlayFabClientAPI.LoginWithCustomID(request, OnPlayFabLoginSuccess, OnLoginError);
+    }
+    private void OnLoginError(PlayFabError response)
+    {
+        Debug.Log(response.ToString());
+    }
+    private void OnPlayFabLoginSuccess(LoginResult response)
+    {
+        //tcp = new TCP();
+       // udp = new UDP();
+        Debug.Log(response.ToString());
+        if (ip == "")
+        {   //We need to grab an IP and Port from a server based on the buildId. Copy this and add it to your Configuration.
+            RequestMultiplayerServer();
+        }
+        else
+        {
+            ConnectRemoteClient();
+        }
+    }
+    private void RequestMultiplayerServer()
+    {
+        Debug.Log("[ClientStartUp].RequestMultiplayerServer");
+        RequestMultiplayerServerRequest requestData = new RequestMultiplayerServerRequest();
+        requestData.BuildId = buildId;
+        requestData.SessionId = System.Guid.NewGuid().ToString();
+        requestData.PreferredRegions = new List<AzureRegion>() { AzureRegion.NorthEurope };
+
+        PlayFabMultiplayerAPI.RequestMultiplayerServer(requestData, OnRequestMultiplayerServer, OnRequestMultiplayerServerError);
+    }
+    private void OnRequestMultiplayerServer(RequestMultiplayerServerResponse response)
+    {
+        Debug.Log(response.ToString());
+        ConnectRemoteClient(response);
+    }
+    private void ConnectRemoteClient(RequestMultiplayerServerResponse response = null)
+    {
+        if (response == null)
+        {
+            Debug.Log("no responce from server");
+            //networkManager.networkAddress = configuration.ipAddress;
+            //telepathyTransport.port = configuration.port;
+           // apathyTransport.port = configuration.port;
+        }
+        else
+        {
+            Debug.Log("**** ADD THIS TO YOUR CONFIGURATION **** -- IP: " + response.IPV4Address + " Port: " + (ushort)response.Ports[0].Num);
+        }
+        InitalizeClientData();
+        tcp = new TCP();
+        udp = new UDP();
         isConnected = true;
         tcp.Connect();
+    }
+    private void OnRequestMultiplayerServerError(PlayFabError error)
+    {
+        Debug.Log(error.ErrorDetails);
     }
     public class TCP
     {
