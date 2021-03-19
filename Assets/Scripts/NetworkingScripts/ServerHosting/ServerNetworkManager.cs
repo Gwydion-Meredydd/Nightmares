@@ -49,7 +49,14 @@ public class ServerNetworkManager : MonoBehaviour
     IEnumerator ShutdownServerInXTime()
     {
         yield return new WaitForSeconds(300f);
-        StartShutdownProcess();
+        if (SM.HostingManager.ConnectedClients == 0)
+        {
+            StartShutdownProcess();
+        }
+        else 
+        {
+            StartCoroutine(ShutdownServerInXTime());
+        }
     }
     private void OnApplicationQuit() 
     {

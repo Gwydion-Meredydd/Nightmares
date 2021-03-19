@@ -11,13 +11,13 @@ public class ClientHandleManager : MonoBehaviour
     {
         string _msg = _packet.ReadString();
         int _myId = _packet.ReadInt();
-
         Debug.Log($"Message from Server: {_msg}");
         ClientManager.instance.myID = _myId;
         ClientManager.instance.HasJoined = true;
         ClientSend.WelcomeReceived();
 
         ClientManager.instance.udp.Connect(((IPEndPoint)ClientManager.instance.tcp.socket.Client.LocalEndPoint).Port);
+        ClientManager.instance.SM.multiplayerMenuManager.WaitingOnServerToggle();
     }
     public static void SpawnPlayer(Packet _packet) 
     {

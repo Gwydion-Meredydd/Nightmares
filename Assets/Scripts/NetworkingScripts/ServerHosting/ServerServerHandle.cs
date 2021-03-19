@@ -26,6 +26,20 @@ public class ServerServerHandle
             ServerServer.clients[_fromClient].SendUsernames();
         }
     }
+    public static void ClientHasDisconnected(int _fromClient, ServerPacket _packet) 
+    {
+        if (ServerHostingManager.Instance.ConnectedClientsClass.Count == ServerHostingManager.Instance.ConnectedClientsUsernames.Count) 
+        {
+            ServerHostingManager.Instance.ConnectedClientsClass.RemoveAt(_fromClient - 1);
+        }
+        if (ServerHostingManager.Instance.ConnectedClientsIP.Count == ServerHostingManager.Instance.ConnectedClientsUsernames.Count)
+        {
+            ServerHostingManager.Instance.ConnectedClientsIP.RemoveAt(_fromClient - 1);
+        }
+        ServerHostingManager.Instance.ConnectedClientsUsernames.RemoveAt(_fromClient - 1);
+        ServerHostingManager.Instance.ClientReady.RemoveAt(_fromClient - 1);
+
+    }
     public static void ClientNeedsPlayer(int _fromClient, ServerPacket _packet)
     {
         int _clientIdCheck = _packet.ReadInt();

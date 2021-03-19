@@ -27,4 +27,7 @@ public class ScriptsManager : MonoBehaviour
     public ClientManager Client_Manager;
     public ServerHostingManager HostingManager;
     public ServerNetworkManager serverNetworkManager;
+    public MultiplayerManager multiplayerManager;
+    public MultiplayerMenuManager multiplayerMenuManager;
+    public ClientConfigManager ConfigManager;
 }

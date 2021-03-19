@@ -11,13 +11,17 @@ using PlayFab.MultiplayerModels;
 
 public class ClientManager : MonoBehaviour
 {
+    public ScriptsManager SM;
     public  bool HasJoined;
     public static ClientManager instance;
     public static int dataBufferSize = 4096;
 
+    [HideInInspector]
     public string buildId = "";
-    public string ip = "127.0.0.1";
-    public int port = 27005;
+    [HideInInspector]
+    public string ip;
+    [HideInInspector]
+    public int port ;
     public int myID = 0;
     public TCP tcp;
     public UDP udp;
@@ -28,6 +32,7 @@ public class ClientManager : MonoBehaviour
 
     private void Awake()
     {
+        buildId = SM.ConfigManager.buildId;
         if (instance == null)
         {
             instance = this;
@@ -52,19 +57,19 @@ public class ClientManager : MonoBehaviour
     {
         Disconnect();
     }
-
     public void ClientReadyToggle(Text ButtonText)  
     {
         if (HasJoined)
         {
-            if (ButtonText.text == "Ready-Up")
+            SM.multiplayerMenuManager.WaitingForServer.SetActive(true);
+            if (ButtonText.text == "READY!")
             {
                 ClientUnReady();
-                ButtonText.text = "Un-Ready";
+                ButtonText.text = "Not-Ready";
             }
-            else if (ButtonText.text == "Un-Ready")
+            else if (ButtonText.text == "Not-Ready")
             {
-                ButtonText.text = "Ready-Up";
+                ButtonText.text = "READY!";
                 ClientReady();
             }
         }
@@ -78,8 +83,24 @@ public class ClientManager : MonoBehaviour
         ClientSend.PlayerNotReady();
     }
 
+    public void HostConnectToServer()
+    {
+        SM.multiplayerMenuManager.WaitingForServer.SetActive(true);
+        Debug.Log("[ClientStartUp].LoginRemoteUser");
+
+        //We need to login a user to get at PlayFab API's. 
+        LoginWithCustomIDRequest request = new LoginWithCustomIDRequest()
+        {
+            TitleId = PlayFabSettings.TitleId,
+            CreateAccount = true,
+            CustomId = GUIDUtility.getUniqueID()
+        };
+
+        PlayFabClientAPI.LoginWithCustomID(request, OnPlayFabHostLoginSuccess, OnLoginError);
+    }
     public void ConnectToServer()
     {
+        SM.multiplayerMenuManager.WaitingForServer.SetActive(true);
         Debug.Log("[ClientStartUp].LoginRemoteUser");
 
         //We need to login a user to get at PlayFab API's. 
@@ -98,17 +119,16 @@ public class ClientManager : MonoBehaviour
     }
     private void OnPlayFabLoginSuccess(LoginResult response)
     {
-        //tcp = new TCP();
-       // udp = new UDP();
         Debug.Log(response.ToString());
-        if (ip == "")
-        {   //We need to grab an IP and Port from a server based on the buildId. Copy this and add it to your Configuration.
-            RequestMultiplayerServer();
-        }
-        else
-        {
-            ConnectRemoteClient();
-        }
+        ip = ip = SM.ConfigManager.ip;
+        port = SM.ConfigManager.port;
+        ConnectRemoteClient();
+    }
+    private void OnPlayFabHostLoginSuccess(LoginResult response)
+    {
+        Debug.Log(response.ToString());
+
+        RequestMultiplayerServer();
     }
     private void RequestMultiplayerServer()
     {
@@ -117,7 +137,6 @@ public class ClientManager : MonoBehaviour
         requestData.BuildId = buildId;
         requestData.SessionId = System.Guid.NewGuid().ToString();
         requestData.PreferredRegions = new List<AzureRegion>() { AzureRegion.NorthEurope };
-
         PlayFabMultiplayerAPI.RequestMultiplayerServer(requestData, OnRequestMultiplayerServer, OnRequestMultiplayerServerError);
     }
     private void OnRequestMultiplayerServer(RequestMultiplayerServerResponse response)
@@ -129,15 +148,17 @@ public class ClientManager : MonoBehaviour
     {
         if (response == null)
         {
-            Debug.Log("no responce from server");
-            //networkManager.networkAddress = configuration.ipAddress;
-            //telepathyTransport.port = configuration.port;
-           // apathyTransport.port = configuration.port;
+            ip = ip = SM.ConfigManager.ip;
+            port = SM.ConfigManager.port;
+            Debug.Log("joining made lobby");
         }
         else
         {
-            Debug.Log("**** ADD THIS TO YOUR CONFIGURATION **** -- IP: " + response.IPV4Address + " Port: " + (ushort)response.Ports[0].Num);
+            Debug.Log("**** Adding host ip and host port to client -- IP: " + response.IPV4Address + " Port: " + (ushort)response.Ports[0].Num);
+            ip = response.IPV4Address;
+            port = (ushort)response.Ports[0].Num;
         }
+        Debug.Log("Connection started..");
         InitalizeClientData();
         tcp = new TCP();
         udp = new UDP();
@@ -147,6 +168,7 @@ public class ClientManager : MonoBehaviour
     private void OnRequestMultiplayerServerError(PlayFabError error)
     {
         Debug.Log(error.ErrorDetails);
+        SM.multiplayerMenuManager.ServerFullErrorToggle();
     }
     public class TCP
     {

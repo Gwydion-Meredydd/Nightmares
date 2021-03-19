@@ -24,7 +24,8 @@ public enum ClientPackets
     clientNeedsPlayer,
     playerMovement,
     playerrotation,
-    SendUsername
+    SendUsername,
+    disconnectClient
 }
 
 public class Packet : IDisposable

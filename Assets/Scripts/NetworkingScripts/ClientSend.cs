@@ -47,7 +47,7 @@ public class ClientSend : MonoBehaviour
             {
                 _packet.Write(_input);
             }
-            SendUDPData(_packet);
+            SendTCPData(_packet);
         }
     }
     public static void PlayerRotation(Vector3 PlayerRotation) 
@@ -56,7 +56,7 @@ public class ClientSend : MonoBehaviour
         {
             _packet.Write(PlayerRotation);
 
-            SendUDPData(_packet);
+            SendTCPData(_packet);
         }
     }
     public static void SendUsername(string PlayerUsername) 
@@ -65,7 +65,7 @@ public class ClientSend : MonoBehaviour
         {
             _packet.Write(PlayerUsername);
 
-            SendUDPData(_packet);
+            SendTCPData(_packet);
         }
     }
     public static void PlayerIsReady() 

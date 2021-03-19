@@ -8,6 +8,9 @@ public class MultiplayerMenuManager : MonoBehaviour
 {
     public static MultiplayerMenuManager instance;
 
+    public GameObject WaitingForServer;
+    public GameObject ServerFullError;
+
     public GameObject StartMenu;
     public string UserName;
 
@@ -25,8 +28,33 @@ public class MultiplayerMenuManager : MonoBehaviour
             Debug.Log("Instance already exists, destryoing Object!");
             Destroy(this);
         }
+        WaitingForServer.SetActive(false);
+        ServerFullError.SetActive(false);
     }
-
+    public void ServerFullErrorToggle()
+    {
+        if (ServerFullError.activeInHierarchy)
+        {
+            ServerFullError.SetActive(false);
+        }
+        else
+        {
+            WaitingForServer.SetActive(false);
+            ServerFullError.SetActive(true);
+        }
+        StartCoroutine(ServerFullErrorTimeout());
+    }
+    public void WaitingOnServerToggle() 
+    {
+        if (WaitingForServer.activeInHierarchy) 
+        {
+            WaitingForServer.SetActive(false);
+        }
+        else 
+        {
+            WaitingForServer.SetActive(true);
+        }
+    }
     public void ConnectedToServer()
     {
         StartMenu.SetActive(false);
@@ -38,6 +66,7 @@ public class MultiplayerMenuManager : MonoBehaviour
     }
     public void UpdateReadUpToggle(int ConnectedCount) 
     {
+        WaitingForServer.SetActive(false);
         Debug.Log("CALLING METHOD" + ConnectedCount);
         switch (ConnectedCount) 
         {
@@ -130,5 +159,10 @@ public class MultiplayerMenuManager : MonoBehaviour
                 }
                 break;
         }
+    }
+    IEnumerator ServerFullErrorTimeout() 
+    {
+        yield return new WaitForSecondsRealtime(3);
+        ServerFullError.SetActive(false);
     }
 }
