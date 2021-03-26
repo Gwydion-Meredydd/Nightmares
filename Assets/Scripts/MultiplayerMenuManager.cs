@@ -68,6 +68,10 @@ public class MultiplayerMenuManager : MonoBehaviour
     {
         WaitingForServer.SetActive(false);
         Debug.Log("CALLING METHOD" + ConnectedCount);
+        foreach (Toggle ReadyUpbox in ReadyUpBox)
+        {
+            ReadyUpbox.isOn = false;
+        }
         switch (ConnectedCount) 
         {
             case 1:

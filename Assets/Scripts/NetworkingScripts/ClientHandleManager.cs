@@ -7,7 +7,7 @@ using System.Net.Sockets;
 public class ClientHandleManager : MonoBehaviour
 {
     public bool HasJoined;
-    public static void Welcome(Packet _packet) 
+    public static void Welcome(Packet _packet)
     {
         string _msg = _packet.ReadString();
         int _myId = _packet.ReadInt();
@@ -16,8 +16,11 @@ public class ClientHandleManager : MonoBehaviour
         ClientManager.instance.HasJoined = true;
         ClientSend.WelcomeReceived();
 
-        ClientManager.instance.udp.Connect(((IPEndPoint)ClientManager.instance.tcp.socket.Client.LocalEndPoint).Port);
-        ClientManager.instance.SM.multiplayerMenuManager.WaitingOnServerToggle();
+        //ClientManager.instance.udp.Connect(((IPEndPoint)ClientManager.instance.tcp.socket.Client.LocalEndPoint).Port);
+        if (!ClientManager.instance.LocalConnection)
+        {
+            ClientManager.instance.SM.multiplayerMenuManager.WaitingOnServerToggle();
+        }
     }
     public static void SpawnPlayer(Packet _packet) 
     {
@@ -55,6 +58,10 @@ public class ClientHandleManager : MonoBehaviour
             Debug.Log(SplitData.Length);
             Debug.Log(SplitData[i]);
         }
+        foreach (var username in MultiplayerMenuManager.instance.Usernames)
+        {
+            username.text = "";
+        } 
         switch (SplitData.Length) 
         {
 

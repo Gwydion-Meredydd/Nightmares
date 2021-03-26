@@ -16,4 +16,15 @@ public class MultiplayerManager : MonoBehaviour
     {
         instance = _instnace;
     }
+    public void Disconnect() 
+    {
+        Username = new string[4];
+        IsReady = new bool[4];
+        foreach (var Username in SM.multiplayerMenuManager.Usernames)
+        {
+            Username.text = "";
+        }
+        SM.multiplayerMenuManager.UpdateReadUpToggle(4);
+
+    }
 }

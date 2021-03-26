@@ -29,6 +29,7 @@ public class ClientManager : MonoBehaviour
     public bool isConnected = false;
     private delegate void PacketHandler(Packet _packet);
     private static Dictionary<int,PacketHandler> packetHandlers;
+    public bool LocalConnection;
 
     private void Awake()
     {
@@ -85,33 +86,48 @@ public class ClientManager : MonoBehaviour
 
     public void HostConnectToServer()
     {
-        SM.multiplayerMenuManager.WaitingForServer.SetActive(true);
-        Debug.Log("[ClientStartUp].LoginRemoteUser");
-
-        //We need to login a user to get at PlayFab API's. 
-        LoginWithCustomIDRequest request = new LoginWithCustomIDRequest()
+        if (!LocalConnection)
         {
-            TitleId = PlayFabSettings.TitleId,
-            CreateAccount = true,
-            CustomId = GUIDUtility.getUniqueID()
-        };
+            SM.multiplayerMenuManager.WaitingForServer.SetActive(true);
+            Debug.Log("[ClientStartUp].LoginRemoteUser");
 
-        PlayFabClientAPI.LoginWithCustomID(request, OnPlayFabHostLoginSuccess, OnLoginError);
+            //We need to login a user to get at PlayFab API's. 
+            LoginWithCustomIDRequest request = new LoginWithCustomIDRequest()
+            {
+                TitleId = PlayFabSettings.TitleId,
+                CreateAccount = true,
+                CustomId = GUIDUtility.getUniqueID()
+            };
+
+            PlayFabClientAPI.LoginWithCustomID(request, OnPlayFabHostLoginSuccess, OnLoginError);
+        }
+        else
+        {
+            ConnectLocalClient();
+        }
     }
     public void ConnectToServer()
     {
-        SM.multiplayerMenuManager.WaitingForServer.SetActive(true);
-        Debug.Log("[ClientStartUp].LoginRemoteUser");
-
-        //We need to login a user to get at PlayFab API's. 
-        LoginWithCustomIDRequest request = new LoginWithCustomIDRequest()
+        if (!LocalConnection)
         {
-            TitleId = PlayFabSettings.TitleId,
-            CreateAccount = true,
-            CustomId = GUIDUtility.getUniqueID()
-        };
 
-        PlayFabClientAPI.LoginWithCustomID(request, OnPlayFabLoginSuccess, OnLoginError);
+            SM.multiplayerMenuManager.WaitingForServer.SetActive(true);
+            Debug.Log("[ClientStartUp].LoginRemoteUser");
+
+            //We need to login a user to get at PlayFab API's. 
+            LoginWithCustomIDRequest request = new LoginWithCustomIDRequest()
+            {
+                TitleId = PlayFabSettings.TitleId,
+                CreateAccount = true,
+                CustomId = GUIDUtility.getUniqueID()
+            };
+
+            PlayFabClientAPI.LoginWithCustomID(request, OnPlayFabLoginSuccess, OnLoginError);
+        }
+        else 
+        {
+            ConnectLocalClient();
+        }
     }
     private void OnLoginError(PlayFabError response)
     {
@@ -144,6 +160,16 @@ public class ClientManager : MonoBehaviour
         Debug.Log(response.ToString());
         ConnectRemoteClient(response);
     }
+    private void ConnectLocalClient()
+    {
+        ip = "127.0.0.1";
+        port = 7777;
+        Debug.Log("Connection started..");
+        InitalizeClientData();
+        tcp = new TCP();
+        isConnected = true;
+        tcp.Connect();
+    }
     private void ConnectRemoteClient(RequestMultiplayerServerResponse response = null)
     {
         if (response == null)
@@ -161,7 +187,7 @@ public class ClientManager : MonoBehaviour
         Debug.Log("Connection started..");
         InitalizeClientData();
         tcp = new TCP();
-        udp = new UDP();
+        //udp = new UDP();
         isConnected = true;
         tcp.Connect();
     }
@@ -396,8 +422,8 @@ public class ClientManager : MonoBehaviour
             HasJoined = false;
             isConnected = false;
             tcp.socket.Close();
-            udp.socket.Close();
-
+            myID = 0;
+            SM.multiplayerManager.Disconnect();
             Debug.Log("Disconnected from server.");
         }
     }

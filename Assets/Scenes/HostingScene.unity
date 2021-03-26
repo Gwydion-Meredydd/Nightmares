@@ -173,6 +173,7 @@ MonoBehaviour:
   Port: 7777
   MaxPlayer: 4
   HostID: 
+  LocalHosting: 1
 --- !u!4 &1664924013
 Transform:
   m_ObjectHideFlags: 0
@@ -200,9 +201,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InstanceHolder: {fileID: 1664924014}
-  HostingScene: HostingScene
-  MultiplayerScene: MultiplayerTesting
-  IsHosting: 0
   ConnectedClients: 0
   ConnectedClientsUsernames: []
   ConnectedClientsIP: []
@@ -250,3 +248,6 @@ MonoBehaviour:
   Client_Manager: {fileID: 0}
   HostingManager: {fileID: 1664924014}
   serverNetworkManager: {fileID: 1664924012}
+  multiplayerManager: {fileID: 0}
+  multiplayerMenuManager: {fileID: 0}
+  ConfigManager: {fileID: 0}

@@ -17,6 +17,7 @@ public class ServerNetworkManager : MonoBehaviour
     public int Port;
     public int MaxPlayer;
     public string HostID;
+    public bool LocalHosting;
     private void Awake()
     {
         if (instance == null) 
@@ -35,16 +36,21 @@ public class ServerNetworkManager : MonoBehaviour
     }
     public void StartServer()
     {
-        
-        PlayFabMultiplayerAgentAPI.Start();
-        PlayFabMultiplayerAgentAPI.IsDebugging = true;
-        PlayFabMultiplayerAgentAPI.OnMaintenanceCallback += OnMaintenance;
-        PlayFabMultiplayerAgentAPI.OnShutDownCallback += OnShutdown;
-        PlayFabMultiplayerAgentAPI.OnServerActiveCallback += OnServerActive;
-        PlayFabMultiplayerAgentAPI.OnAgentErrorCallback += OnAgentError;
-        StartCoroutine(ReadyForPlayers());
-        StartCoroutine(ShutdownServerInXTime());
-
+        if (!LocalHosting)
+        {
+            PlayFabMultiplayerAgentAPI.Start();
+            PlayFabMultiplayerAgentAPI.IsDebugging = true;
+            PlayFabMultiplayerAgentAPI.OnMaintenanceCallback += OnMaintenance;
+            PlayFabMultiplayerAgentAPI.OnShutDownCallback += OnShutdown;
+            PlayFabMultiplayerAgentAPI.OnServerActiveCallback += OnServerActive;
+            PlayFabMultiplayerAgentAPI.OnAgentErrorCallback += OnAgentError;
+            StartCoroutine(ReadyForPlayers());
+            StartCoroutine(ShutdownServerInXTime());
+        }
+        else 
+        {
+            LocalServerActive();
+        }
     }
     IEnumerator ShutdownServerInXTime()
     {
@@ -85,7 +91,15 @@ public class ServerNetworkManager : MonoBehaviour
         Debug.Log("Server is shutting down");
         StartCoroutine(ShutdownServer());
     }
-
+    private void LocalServerActive() 
+    {
+        Port = 7777;
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
+        ServerServer.Start(MaxPlayer, Port, HostID);
+        Debug.Log("ServerStart");
+        Debug.Log("Server Started From Agent Activation");
+    }
     private void OnServerActive()
     {
         QualitySettings.vSyncCount = 0;
