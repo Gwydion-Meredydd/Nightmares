@@ -173,7 +173,7 @@ MonoBehaviour:
   Port: 7777
   MaxPlayer: 4
   HostID: 
-  LocalHosting: 1
+  LocalHosting: 0
 --- !u!4 &1664924013
 Transform:
   m_ObjectHideFlags: 0
@@ -213,6 +213,13 @@ MonoBehaviour:
   CountDownTime: 0
   SpawnGame: 0
   SpawnLevel: 0
+  AFKInstantiated: 0
+  AFKStartingTime: 300
+  AFKTime: 0
+  DataCheckTimerIsWorking: 0
+  OldConnectedClientsUsernames: []
+  OldConnectedClientsIP: []
+  oldClientReady: 
 --- !u!114 &1664924015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,3 +258,5 @@ MonoBehaviour:
   multiplayerManager: {fileID: 0}
   multiplayerMenuManager: {fileID: 0}
   ConfigManager: {fileID: 0}
+  matchmakerManager: {fileID: 0}
+  logingManager: {fileID: 0}

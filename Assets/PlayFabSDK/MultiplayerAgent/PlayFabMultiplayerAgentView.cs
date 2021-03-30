@@ -1,6 +1,4 @@
-﻿#if ENABLE_PLAYFABSERVER_API
-
-using System;
+﻿using System;
 
 namespace PlayFab
 {
@@ -95,5 +93,3 @@ namespace PlayFab
         }
     }
 }
-
-#endif

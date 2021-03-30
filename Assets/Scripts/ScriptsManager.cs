@@ -30,4 +30,6 @@ public class ScriptsManager : MonoBehaviour
     public MultiplayerManager multiplayerManager;
     public MultiplayerMenuManager multiplayerMenuManager;
     public ClientConfigManager ConfigManager;
+    public MatchmakerManager matchmakerManager;
+    public LogingManager logingManager;
 }

@@ -6,12 +6,15 @@ using UnityEngine.SceneManagement;
 
 public class MultiplayerMenuManager : MonoBehaviour
 {
+    public ScriptsManager SM;
     public static MultiplayerMenuManager instance;
 
     public GameObject WaitingForServer;
+    public Text WaitingForServerInfoText;
     public GameObject ServerFullError;
 
     public GameObject StartMenu;
+    public GameObject MainMultiMenu;
     public string UserName;
 
     public Text[] Usernames;
@@ -28,6 +31,8 @@ public class MultiplayerMenuManager : MonoBehaviour
             Debug.Log("Instance already exists, destryoing Object!");
             Destroy(this);
         }
+        MainMultiMenu.SetActive(false);
+        StartMenu.SetActive(true);
         WaitingForServer.SetActive(false);
         ServerFullError.SetActive(false);
     }
@@ -55,10 +60,15 @@ public class MultiplayerMenuManager : MonoBehaviour
             WaitingForServer.SetActive(true);
         }
     }
+    public void WaitingOnServerInfoText(string Info) 
+    {
+        WaitingForServerInfoText.text = Info;
+    }
     public void ConnectedToServer()
     {
         StartMenu.SetActive(false);
-        ClientManager.instance.ConnectToServer();
+        MainMultiMenu.SetActive(true);
+        ClientManager.instance.LoginToPlayfab();
     }
     public void HostScene() 
     {
@@ -164,9 +174,22 @@ public class MultiplayerMenuManager : MonoBehaviour
                 break;
         }
     }
-    IEnumerator ServerFullErrorTimeout() 
+    IEnumerator ServerFullErrorTimeout()
     {
         yield return new WaitForSecondsRealtime(3);
         ServerFullError.SetActive(false);
+        WaitingForServer.SetActive(false);
+        if (!SM.Client_Manager.HasJoined)
+        {
+            StartMenu.SetActive(true);
+            MainMultiMenu.SetActive(false);
+        }
+    }
+    public void Disconnct()
+    {
+        ServerFullError.SetActive(false);
+        WaitingForServer.SetActive(false);
+        StartMenu.SetActive(true);
+        MainMultiMenu.SetActive(false);
     }
 }

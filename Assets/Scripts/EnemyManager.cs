@@ -210,6 +210,92 @@ public class EnemyManager : MonoBehaviour
                         }
                         SM.PointsScript.PointsIncrease(PointsDamage);
                         Health[ArrayLength] = Health[ArrayLength] - SM.PlayerScript.CurrentDamage;
+                        #region Color Damage
+                        Color newcolor = new Color(1, 1, 1, 1);
+                        if (SM.PlayerScript.WeaponValue == 3)
+                        {
+                            if (Health[ArrayLength] < 10)
+                            {
+                                newcolor = new Color(0, 0, 0, 1);
+                            }
+                            else if (Health[ArrayLength] < 20)
+                            {
+                                newcolor = new Color(0.2f, 0.2f, 0.2f, 1);
+                            }
+                            else if (Health[ArrayLength] < 30)
+                            {
+                                newcolor = new Color(0.3f, 0.3f, 0.3f, 1);
+                            }
+                            else if (Health[ArrayLength] < 40)
+                            {
+                                newcolor = new Color(0.4f, 0.4f, 0.4f, 1);
+                            }
+                            else if (Health[ArrayLength] < 50)
+                            {
+                                newcolor = new Color(0.5f, 0.5f, 0.5f, 1);
+                            }
+                            else if (Health[ArrayLength] < 60)
+                            {
+                                newcolor = new Color(0.6f, 0.6f, 0.6f, 1);
+                            }
+                            else if (Health[ArrayLength] < 70)
+                            {
+                                newcolor = new Color(0.7f, 0.7f, 0.7f, 1);
+                            }
+                            else if (Health[ArrayLength] < 80)
+                            {
+                                newcolor = new Color(0.8f, 0.8f, 0.8f, 1);
+                            }
+                            else if (Health[ArrayLength] < 90)
+                            {
+                                newcolor = new Color(0.9f, 0.9f, 0.9f, 1);
+                            }
+                        }
+                        else
+                        {
+                            if (Health[ArrayLength] < 10)
+                            {
+                                newcolor = new Color(1, 0.1f, 0.1f, 1);
+                            }
+                            else if (Health[ArrayLength] < 20)
+                            {
+                                newcolor = new Color(1, 0.2f, 0.2f, 1);
+                            }
+                            else if (Health[ArrayLength] < 30)
+                            {
+                                newcolor = new Color(1, 0.3f, 0.3f, 1);
+                            }
+                            else if (Health[ArrayLength] < 40)
+                            {
+                                newcolor = new Color(1, 0.4f, 0.4f, 1);
+                            }
+                            else if (Health[ArrayLength] < 50)
+                            {
+                                newcolor = new Color(1, 0.5f, 0.5f, 1);
+                            }
+                            else if (Health[ArrayLength] < 60)
+                            {
+                                newcolor = new Color(1, 0.6f, 0.6f, 1);
+                            }
+                            else if (Health[ArrayLength] < 70)
+                            {
+                                newcolor = new Color(1, 0.7f, 0.7f, 1);
+                            }
+                            else if (Health[ArrayLength] < 80)
+                            {
+                                newcolor = new Color(1, 0.8f, 0.8f, 1);
+                            }
+                            else if (Health[ArrayLength] < 90)
+                            {
+                                newcolor = new Color(1, 0.9f, 0.9f, 1);
+                            }
+                        }
+                        Renderer[] renderers = EnemyHited.GetComponentsInChildren<Renderer>();
+                        foreach (var render in renderers)
+                        {
+                            render.material.SetColor("_Color", newcolor);
+                        }
+                        #endregion
                         if (Health[ArrayLength] <= 0)
                         {
                             int randomSpawnChance = Random.Range(1, 20);

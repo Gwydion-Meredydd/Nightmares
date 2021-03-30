@@ -262,6 +262,7 @@ public class ServerClient
                 Debug.Log("Client Number " + ClientValue + " Has Disconnect from the server...");
                 ServerHostingManager.Instance.ConnectedClientsIP.RemoveAt(ClientValue);
                 ServerHostingManager.Instance.ConnectedClientsUsernames.RemoveAt(ClientValue);
+                ServerHostingManager.Instance.ClientReady.RemoveAt(ClientValue);
                 ServerHostingManager.Instance.ConnectedClients = ServerHostingManager.Instance.ConnectedClients - 1;
                 break;
             }

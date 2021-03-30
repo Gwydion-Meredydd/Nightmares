@@ -18,9 +18,9 @@ public class ClientManager : MonoBehaviour
 
     [HideInInspector]
     public string buildId = "";
-    [HideInInspector]
+   // [HideInInspector]
     public string ip;
-    [HideInInspector]
+    //[HideInInspector]
     public int port ;
     public int myID = 0;
     public TCP tcp;
@@ -30,6 +30,13 @@ public class ClientManager : MonoBehaviour
     private delegate void PacketHandler(Packet _packet);
     private static Dictionary<int,PacketHandler> packetHandlers;
     public bool LocalConnection;
+    public bool CreatingLobby;
+    public bool ShowServerDetail;
+    public Text ServerDetail;
+    public bool[] ServersActive;
+    private bool VirutalServerBoolsInstantiated;
+    private int ServerSelectionValue;
+    public int VirtualServerSelectionValue;
 
     private void Awake()
     {
@@ -43,55 +50,16 @@ public class ClientManager : MonoBehaviour
             Debug.Log("Instance already exists, destryoing Object!");
             Destroy(this);
         }
-    }
-    private void Start()
-    {
-        //tcp = new TCP();
-        //udp = new UDP();
-    }
+        if (ShowServerDetail == true) { ServerDetail.gameObject.SetActive(true); }
+        else { ServerDetail.gameObject.SetActive(false); }
 
-    private void OnApplicationQuit()
-    {
-        DisconnectClient();
     }
-    public void DisconnectClient() 
+    #region GET CONFIG 
+    private void Update()
     {
-        Disconnect();
-    }
-    public void ClientReadyToggle(Text ButtonText)  
-    {
-        if (HasJoined)
+        if (SM.ConfigManager.GetConfigPortandIp) 
         {
-            SM.multiplayerMenuManager.WaitingForServer.SetActive(true);
-            if (ButtonText.text == "READY!")
-            {
-                ClientUnReady();
-                ButtonText.text = "Not-Ready";
-            }
-            else if (ButtonText.text == "Not-Ready")
-            {
-                ButtonText.text = "READY!";
-                ClientReady();
-            }
-        }
-    }
-    public void ClientReady() 
-    {
-        ClientSend.PlayerIsReady();
-    }
-    public void ClientUnReady() 
-    {
-        ClientSend.PlayerNotReady();
-    }
-
-    public void HostConnectToServer()
-    {
-        if (!LocalConnection)
-        {
-            SM.multiplayerMenuManager.WaitingForServer.SetActive(true);
-            Debug.Log("[ClientStartUp].LoginRemoteUser");
-
-            //We need to login a user to get at PlayFab API's. 
+            SM.ConfigManager.GetConfigPortandIp = false;
             LoginWithCustomIDRequest request = new LoginWithCustomIDRequest()
             {
                 TitleId = PlayFabSettings.TitleId,
@@ -99,18 +67,48 @@ public class ClientManager : MonoBehaviour
                 CustomId = GUIDUtility.getUniqueID()
             };
 
-            PlayFabClientAPI.LoginWithCustomID(request, OnPlayFabHostLoginSuccess, OnLoginError);
-        }
-        else
-        {
-            ConnectLocalClient();
+            PlayFabClientAPI.LoginWithCustomID(request, GettingConfig, GettingConfigError);
         }
     }
-    public void ConnectToServer()
+    private void GettingConfig(LoginResult response) 
+    {
+        Debug.Log(response.ToString());
+        FetchServerRequest();
+    }
+    private void PrintConfig(RequestMultiplayerServerResponse response = null) 
+    {
+        Debug.Log("**** Adding host ip and host port to client -- IP: " + response.IPV4Address + " Port: " + (ushort)response.Ports[0].Num);
+    }
+    private void GettingConfigError(PlayFabError response) 
+    {
+        Debug.Log(response.ToString());
+    }
+    private void FetchServerRequest() 
+    {
+        RequestMultiplayerServerRequest requestData = new RequestMultiplayerServerRequest();
+        requestData.BuildId = buildId;
+        requestData.SessionId = System.Guid.NewGuid().ToString();
+        requestData.PreferredRegions = new List<AzureRegion>() { AzureRegion.NorthEurope };
+        PlayFabMultiplayerAPI.RequestMultiplayerServer(requestData, SucccsessServerRequest, OnRequestServerError);
+    }
+    private void SucccsessServerRequest(RequestMultiplayerServerResponse response)
+    {
+        Debug.Log(response.ToString());
+        PrintConfig(response);
+    }
+    private void OnRequestServerError(PlayFabError error)
+    {
+        Debug.Log(error.ToString());
+    }
+
+    #endregion
+
+    #region Login TO Playfab
+    public void LoginToPlayfab()
     {
         if (!LocalConnection)
         {
-
+            SM.multiplayerMenuManager.WaitingOnServerInfoText("Logging into Server");
             SM.multiplayerMenuManager.WaitingForServer.SetActive(true);
             Debug.Log("[ClientStartUp].LoginRemoteUser");
 
@@ -131,71 +129,142 @@ public class ClientManager : MonoBehaviour
     }
     private void OnLoginError(PlayFabError response)
     {
+        SM.multiplayerMenuManager.WaitingForServer.SetActive(false);
+        SM.multiplayerMenuManager.ServerFullErrorToggle();
         Debug.Log(response.ToString());
     }
     private void OnPlayFabLoginSuccess(LoginResult response)
     {
-        Debug.Log(response.ToString());
+        SM.multiplayerMenuManager.WaitingOnServerInfoText("Loggin Succsess");
+        Debug.Log(response.ToString() + "Succsess");
         ip = ip = SM.ConfigManager.ip;
         port = SM.ConfigManager.port;
-        ConnectRemoteClient();
+        CheckServersAreActive();
     }
-    private void OnPlayFabHostLoginSuccess(LoginResult response)
-    {
-        Debug.Log(response.ToString());
+    #endregion
 
-        RequestMultiplayerServer();
-    }
-    private void RequestMultiplayerServer()
+    #region Request All Server Data
+    private void CheckServersAreActive() 
     {
-        Debug.Log("[ClientStartUp].RequestMultiplayerServer");
         RequestMultiplayerServerRequest requestData = new RequestMultiplayerServerRequest();
         requestData.BuildId = buildId;
         requestData.SessionId = System.Guid.NewGuid().ToString();
         requestData.PreferredRegions = new List<AzureRegion>() { AzureRegion.NorthEurope };
-        PlayFabMultiplayerAPI.RequestMultiplayerServer(requestData, OnRequestMultiplayerServer, OnRequestMultiplayerServerError);
+        PlayFabMultiplayerAPI.RequestMultiplayerServer(requestData, ServerWasRequested, ServerWasActive);
     }
-    private void OnRequestMultiplayerServer(RequestMultiplayerServerResponse response)
+    private void ServerWasRequested(RequestMultiplayerServerResponse response)
     {
-        Debug.Log(response.ToString());
-        ConnectRemoteClient(response);
+        StartCoroutine(ServerWasRequestedTime(response));
     }
+    IEnumerator ServerWasRequestedTime(RequestMultiplayerServerResponse response) 
+    {
+        SM.multiplayerMenuManager.WaitingOnServerInfoText("Fetching Servers...");
+        Debug.Log("Server Found, Port: " + (ushort)response.Ports[0].Num);
+        yield return new WaitForSecondsRealtime(4);
+        CheckServersAreActive();
+    }
+    private void ServerWasActive(PlayFabError error) 
+    {
+        SM.multiplayerMenuManager.WaitingOnServerInfoText("Server Data Ready...");
+        StartLoginProcess();
+    }
+    #endregion
+
+    #region Find Available Server
+    private void StartLoginProcess() 
+    {
+        SM.multiplayerMenuManager.WaitingOnServerInfoText("Starting Connection...");
+        ServerSelectionValue = 0;
+        VirtualServerSelectionValue = 0;
+        port = SM.ConfigManager.port;
+        Debug.Log("Attempting Connection");
+        InitalizeClientData();
+        AttemptLogin();
+    }
+    private void AttemptLogin() 
+    {
+        tcp = new TCP();
+        isConnected = true;
+        tcp.Connect();
+        StartCoroutine(LoginTimeOut());
+    }
+    IEnumerator LoginTimeOut() 
+    {
+        if (!LocalConnection)
+        {
+            yield return new WaitForSecondsRealtime(7);
+            if (!HasJoined)
+            {
+                Debug.Log(ServerSelectionValue + " " + VirtualServerSelectionValue);
+                if (VirtualServerSelectionValue < SM.ConfigManager.VirtualServerAmmount - 1)
+                {
+                    VirtualServerSelectionValue = VirtualServerSelectionValue + 1;
+                    port = port + VirtualServerSelectionValue;
+                    AttemptLogin();
+                }
+                else
+                {
+                    ServerSelectionValue = ServerSelectionValue + 1;
+                    if (ServerSelectionValue < SM.ConfigManager.ServerAmmount)
+                    {
+                        port = port + 100;
+                        VirtualServerSelectionValue = 0;
+                        AttemptLogin();
+                    }
+                    else
+                    {
+                        if (!HasJoined)
+                        {
+                            ServerSelectionValue = 0;
+                            VirtualServerSelectionValue = 0;
+                            SM.multiplayerMenuManager.ServerFullErrorToggle();
+                            SM.multiplayerMenuManager.WaitingForServer.SetActive(false);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                ServerSelectionValue = 0;
+                VirtualServerSelectionValue = 0;
+                SM.multiplayerMenuManager.WaitingForServer.SetActive(false);
+                if (ShowServerDetail)
+                {
+                    ServerDetail.text = "Port:" + port.ToString();
+                }
+            }
+        }
+        else 
+        {
+            yield return new WaitForSecondsRealtime(3);
+            if (!HasJoined) 
+            {
+                SM.multiplayerMenuManager.ServerFullErrorToggle();
+            }
+            else 
+            {
+                SM.multiplayerMenuManager.WaitingForServer.SetActive(false);
+            }
+        }
+    }
+    #endregion
+
+    #region Local Connection
     private void ConnectLocalClient()
     {
         ip = "127.0.0.1";
         port = 7777;
         Debug.Log("Connection started..");
+        SM.multiplayerMenuManager.WaitingForServer.SetActive(true);
         InitalizeClientData();
         tcp = new TCP();
         isConnected = true;
         tcp.Connect();
+        StartCoroutine(LoginTimeOut());
     }
-    private void ConnectRemoteClient(RequestMultiplayerServerResponse response = null)
-    {
-        if (response == null)
-        {
-            ip = ip = SM.ConfigManager.ip;
-            port = SM.ConfigManager.port;
-            Debug.Log("joining made lobby");
-        }
-        else
-        {
-            Debug.Log("**** Adding host ip and host port to client -- IP: " + response.IPV4Address + " Port: " + (ushort)response.Ports[0].Num);
-            ip = response.IPV4Address;
-            port = (ushort)response.Ports[0].Num;
-        }
-        Debug.Log("Connection started..");
-        InitalizeClientData();
-        tcp = new TCP();
-        //udp = new UDP();
-        isConnected = true;
-        tcp.Connect();
-    }
-    private void OnRequestMultiplayerServerError(PlayFabError error)
-    {
-        Debug.Log(error.ErrorDetails);
-        SM.multiplayerMenuManager.ServerFullErrorToggle();
-    }
+    #endregion
+
+    #region ClientServerCommunication
     public class TCP
     {
         public TcpClient socket;
@@ -414,7 +483,39 @@ public class ClientManager : MonoBehaviour
         };
         Debug.Log("Initalized Packets!");
     }
-
+    private void OnApplicationQuit()
+    {
+        DisconnectClient();
+    }
+    public void DisconnectClient()
+    {
+        Disconnect();
+    }
+    public void ClientReadyToggle(Text ButtonText)
+    {
+        if (HasJoined)
+        {
+            SM.multiplayerMenuManager.WaitingForServer.SetActive(true);
+            if (ButtonText.text == "READY!")
+            {
+                ClientUnReady();
+                ButtonText.text = "Not-Ready";
+            }
+            else if (ButtonText.text == "Not-Ready")
+            {
+                ButtonText.text = "READY!";
+                ClientReady();
+            }
+        }
+    }
+    public void ClientReady()
+    {
+        ClientSend.PlayerIsReady();
+    }
+    public void ClientUnReady()
+    {
+        ClientSend.PlayerNotReady();
+    }
     private void Disconnect() 
     {
         if (isConnected) 
@@ -423,9 +524,11 @@ public class ClientManager : MonoBehaviour
             isConnected = false;
             tcp.socket.Close();
             myID = 0;
-            SM.multiplayerManager.Disconnect();
-            Debug.Log("Disconnected from server.");
         }
+        SM.multiplayerManager.Disconnect();
+        SM.multiplayerMenuManager.Disconnct();
+        Debug.Log("Disconnected from server.");
     }
+    #endregion
 }
 

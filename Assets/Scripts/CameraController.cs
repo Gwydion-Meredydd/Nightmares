@@ -59,7 +59,6 @@ public class CameraController : MonoBehaviour
                         }
                         foreach (GameObject AboveEnemy in SM.LevelScript.HeightOccludedEnemies)
                         {
-                            Debug.Log("Normal skin");
                             EnemySkinedMeshRenderes = AboveEnemy.GetComponentsInChildren<SkinnedMeshRenderer>();
                             foreach (SkinnedMeshRenderer SkinRenders in EnemySkinedMeshRenderes)
                             {
@@ -80,7 +79,6 @@ public class CameraController : MonoBehaviour
                         }
                         foreach (GameObject AboveEnemy in SM.LevelScript.HeightOccludedEnemies)
                         {
-                            Debug.Log("Transpent skin");
                             EnemySkinedMeshRenderes = AboveEnemy.GetComponentsInChildren<SkinnedMeshRenderer>();
                             foreach (SkinnedMeshRenderer SkinRenders in EnemySkinedMeshRenderes)
                             {

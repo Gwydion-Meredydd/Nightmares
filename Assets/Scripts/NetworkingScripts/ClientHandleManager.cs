@@ -14,6 +14,8 @@ public class ClientHandleManager : MonoBehaviour
         Debug.Log($"Message from Server: {_msg}");
         ClientManager.instance.myID = _myId;
         ClientManager.instance.HasJoined = true;
+        ClientManager.instance.SM.multiplayerMenuManager.WaitingForServer.SetActive(false);
+        ClientManager.instance.SM.multiplayerMenuManager.WaitingForServerInfoText.text = "";
         ClientSend.WelcomeReceived();
 
         //ClientManager.instance.udp.Connect(((IPEndPoint)ClientManager.instance.tcp.socket.Client.LocalEndPoint).Port);
@@ -99,6 +101,7 @@ public class ClientHandleManager : MonoBehaviour
     {
         Debug.Log("Ready Toggle Received From Server...");
         bool[] ReadyRNot = new bool[_packet.ReadInt()];
+        Debug.Log(ReadyRNot.Length);
         for (int i = 0; i < ReadyRNot.Length; i++)
         {
             ReadyRNot[i] = _packet.ReadBool();

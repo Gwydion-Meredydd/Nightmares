@@ -15,7 +15,7 @@ MonoBehaviour:
   TitleId: F36C8
   DeveloperSecretKey: TRTGMNPBOZDOHB3BHHRDUPWO4OQ9UU7Q946MSXA1MZB7EGHIXI
   ProductionEnvironmentUrl: 
-  RequestType: 2
+  RequestType: 0
   AdvertisingIdType: 
   AdvertisingIdValue: 
   DisableAdvertising: 0

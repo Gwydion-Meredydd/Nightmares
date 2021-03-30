@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d0199c11aa6f514784c5c69cd8378d8, type: 3}
   m_Name: PlayFabEditorPrefsSO
   m_EditorClassIdentifier: 
-  DevAccountEmail: 
-  DevAccountToken: 
-  SelectedStudio: 
-  SdkPath: 
+  DevAccountEmail: madmananimations@gmail.com
+  DevAccountToken: 4thiqjpdoky1pukpwmx34hro8eqwyxtywox9do689fo8jim7j6t5a5tzyiidz4fd549tqhr66mhjyn1dqjjx178f4fca6y7bdsp73bfya7eywreqbmxwgtjq8ia6kbabxf8gzutyir5f3ud4k6y7bz57sj3oniu3qcfgap6dew7sh6mhymgf9czx9tx3qsyim1yx8rgz
+  SelectedStudio: Introverts games
+  SdkPath: Assets/PlayFabSDK
   EdExPath: 
   LocalCloudScriptPath: 
   PanelIsShown: 0

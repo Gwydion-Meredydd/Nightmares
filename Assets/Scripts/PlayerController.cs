@@ -681,6 +681,7 @@ public class PlayerController : MonoBehaviour
         SM.CameraScript.yValue -= CameraShootEffectValue;
     }
     #endregion
+    #region Multiplayer
     public void FixedUpdate()
     {
         if (SM.GameScript.Server)
@@ -714,4 +715,5 @@ public class PlayerController : MonoBehaviour
             ClientSend.PlayerRotation(MousePos);
         }
     }
+    #endregion
 }
