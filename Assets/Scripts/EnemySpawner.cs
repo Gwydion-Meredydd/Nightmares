@@ -26,8 +26,9 @@ public class EnemySpawner : MonoBehaviour
     [HideInInspector]
     public int SpawnedMonsterAmmount;
     public int LevelMonsterAmmount;
-    [HideInInspector]
+    //[HideInInspector]
     public GameObject[] MonsterPrefab;
+    public GameObject[] GroundMonsterPrefab;
     void Update()
     {
         if (SM.GameScript.InGame == true && SM.GameScript.Paused == false)
@@ -79,14 +80,22 @@ public class EnemySpawner : MonoBehaviour
             {
                 for (int SpawnLoopValue = 0; SpawnLoopValue < SpawningAmmount; SpawnLoopValue++)
                 {
-                    if (SpawnedMonsterAmmount >= LevelMonsterAmmount) 
+                    if (SpawnedMonsterAmmount >= LevelMonsterAmmount)
                     {
                         break;
                     }
                     SpawnedMonsterAmmount = SpawnedMonsterAmmount + 1;
-                    Vector3 SelectedSpawnPoint = LevelSpawnPoints[Random.Range(0, LevelSpawnPoints.Length)].position;
+                    Transform SpawnPoint = LevelSpawnPoints[Random.Range(0, LevelSpawnPoints.Length)];
+                    Vector3 SelectedSpawnPoint = SpawnPoint.position;
                     Quaternion QuaternionSpawning = new Quaternion(0, 0, 0, 0);
-                    Instantiate(MonsterPrefab[Random.Range(0,3)], SelectedSpawnPoint, QuaternionSpawning);
+                    if (SpawnPoint.gameObject.layer == 23)
+                    {
+                        Instantiate(GroundMonsterPrefab[Random.Range(0, 3)], SelectedSpawnPoint, QuaternionSpawning);
+                    }
+                    else 
+                    {
+                        Instantiate(MonsterPrefab[Random.Range(0, 3)], SelectedSpawnPoint, QuaternionSpawning);
+                    }
                 }
             }
             else 

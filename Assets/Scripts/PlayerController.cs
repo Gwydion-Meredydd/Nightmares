@@ -662,6 +662,7 @@ public class PlayerController : MonoBehaviour
     {
         SM.PerksScript.PerkBaught[SM.PerksScript.PerkValue] = true;
         SM.PointsScript.Points = SM.PointsScript.Points - SM.PerksScript.CurrentCostOfPerk;
+        SM.GameMenuScript.ScoreText.text =SM.PointsScript.Points.ToString();
         SM.PerksScript.PlayerPerkBaught();
         PlayerAnimator.SetBool("Perk", true);
         yield return new WaitForSecondsRealtime(0.1f);

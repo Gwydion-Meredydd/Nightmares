@@ -310,7 +310,15 @@ public class EnemyManager : MonoBehaviour
                             //Attacking = false;
                             int DeathValue = Random.Range(1, 4);
                             ActiveEnemiesAnimators[ArrayLength].SetInteger("DeathRandomiser", DeathValue);
-                            ActiveEnemiesAgents[ArrayLength].isStopped = true;
+                            if (ActiveEnemiesAgents[ArrayLength].isActiveAndEnabled)
+                            {
+                                ActiveEnemiesAgents[ArrayLength].isStopped = true;
+                            }
+                            else 
+                            {
+                                ActiveEnemiesAgents[ArrayLength].enabled = true;
+                                ActiveEnemiesAgents[ArrayLength].isStopped = true;
+                            }
                             ActiveEnemiesBoxColliders[ArrayLength].enabled = false;
 
                             //EnemyDied = true;
@@ -370,8 +378,11 @@ public class EnemyManager : MonoBehaviour
         float NewDistance = Vector3.Distance(ActiveEnemies[ArrayLength].transform.position, SM.PlayerScript.Player.transform.position);
         int OldNumberOfEnemies = ActiveEnemies.Count;
         if (NewDistance < AttackingDistance && Health[ArrayLength] > 0)
-        { 
-            ActiveEnemiesAgents[ArrayLength].isStopped = true;
+        {
+            if (ActiveEnemiesAgents[ArrayLength].isActiveAndEnabled)
+            {
+                ActiveEnemiesAgents[ArrayLength].isStopped = true;
+            }
             int AttackValue = Random.Range(1, 3);
             ActiveEnemiesAnimators[ArrayLength].SetInteger("AttackRandomiser", AttackValue);
             ActiveEnemiesAnimators[ArrayLength].SetBool("Moving", false);
@@ -427,7 +438,10 @@ public class EnemyManager : MonoBehaviour
             int ArrayLength = 0;
             foreach (var GameObject in ActiveEnemies)
             {
-                ActiveEnemiesAgents[ArrayLength].destination = SM.PlayerScript.Player.transform.position;
+                if (ActiveEnemiesAgents[ArrayLength].isActiveAndEnabled)
+                {
+                    ActiveEnemiesAgents[ArrayLength].destination = SM.PlayerScript.Player.transform.position;
+                }
                 ArrayLength = ArrayLength + 1;
             }
         }
@@ -444,8 +458,14 @@ public class EnemyManager : MonoBehaviour
             {
                 if (ActiveEnemiesAgents[i] != null)
                 {
-                    RandomPosition = new Vector3(Random.Range(SM.CameraScript.maxPosition.x, SM.CameraScript.minPosition.x), 0, Random.Range(SM.CameraScript.maxPosition.z, SM.CameraScript.minPosition.z));
-                    ActiveEnemiesAgents[i].destination = RandomPosition;
+                    if (ActiveEnemiesAgents[i].isActiveAndEnabled)
+                    {
+                        RandomPosition = new Vector3(Random.Range(SM.CameraScript.maxPosition.x, SM.CameraScript.minPosition.x), 0, Random.Range(SM.CameraScript.maxPosition.z, SM.CameraScript.minPosition.z));
+                        if (ActiveEnemiesAgents[i].isActiveAndEnabled)
+                        {
+                            ActiveEnemiesAgents[i].destination = RandomPosition;
+                        }
+                    }
                 }
                 else
                 {
@@ -460,10 +480,13 @@ public class EnemyManager : MonoBehaviour
             {
                 if (OldLength == ActiveEnemies.Count)
                 {
-                    if (ActiveEnemiesAgents[i].remainingDistance < 3 && ActiveEnemiesAgents[i] != null)
+                    if (ActiveEnemiesAgents[i].isActiveAndEnabled)
                     {
-                        RandomPosition = new Vector3(Random.Range(SM.CameraScript.maxPosition.x, SM.CameraScript.minPosition.x), 0, Random.Range(SM.CameraScript.maxPosition.z, SM.CameraScript.minPosition.z));
-                        ActiveEnemiesAgents[i].destination = RandomPosition;
+                        if (ActiveEnemiesAgents[i].remainingDistance < 3 && ActiveEnemiesAgents[i] != null)
+                        {
+                            RandomPosition = new Vector3(Random.Range(SM.CameraScript.maxPosition.x, SM.CameraScript.minPosition.x), 0, Random.Range(SM.CameraScript.maxPosition.z, SM.CameraScript.minPosition.z));
+                            ActiveEnemiesAgents[i].destination = RandomPosition;
+                        }
                     }
                 }
                 else

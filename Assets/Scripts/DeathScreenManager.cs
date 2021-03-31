@@ -144,5 +144,6 @@ public class DeathScreenManager : MonoBehaviour
         SM.GameMenuScript.CoinMethod();
         SM.GameScript.InGame = false;
         SM.GameScript.Paused = false;
+        SM.AudioScripts.MainMenuMusic.SetActive(true);
     }
 }

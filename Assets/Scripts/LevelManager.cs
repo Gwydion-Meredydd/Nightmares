@@ -30,6 +30,7 @@ public class LevelManager : MonoBehaviour
 
     public void SpawnLevel() 
     {
+        SM.ScoreScript.LeaderboardValue = LevelValue;
         int LevelArrayValue = LevelValue -1;
         Instantiate(Levels[LevelArrayValue], new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
         SM.CameraScript.minPosition = CameraMinSpace[LevelArrayValue];

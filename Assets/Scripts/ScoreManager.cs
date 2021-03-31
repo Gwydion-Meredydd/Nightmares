@@ -1080,19 +1080,88 @@ public class ScoreManager : MonoBehaviour
     }
     IEnumerator UserNameDataFetcher(string UserName, int NewScore, bool NewScoreInput)
     {
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(WebUrl + PublicCode1 + "/pipe/"))
+        switch (SM.LevelScript.LevelValue)
         {
-            if (webRequest.isNetworkError)
-            {
-                Debug.Log(": Error: " + webRequest.error);
-            }
-            else
-            {
-                // Request and wait for the desired page.
-                yield return webRequest.SendWebRequest();
+            case 1:
+                using (UnityWebRequest webRequest = UnityWebRequest.Get(WebUrl + PublicCode1 + "/pipe/"))
+                {
+                    if (webRequest.isNetworkError)
+                    {
+                        Debug.Log(": Error: " + webRequest.error);
+                    }
+                    else
+                    {
+                        // Request and wait for the desired page.
+                        yield return webRequest.SendWebRequest();
 
-                UserNameChecker(webRequest.downloadHandler.text, UserName, NewScore, NewScoreInput);
-            }
+                        UserNameChecker(webRequest.downloadHandler.text, UserName, NewScore, NewScoreInput);
+                    }
+                }
+                break;
+            case 2:
+                using (UnityWebRequest webRequest = UnityWebRequest.Get(WebUrl + PublicCode2 + "/pipe/"))
+                {
+                    if (webRequest.isNetworkError)
+                    {
+                        Debug.Log(": Error: " + webRequest.error);
+                    }
+                    else
+                    {
+                        // Request and wait for the desired page.
+                        yield return webRequest.SendWebRequest();
+
+                        UserNameChecker(webRequest.downloadHandler.text, UserName, NewScore, NewScoreInput);
+                    }
+                }
+                break;
+            case 3:
+                using (UnityWebRequest webRequest = UnityWebRequest.Get(WebUrl + PublicCode3 + "/pipe/"))
+                {
+                    if (webRequest.isNetworkError)
+                    {
+                        Debug.Log(": Error: " + webRequest.error);
+                    }
+                    else
+                    {
+                        // Request and wait for the desired page.
+                        yield return webRequest.SendWebRequest();
+
+                        UserNameChecker(webRequest.downloadHandler.text, UserName, NewScore, NewScoreInput);
+                    }
+                }
+                break;
+            case 4:
+                using (UnityWebRequest webRequest = UnityWebRequest.Get(WebUrl + PublicCode4 + "/pipe/"))
+                {
+                    if (webRequest.isNetworkError)
+                    {
+                        Debug.Log(": Error: " + webRequest.error);
+                    }
+                    else
+                    {
+                        // Request and wait for the desired page.
+                        yield return webRequest.SendWebRequest();
+
+                        UserNameChecker(webRequest.downloadHandler.text, UserName, NewScore, NewScoreInput);
+                    }
+                }
+                break;
+            case 5:
+                using (UnityWebRequest webRequest = UnityWebRequest.Get(WebUrl + PublicCode5 + "/pipe/"))
+                {
+                    if (webRequest.isNetworkError)
+                    {
+                        Debug.Log(": Error: " + webRequest.error);
+                    }
+                    else
+                    {
+                        // Request and wait for the desired page.
+                        yield return webRequest.SendWebRequest();
+
+                        UserNameChecker(webRequest.downloadHandler.text, UserName, NewScore, NewScoreInput);
+                    }
+                }
+                break;
         }
     }
     void UserNameChecker(string DownloadedData, string UserName, int NewScore, bool NewScoreInput)

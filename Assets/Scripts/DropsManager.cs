@@ -170,6 +170,7 @@ public class DropsManager : MonoBehaviour
                 {
                     SM.PlayerScript.Health = SM.PlayerScript.StartingHealth;
                 }
+                SM.GameMenuScript.HealthMethod(SM.PlayerScript.Health);
                 break;
         }
     }
@@ -328,16 +329,19 @@ public class DropsManager : MonoBehaviour
     {
         MiniGunTime = StartingMiniGunTime;
         MiniGunIsActive = true;
+        SM.GameMenuScript.DropsIcon[4].SetActive(true);
         SM.PlayerScript.WeaponValue = 2;
         SM.PlayerScript.WeaponSwitch();
         while (MiniGunIsActive)
         {
             MiniGunTime = MiniGunTime - 1;
+            SM.GameMenuScript.DropsIconText[4].text = MiniGunTime.ToString();
             yield return new WaitForSeconds(1f);
             if (MiniGunTime <= 0)
             {
                 SM.PlayerScript.WeaponValue = 1;
                 SM.PlayerScript.WeaponSwitch();
+                SM.GameMenuScript.DropsIcon[4].SetActive(false);
                 MiniGunIsActive = false;
             }
         }
@@ -347,15 +351,18 @@ public class DropsManager : MonoBehaviour
         FlameThrowerTime = StartingFlameThrowerTime;
         FlameThrowerIsActive = true;
         SM.PlayerScript.WeaponValue = 3;
+        SM.GameMenuScript.DropsIcon[3].SetActive(true);
         SM.PlayerScript.WeaponSwitch();
         while (FlameThrowerIsActive)
         {
             FlameThrowerTime = FlameThrowerTime - 1;
+            SM.GameMenuScript.DropsIconText[3].text = FlameThrowerTime.ToString();
             yield return new WaitForSeconds(1f);
             if (FlameThrowerTime <= 0)
             {
                 SM.PlayerScript.WeaponValue = 1;
                 SM.PlayerScript.WeaponSwitch();
+                SM.GameMenuScript.DropsIcon[3].SetActive(false);
                 FlameThrowerIsActive = false;
             }
         }

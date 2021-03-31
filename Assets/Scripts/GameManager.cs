@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     private GameObject TempShellPoint;
     private GameObject ChildTempForCasePoint;
     public GameObject[] MonsterPrefabs;
+    public GameObject[] GroundMonsterPrefabs;
     public GameObject[] PerkMachinePrefabs;
     public GameObject[] EnemieDrops;
     public GameObject[] Levels;
@@ -230,9 +231,13 @@ public class GameManager : MonoBehaviour
                 #endregion
                 //sets special settings for other scripts such as camera script
                 SM.EnemySpawningScript.MonsterPrefab = new GameObject[3];
+                SM.EnemySpawningScript.GroundMonsterPrefab = new GameObject[3];
                 SM.EnemySpawningScript.MonsterPrefab[0] = MonsterPrefabs[0];
                 SM.EnemySpawningScript.MonsterPrefab[2] = MonsterPrefabs[1];
                 SM.EnemySpawningScript.MonsterPrefab[1] = MonsterPrefabs[2];
+                SM.EnemySpawningScript.GroundMonsterPrefab[0] = GroundMonsterPrefabs[0];
+                SM.EnemySpawningScript.GroundMonsterPrefab[2] = GroundMonsterPrefabs[1];
+                SM.EnemySpawningScript.GroundMonsterPrefab[1] = GroundMonsterPrefabs[2];
                 SM.PerksScript.PerkMachine = new GameObject[4];
                 SM.PerksScript.PerkMachineAnimator = new Animator[4];
                 SM.PerksScript.PerkBaught = new bool[4];
