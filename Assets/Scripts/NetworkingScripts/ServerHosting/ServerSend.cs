@@ -130,5 +130,25 @@ public class ServerSend
             SendTCPDataToAll(_packet);
         }
     }
+    public static void NewWeaponValue(int ID, ServerPlayer _Player) 
+    {
+        using (ServerPacket _packet = new ServerPacket((int)ServerServerPackets.WeaponValueToClient))
+        {
+            _packet.Write(_Player.id);
+            _packet.Write(_Player.WeaponValue);
+            Debug.Log("Sending Scroll Data of Player " + ID + "To All Players");
+            SendTCPDataToAll(_packet);
+        }
+    }
+    public static void PlayerShoot(ServerPlayer _Player) 
+    {
+        using (ServerPacket _packet = new ServerPacket((int)ServerServerPackets.MouseSendToPlayer))
+        {
+            _packet.Write(_Player.id);
+            _packet.Write(_Player.Firing);
+
+            SendTCPDataToAll(_packet);
+        }
+    }
     #endregion
 }

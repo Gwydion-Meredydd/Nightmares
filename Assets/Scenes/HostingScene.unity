@@ -173,7 +173,7 @@ MonoBehaviour:
   Port: 7777
   MaxPlayer: 4
   HostID: 
-  LocalHosting: 0
+  LocalHosting: 1
 --- !u!4 &1664924013
 Transform:
   m_ObjectHideFlags: 0

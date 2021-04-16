@@ -115,6 +115,7 @@ public class PlayerController : MonoBehaviour
     public Transform HeightOcclusionPoint;
     [Space]
     [Header("Server")]
+    public _PlayerManager ThisClientManager;
 
 
     [Space]
@@ -692,8 +693,68 @@ public class PlayerController : MonoBehaviour
                 SendKeyInputToServer();
                 PlayerRotationalCalculation();
                 SendRotationInputToServer();
+                DetectScrollWheel();
+                DetectMouseButton();
             }
         }
+    }
+    private void DetectScrollWheel() 
+    {
+        if (Input.GetAxis("Mouse ScrollWheel") != 0f)
+        {
+            Scrolling = true;
+            ScrollingValue = Input.GetAxis("Mouse ScrollWheel");
+        }
+        if (Scrolling)
+        {
+            ScrollWeaponSwitch();
+        }
+    }
+    private void ScrollWeaponSwitch() 
+    {
+        int NewWeaponValue;
+        switch (ThisClientManager.WeaponValue)
+        {
+            case 1:
+                if (ScrollingValue > 0)
+                {
+                    NewWeaponValue = 4;
+                    ClientSend.WeaponSwitch(NewWeaponValue);
+                }
+                else if (ScrollingValue < 0)
+                {
+                    NewWeaponValue = 5;
+                    ClientSend.WeaponSwitch(NewWeaponValue);
+                }
+                break;
+            case 4:
+                if (ScrollingValue > 0)
+                {
+                    NewWeaponValue = 5;
+                    ClientSend.WeaponSwitch(NewWeaponValue);
+                }
+                else if (ScrollingValue < 0)
+                {
+                    NewWeaponValue = 1;
+                    ClientSend.WeaponSwitch(NewWeaponValue);
+                }
+                break;
+            case 5:
+                if (ScrollingValue > 0)
+                {
+                    NewWeaponValue = 1;
+                    ClientSend.WeaponSwitch(NewWeaponValue);
+                }
+                else if (ScrollingValue < 0)
+                {
+                    NewWeaponValue = 4;
+                    ClientSend.WeaponSwitch(NewWeaponValue);
+                }
+                break;
+        }
+        Debug.Log("ISSCROLLING");
+        ScrollingValue = 0;
+        Scrolling = false;
     }
     private void SendKeyInputToServer()
     {
@@ -712,8 +773,21 @@ public class PlayerController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit, 100))
         {
-           Vector3 MousePos = new Vector3 (hit.point.x, Player.transform.position.y, hit.point.z);
+            Vector3 MousePos = new Vector3 (hit.point.x, Player.transform.position.y, hit.point.z);
             ClientSend.PlayerRotation(MousePos);
+        }
+    }
+    private void DetectMouseButton()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            bool MouseDown = true; 
+            ClientSend.MouseIsDown(MouseDown);
+        }
+        else 
+        {
+            bool MouseDown = false;
+            ClientSend.MouseIsDown(MouseDown);
         }
     }
     #endregion

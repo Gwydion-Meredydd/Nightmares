@@ -118,4 +118,18 @@ public class ClientHandleManager : MonoBehaviour
             ClientSend.ClientNeedsPlayer();
         }
     }
+    public static void RecievedWeaponValue(Packet _packet) 
+    {
+        int _id = _packet.ReadInt();
+        int NewWeaponValue = _packet.ReadInt();
+        ClientManager.instance.NewWeaponValueRecevied(_id, NewWeaponValue);
+        Debug.Log("Recieved Weapon Value");
+    }
+    public static void ServerShootingRecevied(Packet _packet) 
+    {
+        int _id = _packet.ReadInt();
+        bool IsFiring = _packet.ReadBool();
+        ClientManager.instance.ShootingServerRecevied(_id, IsFiring);
+        Debug.Log("Recieved Shooting");
+    }
 }

@@ -140,6 +140,8 @@ public class ServerServer
                 {(int)ServerClientPackets.clientNeedsPlayer,ServerServerHandle.ClientNeedsPlayer },
                 {(int)ServerClientPackets.playerMovement,ServerServerHandle.PlayerMovement },
                 {(int)ServerClientPackets.playerrotation,ServerServerHandle.PlayerRotation },
+                {(int)ServerClientPackets.SendWeaponValue,ServerServerHandle.SendWeaponValueToClient },
+                {(int)ServerClientPackets.MouseInputs,ServerServerHandle.PlayerMouseInput },
             };
         Debug.Log("Initialized packets.");
     }

@@ -330,7 +330,10 @@ public class GameManager : MonoBehaviour
                     _player.GetComponent<_PlayerManager>().id = _id;
                     _player.GetComponent<_PlayerManager>().username = _username;
                     players.Add(_id, _player.GetComponent<_PlayerManager>());
+                    players[_id].IsClient = true;
                     SM.PlayerScript.Player = _player;
+                    SM.PlayerScript.ThisClientManager = _player.GetComponent<_PlayerManager>();
+                    MultiplayerClientsInstatiate(_id, _player);
                     break;
                 case 2:
                     _player = Instantiate(ClientPlayers[1], _position, _rotation);
@@ -338,7 +341,10 @@ public class GameManager : MonoBehaviour
                     _player.GetComponent<_PlayerManager>().id = _id;
                     _player.GetComponent<_PlayerManager>().username = _username;
                     players.Add(_id, _player.GetComponent<_PlayerManager>());
+                    players[_id].IsClient = true;
                     SM.PlayerScript.Player = _player;
+                    SM.PlayerScript.ThisClientManager = _player.GetComponent<_PlayerManager>();
+                    MultiplayerClientsInstatiate(_id, _player);
                     break;
                 case 3:
                     _player = Instantiate(ClientPlayers[2], _position, _rotation);
@@ -346,7 +352,10 @@ public class GameManager : MonoBehaviour
                     _player.GetComponent<_PlayerManager>().id = _id;
                     _player.GetComponent<_PlayerManager>().username = _username;
                     players.Add(_id, _player.GetComponent<_PlayerManager>());
+                    players[_id].IsClient = true;
                     SM.PlayerScript.Player = _player;
+                    SM.PlayerScript.ThisClientManager = _player.GetComponent<_PlayerManager>();
+                    MultiplayerClientsInstatiate(_id, _player);
                     break;
                 case 4:
                     _player = Instantiate(ClientPlayers[3], _position, _rotation);
@@ -354,7 +363,10 @@ public class GameManager : MonoBehaviour
                     _player.GetComponent<_PlayerManager>().id = _id;
                     _player.GetComponent<_PlayerManager>().username = _username;
                     players.Add(_id, _player.GetComponent<_PlayerManager>());
+                    players[_id].IsClient = true;
                     SM.PlayerScript.Player = _player;
+                    SM.PlayerScript.ThisClientManager = _player.GetComponent<_PlayerManager>();
+                    MultiplayerClientsInstatiate(_id, _player);
                     break;
             }
             CameraInstantiated = true;
@@ -366,21 +378,197 @@ public class GameManager : MonoBehaviour
                 case 1:
                     _player = Instantiate(ClientPlayers[0], _position, _rotation);
                     players.Add(_id, _player.GetComponent<_PlayerManager>());
+                    players[_id].IsClient = false;
+                    players[_id].id = _id;
+                    players[_id].username = SM.multiplayerManager.Username[0].ToString();
+                    MultiplayerClientsInstatiate(_id, _player);
                     break;
                 case 2:
                     _player = Instantiate(ClientPlayers[1], _position, _rotation);
                     players.Add(_id, _player.GetComponent<_PlayerManager>());
+                    players[_id].IsClient = false;
+                    players[_id].id = _id;
+                    players[_id].username = SM.multiplayerManager.Username[1].ToString();
+                    MultiplayerClientsInstatiate(_id, _player);
                     break;
                 case 3:
                     _player = Instantiate(ClientPlayers[2], _position, _rotation);
                     players.Add(_id, _player.GetComponent<_PlayerManager>());
+                    players[_id].IsClient = false;
+                    players[_id].id = _id;
+                    players[_id].username = SM.multiplayerManager.Username[2].ToString();
+                    MultiplayerClientsInstatiate(_id, _player);
                     break;
                 case 4:
                     _player = Instantiate(ClientPlayers[3], _position, _rotation);
                     players.Add(_id, _player.GetComponent<_PlayerManager>());
+                    players[_id].IsClient = false;
+                    players[_id].id = _id;
+                    players[_id].username = SM.multiplayerManager.Username[3].ToString();
+                    MultiplayerClientsInstatiate(_id, _player);
+
                     break;
             }
         }
         PlayerInstantiated = true;
+    }
+    private void MultiplayerClientsInstatiate(int _id, GameObject _player) 
+    {
+        players[_id].AutomaticRifleModel = FindGameObject(_player, "AR").gameObject;
+        players[_id].MiniGunModel = FindGameObject(_player, "MG").gameObject;
+        players[_id].FlameThrowerModel = FindGameObject(_player, "FT").gameObject;
+        players[_id].ShotGunModel = FindGameObject(_player, "SG").gameObject;
+        players[_id].SideArmModel = FindGameObject(_player, "SA").gameObject;
+
+        GameObject ClientTempAudioGameObject = FindGameObject(players[_id].gameObject, "WeaponMaster").gameObject;
+        players[_id].WeaponAudioSource = ClientTempAudioGameObject.GetComponent<AudioSource>();
+        players[_id].PlayerAudioSource = players[_id].GetComponent<AudioSource>();
+
+        #region AssaultRifle
+        players[_id].ARShootPoint = FindGameObject(players[_id].AutomaticRifleModel, "ARShootPoint").transform;
+        GameObject ClientChildTempForShootPoint = Instantiate(ARBulletParticle.gameObject, players[_id].ARShootPoint.position, players[_id].ARShootPoint.rotation);
+        ClientChildTempForShootPoint.transform.parent = players[_id].ARShootPoint;
+        players[_id].ARBulletParticle = ClientChildTempForShootPoint.GetComponent<ParticleSystem>();
+        ClientChildTempForShootPoint = null;
+
+        GameObject ClientChildTempForMuzzleFlash = Instantiate(ArMuzzleFlash.gameObject, players[_id].ARShootPoint.position, players[_id].ARShootPoint.rotation);
+        ClientChildTempForMuzzleFlash.transform.parent = players[_id].ARShootPoint;
+        players[_id].ARMuzzleFlash = ClientChildTempForMuzzleFlash.GetComponent<ParticleSystem>();
+        ClientChildTempForMuzzleFlash = null;
+
+        players[_id].ARCasePoint = FindGameObject(players[_id].AutomaticRifleModel, "ARCasePoint").transform;
+
+        GameObject ClientChildTempForCasePoint = Instantiate(ARShellParticle.gameObject, players[_id].ARCasePoint.position, players[_id].ARCasePoint.rotation);
+        ClientChildTempForCasePoint.transform.parent = players[_id].ARCasePoint;
+        players[_id].ARBulletCasing = ClientChildTempForCasePoint.GetComponent<ParticleSystem>();
+        ClientChildTempForCasePoint = null;
+        #endregion
+
+        #region MiniGun
+        players[_id].MGShootPoint = FindGameObject(players[_id].gameObject, "MGShootPoint").transform;
+        ClientChildTempForShootPoint = Instantiate(MGBulletParticle.gameObject, players[_id].MGShootPoint.position, players[_id].MGShootPoint.rotation);
+        ClientChildTempForShootPoint.transform.parent = players[_id].MGShootPoint;
+        players[_id].MGBulletParticle = ClientChildTempForShootPoint.GetComponent<ParticleSystem>();
+        ClientChildTempForShootPoint = null;
+
+
+        ClientChildTempForMuzzleFlash = Instantiate(MGMuzzleFlash.gameObject, players[_id].MGShootPoint.position, players[_id].MGShootPoint.rotation);
+        ClientChildTempForMuzzleFlash.transform.parent = players[_id].MGShootPoint;
+        players[_id].MGMuzzleFlash = ClientChildTempForMuzzleFlash.GetComponent<ParticleSystem>();
+        ChildTempForMuzzleFlash = null;
+
+        players[_id].MGCasePoint = FindGameObject(players[_id].MiniGunModel, "MGCasePoint").transform;
+        ClientChildTempForCasePoint = Instantiate(MGShellParticle.gameObject, players[_id].MGCasePoint.position, players[_id].MGCasePoint.rotation);
+        ClientChildTempForCasePoint.transform.parent = players[_id].MGCasePoint;
+        players[_id].MGBulletCasing = ClientChildTempForCasePoint.GetComponent<ParticleSystem>();
+        ClientChildTempForCasePoint = null;
+        #endregion
+
+        #region Flame Thrower
+        players[_id].FTShootPoint = FindGameObject(players[_id].gameObject, "FTShootPoint").transform;
+        ClientChildTempForShootPoint = Instantiate(FTFlame.gameObject, players[_id].FTShootPoint.position, players[_id].FTShootPoint.rotation);
+        ClientChildTempForShootPoint.transform.parent = players[_id].FTShootPoint;
+        players[_id].FTFlame = ClientChildTempForShootPoint.GetComponent<ParticleSystem>();
+        ClientChildTempForShootPoint = null;
+
+
+        ClientChildTempForMuzzleFlash = Instantiate(FTHeatDistortion.gameObject, players[_id].FTShootPoint.position, players[_id].FTShootPoint.rotation);
+        ClientChildTempForMuzzleFlash.transform.parent = players[_id].FTShootPoint;
+        players[_id].FTHeatDistortion = ClientChildTempForMuzzleFlash.GetComponent<ParticleSystem>();
+        ClientChildTempForMuzzleFlash = null;
+
+        #endregion
+
+        #region ShotGun Starting
+        //gets all the correct variables for the player controller by using prefabs and tags to put the correct things in the correct place
+        GameObject[] ClientShotgunTempShootPoint = FindMultipleGameObject(players[_id].ShotGunModel, "SGShootPoint");
+        players[_id].SGShootPoint = new Transform[ClientShotgunTempShootPoint.Length];
+        players[_id].SGBulletParticle = new ParticleSystem[ClientShotgunTempShootPoint.Length];
+        Debug.Log(ClientShotgunTempShootPoint.Length);
+        for (int i = 0; i < ClientShotgunTempShootPoint.Length; i++)
+        {
+            Debug.Log(i);
+            players[_id].SGShootPoint[i] = ClientShotgunTempShootPoint[i].transform;
+            ClientChildTempForShootPoint = Instantiate(SGBulletParticle.gameObject, players[_id].SGShootPoint[i].position, players[_id].SGShootPoint[i].rotation);
+            ClientChildTempForShootPoint.transform.parent = players[_id].SGShootPoint[i];
+            players[_id].SGBulletParticle[i] = ClientChildTempForShootPoint.GetComponent<ParticleSystem>();
+            ChildTempForShootPoint = null;
+        }
+
+        ClientChildTempForMuzzleFlash = Instantiate(ArMuzzleFlash.gameObject, players[_id].SGShootPoint[0].position, players[_id].SGShootPoint[0].rotation);
+        ClientChildTempForMuzzleFlash.transform.parent = players[_id].SGShootPoint[0];
+        players[_id].SGMuzzleFlash = ClientChildTempForMuzzleFlash.GetComponent<ParticleSystem>();
+        ChildTempForMuzzleFlash = null;
+
+        players[_id].SGCasePoint = FindGameObject(players[_id].ShotGunModel, "SGCasePoint").transform;
+        ClientChildTempForCasePoint = Instantiate(ARShellParticle.gameObject, players[_id].SGCasePoint.position, players[_id].SGCasePoint.rotation);
+        ClientChildTempForCasePoint.transform.parent = players[_id].SGCasePoint;
+        players[_id].SGBulletCasing = ClientChildTempForCasePoint.GetComponent<ParticleSystem>();
+        ClientChildTempForCasePoint = null;
+        #endregion
+
+        #region Side Arm Starting Initlisation
+        //gets all the correct variables for the player controller by using prefabs and tags to put the correct things in the correct place
+        players[_id].SAShootPoint = FindGameObject(players[_id].SideArmModel, "SAShootPoint").transform;
+        ClientChildTempForShootPoint = Instantiate(ARBulletParticle.gameObject, players[_id].SAShootPoint.position, players[_id].SAShootPoint.rotation);
+        ClientChildTempForShootPoint.transform.parent = players[_id].SAShootPoint;
+        players[_id].SABulletParticle = ClientChildTempForShootPoint.GetComponent<ParticleSystem>();
+        ClientChildTempForShootPoint = null;
+
+        ClientChildTempForMuzzleFlash = Instantiate(ArMuzzleFlash.gameObject, players[_id].SAShootPoint.position, players[_id].SAShootPoint.rotation);
+        ClientChildTempForMuzzleFlash.transform.parent = players[_id].SAShootPoint;
+        players[_id].SAMuzzleFlash = ClientChildTempForMuzzleFlash.GetComponent<ParticleSystem>();
+        ClientChildTempForMuzzleFlash = null;
+
+        players[_id].SACasePoint = FindGameObject(players[_id].SideArmModel, "SACasePoint").transform;
+        ClientChildTempForCasePoint = Instantiate(ARShellParticle.gameObject, players[_id].SACasePoint.position, players[_id].SACasePoint.rotation);
+        ClientChildTempForCasePoint.transform.parent = players[_id].SACasePoint;
+        players[_id].SABulletCasing = ClientChildTempForCasePoint.GetComponent<ParticleSystem>();
+        ClientChildTempForCasePoint = null;
+        #endregion
+        NewWeaponValue(_id, 1);
+    }
+    public GameObject FindGameObject(GameObject PerentObject, string Tag) 
+    {
+        Transform[] ChildrenTrasform = PerentObject.GetComponentsInChildren<Transform>(); ;
+        Transform FoundTransform = null;
+        foreach (Transform ChildTransform in ChildrenTrasform)
+        {
+            if (ChildTransform.tag == Tag) 
+            {
+                FoundTransform = ChildTransform;
+            }
+        }
+        return (FoundTransform.gameObject);
+    }
+    public GameObject[] FindMultipleGameObject(GameObject PerentObject, string Tag) 
+    {
+        Transform[] ChildrenTrasform = PerentObject.GetComponentsInChildren<Transform>();
+        List<Transform> FoundTransformList = new List<Transform>();
+        GameObject[] FoundTransformsArray;
+        foreach (Transform ChildTransform in ChildrenTrasform)
+        {
+            if (ChildTransform.tag == Tag)
+            {
+                FoundTransformList.Add(ChildTransform);
+            }
+        }
+        FoundTransformsArray = new GameObject[FoundTransformList.Count];
+
+        for (int i = 0; i < FoundTransformsArray.Length; i++)
+        {
+            FoundTransformsArray[i] = FoundTransformList[i].gameObject;
+        }
+
+        return FoundTransformsArray;
+    }
+
+    public void NewWeaponValue(int ReceviedId, int NewWeaponValue)
+    {
+        players[ReceviedId].WeaponChange(NewWeaponValue);
+    }
+    public void ShootingServerRecevied(int ReceviedId, bool IsFiring)
+    {
+        players[ReceviedId].ShootingServerRecevied(IsFiring);
     }
 }

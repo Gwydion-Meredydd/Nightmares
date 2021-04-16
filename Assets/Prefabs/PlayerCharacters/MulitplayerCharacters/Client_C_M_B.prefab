@@ -1462,8 +1462,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d15dd0a85e6c747458cf0dad76056213, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsClient: 0
   id: 0
   username: 
+  WeaponValue: 1
+  WeaponHeldValue: 1
+  AutomaticRifleModel: {fileID: 0}
+  MiniGunModel: {fileID: 0}
+  FlameThrowerModel: {fileID: 0}
+  ShotGunModel: {fileID: 0}
+  SideArmModel: {fileID: 0}
+  ARShootPoint: {fileID: 0}
+  MGShootPoint: {fileID: 0}
+  FTShootPoint: {fileID: 0}
+  SGShootPoint: []
+  SAShootPoint: {fileID: 0}
+  ARCasePoint: {fileID: 0}
+  MGCasePoint: {fileID: 0}
+  SGCasePoint: {fileID: 0}
+  SACasePoint: {fileID: 0}
+  WeaponAudioSource: {fileID: 0}
+  PlayerAudioSource: {fileID: 0}
+  ARBulletParticle: {fileID: 0}
+  ARMuzzleFlash: {fileID: 0}
+  ARBulletCasing: {fileID: 0}
+  MGBulletParticle: {fileID: 0}
+  MGMuzzleFlash: {fileID: 0}
+  MGBulletCasing: {fileID: 0}
+  FTFlame: {fileID: 0}
+  FTHeatDistortion: {fileID: 0}
+  SGBulletParticle: []
+  SGMuzzleFlash: {fileID: 0}
+  SGBulletCasing: {fileID: 0}
+  SABulletParticle: {fileID: 0}
+  SAMuzzleFlash: {fileID: 0}
+  SABulletCasing: {fileID: 0}
+  PlayerAnimator: {fileID: 8169710857262875859}
 --- !u!1 &3256250708641676388
 GameObject:
   m_ObjectHideFlags: 0

@@ -90,5 +90,23 @@ public class ClientSend : MonoBehaviour
         }
         Debug.Log("PlayerNotReadySent");
     }
+    public static void WeaponSwitch(int NewWeaponValue) 
+    {
+        using (Packet _packet = new Packet((int)ClientPackets.SendWeaponValue)) 
+        {
+            _packet.Write(ClientManager.instance.myID);
+            _packet.Write(NewWeaponValue);
+            SendTCPData(_packet);
+            Debug.Log("Sending Scroll Data");
+        }
+    }
+    public static void MouseIsDown(bool MouseInput)
+    {
+        using (Packet _packet = new Packet((int)ClientPackets.MouseInputs))
+        {
+            _packet.Write(MouseInput);
+            SendTCPData(_packet);
+        }
+    }
     #endregion
 }

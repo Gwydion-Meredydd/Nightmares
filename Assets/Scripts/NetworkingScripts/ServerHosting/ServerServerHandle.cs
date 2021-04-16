@@ -60,6 +60,12 @@ public class ServerServerHandle
         Vector3 NewRotation = _packet.ReadVector3();
         ServerServer.clients[_fromClient].player.SetRotation(NewRotation);
     }
+    public static void SendWeaponValueToClient(int _fromClient, ServerPacket _packet) 
+    {
+        int clientValue = _packet.ReadInt();
+        int NewWeaoponValue = _packet.ReadInt();
+        ServerServer.clients[_fromClient].player.NewWeaponValue(clientValue, NewWeaoponValue);
+    }
     public static void PlayerIsReady(int _fromClient , ServerPacket _packet) 
     {
         ServerHostingManager.Instance.ClientReady[_fromClient - 1] = true;
@@ -69,6 +75,11 @@ public class ServerServerHandle
     {
         ServerHostingManager.Instance.ClientReady[_fromClient - 1] = false;
         ServerServer.clients[_fromClient].ReadyToggle();
+    }
+    public static void PlayerMouseInput(int _fromClient, ServerPacket _packet) 
+    {
+        bool NewMouseInput = _packet.ReadBool();
+        ServerServer.clients[_fromClient].player.MouseInput(NewMouseInput);
     }
 
 }

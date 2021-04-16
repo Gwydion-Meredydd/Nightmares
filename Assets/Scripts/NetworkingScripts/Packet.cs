@@ -12,7 +12,9 @@ public enum ServerPackets
     LobbyIsReady,
     spawnPlayer,
     playerPosition,
-    playerRotation
+    playerRotation,
+    WeaponValueToClient,
+    MouseSendToPlayer
 }
 
 /// <summary>Sent from client to server.</summary>
@@ -25,7 +27,9 @@ public enum ClientPackets
     playerMovement,
     playerrotation,
     SendUsername,
-    disconnectClient
+    disconnectClient,
+    SendWeaponValue,
+    MouseInputs
 }
 
 public class Packet : IDisposable

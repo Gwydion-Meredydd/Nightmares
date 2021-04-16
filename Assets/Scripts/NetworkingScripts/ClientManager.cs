@@ -480,6 +480,8 @@ public class ClientManager : MonoBehaviour
             {(int) ServerPackets.spawnPlayer, ClientHandleManager.SpawnPlayer },
             {(int) ServerPackets.playerPosition, ClientHandleManager.PlayerPosition },
             {(int) ServerPackets.playerRotation, ClientHandleManager.PlayerRotation },
+            {(int) ServerPackets.WeaponValueToClient, ClientHandleManager.RecievedWeaponValue },
+            {(int) ServerPackets.MouseSendToPlayer, ClientHandleManager.ServerShootingRecevied },
         };
         Debug.Log("Initalized Packets!");
     }
@@ -490,6 +492,14 @@ public class ClientManager : MonoBehaviour
     public void DisconnectClient()
     {
         Disconnect();
+    }
+    public void NewWeaponValueRecevied(int NewId, int NewWeaponValue) 
+    {
+        SM.GameScript.NewWeaponValue(NewId, NewWeaponValue);
+    }
+    public void ShootingServerRecevied(int NewId, bool IsFiring) 
+    {
+        SM.GameScript.ShootingServerRecevied(NewId, IsFiring);
     }
     public void ClientReadyToggle(Text ButtonText)
     {
