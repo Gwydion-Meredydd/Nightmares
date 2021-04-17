@@ -32,4 +32,9 @@ public class ScriptsManager : MonoBehaviour
     public ClientConfigManager ConfigManager;
     public MatchmakerManager matchmakerManager;
     public LogingManager logingManager;
+    public ServerRoundManager serverRoundManager;
+    public ServerEnemySpawner serverEnemySpawner;
+    public ServerEnemyManager serverEnemyManager;
+    public ServerNavMeshBuilder serverNavMeshBuilder;
+    public ClientEnemyManager clientEnemyManager;
 }

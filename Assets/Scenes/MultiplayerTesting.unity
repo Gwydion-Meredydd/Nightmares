@@ -2821,6 +2821,7 @@ GameObject:
   - component: {fileID: 1604270280}
   - component: {fileID: 1604270287}
   - component: {fileID: 1604270288}
+  - component: {fileID: 1604270289}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2938,6 +2939,11 @@ MonoBehaviour:
   ConfigManager: {fileID: 1604270286}
   matchmakerManager: {fileID: 1604270287}
   logingManager: {fileID: 1604270288}
+  serverRoundManager: {fileID: 0}
+  serverEnemySpawner: {fileID: 0}
+  serverEnemyManager: {fileID: 0}
+  serverNavMeshBuilder: {fileID: 0}
+  clientEnemyManager: {fileID: 1604270289}
 --- !u!4 &1604270278
 Transform:
   m_ObjectHideFlags: 0
@@ -3163,6 +3169,7 @@ MonoBehaviour:
   CurrentFootStepValue: 0
   Down: 0
   HeightOcclusionPoint: {fileID: 0}
+  ThisClientManager: {fileID: 0}
   CameraShootEffectValue: 0.573
 --- !u!114 &1604270284
 MonoBehaviour:
@@ -3244,6 +3251,26 @@ MonoBehaviour:
   Entity_ID: 
   GeneratedName: 
   SM: {fileID: 1604270277}
+--- !u!114 &1604270289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1604270274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 359af51ff9392b84fa79d8d625f74784, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GroundEnemies:
+  - {fileID: 1517939874083505592, guid: 1a04e676714f8e34aa9cbce974a48c3b, type: 3}
+  - {fileID: 3486207394223403259, guid: 3fa982bad82759c4b9b1d139a7da25f0, type: 3}
+  - {fileID: 2890904305068004751, guid: 5c8cda5d64b704a4eb5bfa852fd14732, type: 3}
+  NormalEnemies:
+  - {fileID: 1517939874083505592, guid: 3dae0c237170cbc448d6a4cf847ba416, type: 3}
+  - {fileID: 3486207394223403259, guid: 36c319ed86abe1e4aa3040059cfe0f4f, type: 3}
+  - {fileID: 2890904305068004751, guid: 4b5bc3f4e3433ab408b163ed5c06da90, type: 3}
 --- !u!1 &1656354416
 GameObject:
   m_ObjectHideFlags: 0

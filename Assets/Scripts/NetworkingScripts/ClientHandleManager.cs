@@ -6,6 +6,7 @@ using System.Net.Sockets;
 
 public class ClientHandleManager : MonoBehaviour
 {
+    public ScriptsManager SM;
     public bool HasJoined;
     public static void Welcome(Packet _packet)
     {
@@ -131,5 +132,34 @@ public class ClientHandleManager : MonoBehaviour
         bool IsFiring = _packet.ReadBool();
         ClientManager.instance.ShootingServerRecevied(_id, IsFiring);
         Debug.Log("Recieved Shooting");
+    }
+    public static void SpawnGroundEnemy(Packet _packet) 
+    {
+        Quaternion Rotation = _packet.ReadQuaternion();
+        Vector3 Position = _packet.ReadVector3();
+        int randomvalue = _packet.ReadInt();
+        MultiplayerManager.instance.SM.clientEnemyManager.SpawnGroundEnemy(Rotation, Position , randomvalue);
+    }
+    public static void SpawnNormalEnemy(Packet _packet)
+    {
+        Quaternion Rotation = _packet.ReadQuaternion();
+        Vector3 Position = _packet.ReadVector3();
+        int randomvalue = _packet.ReadInt();
+        MultiplayerManager.instance.SM.clientEnemyManager.SpawnNormalEnemy(Rotation, Position, randomvalue);
+    }
+    public static void ReceviedEnemyTransform(Packet _packet)
+    {
+        int ArrayLength = _packet.ReadInt();
+        Quaternion[] NewRotation = new Quaternion[ArrayLength];
+        Vector3[] NewPosition = new Vector3[ArrayLength];
+        for (int i = 0; i < NewRotation.Length; i++)
+        {
+            NewRotation[i] = _packet.ReadQuaternion();
+        }
+        for (int i = 0; i < NewPosition.Length; i++)
+        {
+            NewPosition[i] = _packet.ReadVector3();
+        }
+        MultiplayerManager.instance.SM.clientEnemyManager.UpdateEnemyTransforms(NewRotation, NewPosition);
     }
 }

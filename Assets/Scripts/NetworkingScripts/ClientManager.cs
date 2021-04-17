@@ -482,6 +482,9 @@ public class ClientManager : MonoBehaviour
             {(int) ServerPackets.playerRotation, ClientHandleManager.PlayerRotation },
             {(int) ServerPackets.WeaponValueToClient, ClientHandleManager.RecievedWeaponValue },
             {(int) ServerPackets.MouseSendToPlayer, ClientHandleManager.ServerShootingRecevied },
+            {(int) ServerPackets.EnemyGroundSpawn, ClientHandleManager.SpawnGroundEnemy },
+            {(int) ServerPackets.EnemyNormalSpawn, ClientHandleManager.SpawnNormalEnemy },
+            {(int) ServerPackets.EnemyTransformSend, ClientHandleManager.ReceviedEnemyTransform },
         };
         Debug.Log("Initalized Packets!");
     }

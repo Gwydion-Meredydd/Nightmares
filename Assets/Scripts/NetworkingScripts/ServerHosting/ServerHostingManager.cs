@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 [System.Serializable]
 public class ServerHostingManager : MonoBehaviour
 {
+    public ScriptsManager SM;
     [SerializeField]
     public ServerHostingManager InstanceHolder;
     public static ServerHostingManager Instance;
@@ -31,6 +32,7 @@ public class ServerHostingManager : MonoBehaviour
     public string[] OldConnectedClientsIP;
     public bool[] oldClientReady;
     private bool AutoShutDownStarted;
+    public GameObject SpawnedLevel;
 
     private void Awake()
     {
@@ -118,7 +120,15 @@ public class ServerHostingManager : MonoBehaviour
     {
         try
         {
-            Instantiate(ServerNetworkManager.instance.ServerLevel, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
+            SpawnedLevel =  Instantiate(ServerNetworkManager.instance.ServerLevel, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
+            GameObject[] TempSpawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+            SM.serverEnemySpawner.LevelSpawnPoints = new Transform[TempSpawnPoints.Length];
+            for (int i = 0; i < TempSpawnPoints.Length; i++)
+            {
+                SM.serverEnemySpawner.LevelSpawnPoints[i] = TempSpawnPoints[i].transform;
+            }
+            SM.serverNavMeshBuilder.LevelReadyForNavmesh();
+
         }
         catch
         {

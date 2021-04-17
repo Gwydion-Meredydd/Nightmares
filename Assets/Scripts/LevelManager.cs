@@ -50,8 +50,6 @@ public class LevelManager : MonoBehaviour
             Instantiate(MultiplayerLevel, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
             SM.CameraScript.minPosition = CameraMinSpace[0];
             SM.CameraScript.maxPosition = CameraMaxSpace[0];
-            SM.NavMeshAreaBuilder.m_Size = NavMeshBuildArea[0];
-            SM.NavMeshAreaBuilder.LevelReadyForNavmesh();
             SM.CameraScript.yValue = YCamValue[0];
             SM.CameraScript.HoldingYValue = YCamValue[0];
             HeightOcclusionValue = HeighOcclusionLevel[0];

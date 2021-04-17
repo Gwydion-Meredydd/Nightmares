@@ -136,6 +136,10 @@ GameObject:
   - component: {fileID: 1664924012}
   - component: {fileID: 1664924011}
   - component: {fileID: 1664924014}
+  - component: {fileID: 1664924016}
+  - component: {fileID: 1664924018}
+  - component: {fileID: 1664924017}
+  - component: {fileID: 1664924019}
   m_Layer: 0
   m_Name: ScriptManager
   m_TagString: Untagged
@@ -200,6 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c61ea2a62589df24da256c84a91c73cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SM: {fileID: 1664924015}
   InstanceHolder: {fileID: 1664924014}
   ConnectedClients: 0
   ConnectedClientsUsernames: []
@@ -220,6 +225,7 @@ MonoBehaviour:
   OldConnectedClientsUsernames: []
   OldConnectedClientsIP: []
   oldClientReady: 
+  SpawnedLevel: {fileID: 0}
 --- !u!114 &1664924015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,3 +266,107 @@ MonoBehaviour:
   ConfigManager: {fileID: 0}
   matchmakerManager: {fileID: 0}
   logingManager: {fileID: 0}
+  serverRoundManager: {fileID: 1664924017}
+  serverEnemySpawner: {fileID: 1664924018}
+  serverEnemyManager: {fileID: 1664924016}
+  serverNavMeshBuilder: {fileID: 1664924019}
+--- !u!114 &1664924016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664924010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b83641d9217828e4f842361e5f258a8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SM: {fileID: 1664924015}
+  PointsDamage: 10
+  PointsKill: 50
+  AttackingDistance: 1
+  AttackDamage: 12.5
+  AttackCoolDown: 0.25
+  Attacking: 0
+  StartingHealth: 100
+  EnemyInitilised: 
+  Health: 
+  HealthCalculation: 0
+  PauseMovement: 0
+  TakingDamage: 0
+  IgnorePlayer: 0
+  InitalLost: 0
+  HasReachedTarget: 
+  EnemyHited: {fileID: 0}
+  EnemyDied: 0
+  ValueofEnemies: []
+  ActiveEnemies: []
+  ActiveEnemiesAgents: []
+  ActiveEnemiesBoxColliders: []
+  SelectedPlayer: []
+  RandomPosition: {x: 0, y: 0, z: 0}
+  AvailablePlayers: []
+--- !u!114 &1664924017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664924010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d3b4140d0affcd44855cd8dedf16426, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SM: {fileID: 1664924015}
+  InActiveRound: 0
+  StartingNewRound: 0
+  StartDelay: 4.5
+  RoundNumber: 0
+--- !u!114 &1664924018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664924010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1977989b63ddbd9449e162feeccc3fa6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SM: {fileID: 1664924015}
+  LevelSpawnPoints: []
+  InitalSpawnCap: 4
+  CurrentSpawnCap: 0
+  MaxSpawnCap: 40
+  SpawnDelay: 2.2
+  IsSpawning: 0
+  CurrentMonsterAmmount: 0
+  SpawningAmmount: 0
+  MaxSpawningAmmount: 8
+  SpawnedMonsterAmmount: 0
+  LevelMonsterAmmount: 8
+  MonsterPrefab:
+  - {fileID: 1517939874083505592, guid: 5aea1d04cee153b47b68be93d5effa2d, type: 3}
+  - {fileID: 3486207394223403259, guid: 970fd49340d237c4b9b5eaeb0d76eda3, type: 3}
+  - {fileID: 2890904305068004751, guid: c2a68cbc971a53445879a21741c38f4a, type: 3}
+  GroundMonsterPrefab:
+  - {fileID: 1517939874083505592, guid: 4c6f84effd701f14380bd45ea29ae931, type: 3}
+  - {fileID: 3486207394223403259, guid: ffe200941579f4144af4f188cff075b0, type: 3}
+  - {fileID: 2890904305068004751, guid: c128f1d581c80984ba8e827cfed9c39c, type: 3}
+--- !u!114 &1664924019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664924010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e65d7da10231f14996a0e7aea15b873, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Tracked: {fileID: 1664924013}
+  m_Size: {x: 80, y: 20, z: 80}

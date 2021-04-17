@@ -14,7 +14,10 @@ public enum ServerPackets
     playerPosition,
     playerRotation,
     WeaponValueToClient,
-    MouseSendToPlayer
+    MouseSendToPlayer,
+    EnemyGroundSpawn,
+    EnemyNormalSpawn,
+    EnemyTransformSend
 }
 
 /// <summary>Sent from client to server.</summary>

@@ -150,5 +150,44 @@ public class ServerSend
             SendTCPDataToAll(_packet);
         }
     }
+    public static void SpawnGroundEnemy(Quaternion EnemyRotation, Vector3 EnemyPosition, int randomValue) 
+    {
+        using (ServerPacket _packet = new ServerPacket((int)ServerServerPackets.EnemyGroundSpawn))
+        {
+            _packet.Write(EnemyRotation);
+            _packet.Write(EnemyPosition);
+            _packet.Write(randomValue);
+
+            SendTCPDataToAll(_packet);
+        }
+    }
+    public static void SpawnNormalEnemy(Quaternion EnemyRotation, Vector3 EnemyPosition, int randomValue)
+    {
+        using (ServerPacket _packet = new ServerPacket((int)ServerServerPackets.EnemyNormalSpawn))
+        {
+            _packet.Write(EnemyRotation);
+            _packet.Write(EnemyPosition);
+            _packet.Write(randomValue);
+
+            SendTCPDataToAll(_packet);
+        }
+    }
+    public static void SendEnemyTransform(Quaternion[] NewEnemyRotation, Vector3[] NewEnemyPosition) 
+    {
+        using (ServerPacket _packet = new ServerPacket((int)ServerServerPackets.EnemyTransformSend))
+        {
+            _packet.Write(NewEnemyRotation.Length);
+            foreach (Quaternion Rotation in NewEnemyRotation)
+            {
+                _packet.Write(Rotation);
+            }
+            foreach (Vector3 Position in NewEnemyPosition)
+            {
+                _packet.Write(Position);
+            }
+
+            SendTCPDataToAll(_packet);
+        }
+    }
     #endregion
 }

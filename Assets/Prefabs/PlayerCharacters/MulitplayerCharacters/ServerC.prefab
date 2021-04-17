@@ -1029,7 +1029,7 @@ GameObject:
   - component: {fileID: -9173821177809076843}
   m_Layer: 8
   m_Name: ServerC
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1110,6 +1110,16 @@ MonoBehaviour:
   username: 
   controller: {fileID: 1631801194856398264}
   moveSpeed: 5
+  WeaponValue: 1
+  Firing: 0
+  CanShoot: 0
+  ARShootPoint: {fileID: 0}
+  MGShootPoint: {fileID: 0}
+  FTShootPoint: {fileID: 0}
+  SGShootPoint: []
+  SAShootPoint: {fileID: 0}
+  HitTarget: {fileID: 0}
+  HitEnemy: {fileID: 0}
 --- !u!1 &1683937842067768780
 GameObject:
   m_ObjectHideFlags: 0

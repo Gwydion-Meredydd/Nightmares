@@ -48,7 +48,7 @@ public class ServerPlayer: MonoBehaviour
         SA = FindGameObject(this.gameObject, "SA");
         ARShootPoint = FindGameObject(AR, "ARShootPoint").transform;
         MGShootPoint = FindGameObject(MG, "MGShootPoint").transform;
-        FTShootPoint = FindGameObject(MG, "FTShootPoint").transform;
+        FTShootPoint = FindGameObject(FT, "FTShootPoint").transform;
         GameObject[] ClientShotgunTempShootPoint = FindMultipleGameObject(SG, "SGShootPoint");
         SGShootPoint = new Transform[ClientShotgunTempShootPoint.Length];
         for (int i = 0; i < ClientShotgunTempShootPoint.Length; i++)
@@ -56,7 +56,7 @@ public class ServerPlayer: MonoBehaviour
             Debug.Log(i);
             SGShootPoint[i] = ClientShotgunTempShootPoint[i].transform;
         }
-        SAShootPoint = FindGameObject(MG, "SAShootPoint").transform;
+        SAShootPoint = FindGameObject(SA, "SAShootPoint").transform;
     }
     public void FixedUpdate()
     {
