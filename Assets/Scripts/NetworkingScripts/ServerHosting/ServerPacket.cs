@@ -17,7 +17,11 @@ public enum ServerServerPackets
     MouseSendToPlayer,
     EnemyGroundSpawn,
     EnemyNormalSpawn,
-    EnemyTransformSend
+    EnemyTransformSend,
+    EnemyDamaged,
+    EnemyAttack,
+    EnemyHit,
+    PlayerRevive
 }
 
 /// <summary>Sent from client to server.</summary>

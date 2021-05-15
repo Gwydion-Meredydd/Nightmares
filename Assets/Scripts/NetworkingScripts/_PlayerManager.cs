@@ -9,6 +9,8 @@ public class _PlayerManager : MonoBehaviour
     public string username;
     public int WeaponValue;
     public int WeaponHeldValue;
+    public float Health;
+    public bool isDown;
     public GameObject AutomaticRifleModel;
     public GameObject MiniGunModel;
     public GameObject FlameThrowerModel;
@@ -134,6 +136,16 @@ public class _PlayerManager : MonoBehaviour
                 SABulletCasing.Emit(1);
                 SAMuzzleFlash.Emit(1);
                 break;
+        }
+    }
+    public void DamageTaken() 
+    {
+        Debug.Log("Damage Taken");
+        if (Health <= 0) 
+        {
+            PlayerAnimator.SetBool("CanRevive", false);
+            PlayerAnimator.Play("Death", 0);
+            isDown = true;
         }
     }
 }

@@ -33,6 +33,8 @@ public class ServerHostingManager : MonoBehaviour
     public bool[] oldClientReady;
     private bool AutoShutDownStarted;
     public GameObject SpawnedLevel;
+    public Vector3 MaxPosition;
+    public Vector3 MinPosition;
 
     private void Awake()
     {
@@ -128,7 +130,6 @@ public class ServerHostingManager : MonoBehaviour
                 SM.serverEnemySpawner.LevelSpawnPoints[i] = TempSpawnPoints[i].transform;
             }
             SM.serverNavMeshBuilder.LevelReadyForNavmesh();
-
         }
         catch
         {
@@ -199,7 +200,7 @@ public class ServerHostingManager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(1);
         AFKTime = AFKTime - 1;
-        Debug.Log("afk time left: " + AFKTime);
+        //Debug.Log("afk time left: " + AFKTime);
         DataCheckTimerIsWorking = false;
         if (ConnectedClients != 0) 
         {

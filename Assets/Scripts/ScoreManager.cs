@@ -141,36 +141,36 @@ public class ScoreManager : MonoBehaviour
             HighScoreFieldsName2[i] = TempTextName2[i].GetComponent<Text>();
             HighScoreFieldsScore2[i] = TempTextScore2[i].GetComponent<Text>();
         }
-        YourScore3.SetActive(false);
-        SM.MainMenuScript.HighScoreLoading[2].SetActive(true);
+        //YourScore3.SetActive(false);
+        //SM.MainMenuScript.HighScoreLoading[2].SetActive(true);
         SM.FadeManager.InstantFadeIn();
         SM.MainMenuScript.HighScoreRoot.SetActive(true);
-        HighScoreRoot3.SetActive(true);
-        HighScoreFieldsPerent3 = GameObject.FindGameObjectsWithTag("HighScoreMenu3");
-        HighScoreFieldsName3 = new Text[HighScoreFieldsPerent3.Length];
-        HighScoreFieldsScore3 = new Text[HighScoreFieldsPerent3.Length];
-        GameObject[] TempTextName3 = GameObject.FindGameObjectsWithTag("HighScoreTextName3");
-        GameObject[] TempTextScore3 = GameObject.FindGameObjectsWithTag("HighScoreTextScore3");
-        for (int i = 0; i < HighScoreFieldsPerent3.Length; i++)
-        {
-            HighScoreFieldsName3[i] = TempTextName3[i].GetComponent<Text>();
-            HighScoreFieldsScore3[i] = TempTextScore3[i].GetComponent<Text>();
-        }
-        YourScore4.SetActive(false);
-        SM.MainMenuScript.HighScoreLoading[3].SetActive(true);
+        //HighScoreRoot3.SetActive(true);
+        //HighScoreFieldsPerent3 = GameObject.FindGameObjectsWithTag("HighScoreMenu3");
+      //  HighScoreFieldsName3 = new Text[HighScoreFieldsPerent3.Length];
+        //HighScoreFieldsScore3 = new Text[HighScoreFieldsPerent3.Length];
+       /// GameObject[] TempTextName3 = GameObject.FindGameObjectsWithTag("HighScoreTextName3");
+       // GameObject[] TempTextScore3 = GameObject.FindGameObjectsWithTag("HighScoreTextScore3");
+        //for (int i = 0; i < HighScoreFieldsPerent3.Length; i++)
+       // {
+        //    HighScoreFieldsName3[i] = TempTextName3[i].GetComponent<Text>();
+        //    HighScoreFieldsScore3[i] = TempTextScore3[i].GetComponent<Text>();
+        //}
+        //YourScore4.SetActive(false);
+        //.MainMenuScript.HighScoreLoading[3].SetActive(true);
         SM.FadeManager.InstantFadeIn();
         SM.MainMenuScript.HighScoreRoot.SetActive(true);
-        HighScoreRoot4.SetActive(true);
-        HighScoreFieldsPerent4 = GameObject.FindGameObjectsWithTag("HighScoreMenu4");
-        HighScoreFieldsName4 = new Text[HighScoreFieldsPerent4.Length];
-        HighScoreFieldsScore4 = new Text[HighScoreFieldsPerent4.Length];
-        GameObject[] TempTextName4 = GameObject.FindGameObjectsWithTag("HighScoreTextName4");
-        GameObject[] TempTextScore4 = GameObject.FindGameObjectsWithTag("HighScoreTextScore4");
-        for (int i = 0; i < HighScoreFieldsPerent4.Length; i++)
-        {
-            HighScoreFieldsName4[i] = TempTextName4[i].GetComponent<Text>();
-            HighScoreFieldsScore4[i] = TempTextScore4[i].GetComponent<Text>();
-        }
+       // HighScoreRoot4.SetActive(true);
+       // HighScoreFieldsPerent4 = GameObject.FindGameObjectsWithTag("HighScoreMenu4");
+       // HighScoreFieldsName4 = new Text[HighScoreFieldsPerent4.Length];
+       // HighScoreFieldsScore4 = new Text[HighScoreFieldsPerent4.Length];
+       // GameObject[] TempTextName4 = GameObject.FindGameObjectsWithTag("HighScoreTextName4");
+       // GameObject[] TempTextScore4 = GameObject.FindGameObjectsWithTag("HighScoreTextScore4");
+       // for (int i = 0; i < HighScoreFieldsPerent4.Length; i++)
+       // {
+       //     HighScoreFieldsName4[i] = TempTextName4[i].GetComponent<Text>();
+        //    HighScoreFieldsScore4[i] = TempTextScore4[i].GetComponent<Text>();
+       // }
         YourScore5.SetActive(false);
         SM.MainMenuScript.HighScoreLoading[4].SetActive(true);
         SM.FadeManager.InstantFadeIn();
@@ -547,8 +547,8 @@ public class ScoreManager : MonoBehaviour
     {
         HighScoreRoot1.SetActive(false);
         HighScoreRoot2.SetActive(false);
-        HighScoreRoot3.SetActive(false);
-        HighScoreRoot4.SetActive(false);
+        //HighScoreRoot3.SetActive(false);
+       // HighScoreRoot4.SetActive(false);
         HighScoreRoot5.SetActive(false);
         switch (LeaderboardValue)
         {
@@ -559,14 +559,6 @@ public class ScoreManager : MonoBehaviour
             case 2:
                 SM.MainMenuScript.HighScoreLoading[1].SetActive(true);
                 HighScoreRoot2.SetActive(true);
-                break;
-            case 3:
-                SM.MainMenuScript.HighScoreLoading[2].SetActive(true);
-                HighScoreRoot3.SetActive(true);
-                break;
-            case 4:
-                SM.MainMenuScript.HighScoreLoading[3].SetActive(true);
-                HighScoreRoot4.SetActive(true);
                 break;
             case 5:
                 SM.MainMenuScript.HighScoreLoading[4].SetActive(true);

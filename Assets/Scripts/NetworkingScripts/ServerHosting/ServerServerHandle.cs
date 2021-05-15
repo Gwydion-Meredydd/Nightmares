@@ -10,8 +10,7 @@ public class ServerServerHandle
     {
         int _clientIdCheck = _packet.ReadInt();
         string _username = _packet.ReadString();
-        Debug.Log(_fromClient);
-   
+        
         if (_fromClient != _clientIdCheck)
         {
             Debug.Log($"Player\"{_username}\"(ID: {_fromClient}) has assumed the wrong client ID({_clientIdCheck})!");

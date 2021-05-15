@@ -42,6 +42,7 @@ public class DeathScreenManager : MonoBehaviour
         {
             EnemyAudioSource.volume = 0;
         }
+        SM.MainMenuScript.ScoreReturnButton.SetActive(false);
     }
     public void ResetStart() 
     {
@@ -145,5 +146,11 @@ public class DeathScreenManager : MonoBehaviour
         SM.GameScript.InGame = false;
         SM.GameScript.Paused = false;
         SM.AudioScripts.MainMenuMusic.SetActive(true);
+        SM.MainMenuScript.ScoreOverlayBlocker.SetActive(true);
+        SM.MainMenuScript.ScoreReturnButton.SetActive(true);
+        SM.MainMenuScript.LevelGameObjects.SetActive(false);
+        SM.MainMenuScript.CharacterGameobjects.SetActive(false);
+        SM.MainMenuScript.MainMenuScene.SetActive(true);
+        SM.MainMenuScript.ThreeDimensionalCharacters.SetActive(true);
     }
 }

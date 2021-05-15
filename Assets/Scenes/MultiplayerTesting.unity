@@ -2285,7 +2285,8 @@ Transform:
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 11.73, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 2017712961}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -2822,6 +2823,7 @@ GameObject:
   - component: {fileID: 1604270287}
   - component: {fileID: 1604270288}
   - component: {fileID: 1604270289}
+  - component: {fileID: 1604270290}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2916,7 +2918,7 @@ MonoBehaviour:
   CameraScript: {fileID: 1604270275}
   EnemyScript: {fileID: 0}
   EnemySpawningScript: {fileID: 0}
-  EnemyDespawn: {fileID: 0}
+  EnemyDespawn: {fileID: 1604270290}
   PointsScript: {fileID: 0}
   PerksScript: {fileID: 0}
   RoundScript: {fileID: 0}
@@ -3271,6 +3273,31 @@ MonoBehaviour:
   - {fileID: 1517939874083505592, guid: 3dae0c237170cbc448d6a4cf847ba416, type: 3}
   - {fileID: 3486207394223403259, guid: 36c319ed86abe1e4aa3040059cfe0f4f, type: 3}
   - {fileID: 2890904305068004751, guid: 4b5bc3f4e3433ab408b163ed5c06da90, type: 3}
+  Enemies: []
+  EnemiesHealth: 
+  EnemieAnimators: []
+  EnemieAudioSources: []
+  TakingDamge: 0
+--- !u!114 &1604270290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1604270274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b30ce481a44748c4ca8e5420dbb8c49b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SM: {fileID: 1604270277}
+  MaxDeadEnemies: 0
+  DeadEnemiesValue: []
+  DeadEnemies: []
+  DeadEnemiesAnimator: []
+  DeadEnemiesCollider: []
+  DetectionCam: {fileID: 0}
+  DeletingEnemy: 0
 --- !u!1 &1656354416
 GameObject:
   m_ObjectHideFlags: 0
@@ -3822,3 +3849,86 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1890880988}
   m_CullTransparentMesh: 0
+--- !u!1 &2017712960
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2017712961}
+  - component: {fileID: 2017712963}
+  - component: {fileID: 2017712962}
+  m_Layer: 0
+  m_Name: Camera
+  m_TagString: FakeCam
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2017712961
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2017712960}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -5.43}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1271644546}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &2017712962
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2017712960}
+  m_Enabled: 1
+--- !u!20 &2017712963
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2017712960}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 512
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 1
+  m_TargetEye: 3
+  m_HDR: 0
+  m_AllowMSAA: 0
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 0
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022

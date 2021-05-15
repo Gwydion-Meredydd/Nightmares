@@ -162,4 +162,32 @@ public class ClientHandleManager : MonoBehaviour
         }
         MultiplayerManager.instance.SM.clientEnemyManager.UpdateEnemyTransforms(NewRotation, NewPosition);
     }
+    public static void EnemyDamageRecevied(Packet _packet)
+    {
+        int ArrayLength = _packet.ReadInt();
+        int NewHealth = _packet.ReadInt();
+
+        MultiplayerManager.instance.SM.clientEnemyManager.EnemyDamaged(ArrayLength, NewHealth);
+    }
+    public static void EnemyAttackRecevied(Packet _packet) 
+    {
+        int ArrayLength = _packet.ReadInt();
+
+        MultiplayerManager.instance.SM.clientEnemyManager.EnemyAttackRecevied(ArrayLength);
+    }
+    public static void EnemyHitPlayer (Packet _packet) 
+    {
+        int _id = _packet.ReadInt();
+        int NewHealth = _packet.ReadInt();
+
+        GameManager.players[_id].Health = NewHealth;
+        GameManager.players[_id].DamageTaken();
+        Debug.Log("Client " + _id + " Took Damage");
+    }
+    public static void PlayerRevived(Packet _packet)
+    {
+        int _id = _packet.ReadInt();
+        Debug.Log("Revive Player");
+        GameManager.players[_id].PlayerAnimator.SetBool("CanRevive", true);
+    }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public ScriptsManager SM;
-    [HideInInspector]
+ 
     public GameObject Player;
     [HideInInspector]
     public Animator PlayerAnimator;
@@ -543,7 +543,10 @@ public class PlayerController : MonoBehaviour
         //checks the threshold of player rotation that counts as either left, right ,down
         //else if statments are used so that only one can be called at a time
         //up is left to last so it can be else stamtnet since eular angles goes to 359.99.. then 0 so if its not any other value its defaulted as up.
-        PlayerRotation = Player.transform.eulerAngles.y;
+        if (Player != null)
+        {
+            PlayerRotation = Player.transform.eulerAngles.y;
+        }
         if (PlayerRotation > 45 && PlayerRotation < 135)
         {
             FacingUp = false;
@@ -763,7 +766,8 @@ public class PlayerController : MonoBehaviour
             Input.GetKey(KeyCode.W),
             Input.GetKey(KeyCode.S),
             Input.GetKey(KeyCode.A),
-            Input.GetKey(KeyCode.D)
+            Input.GetKey(KeyCode.D),
+            Input.GetKey(KeyCode.F)
         };
         ClientSend.PlayerMovement(_inputs);
     }

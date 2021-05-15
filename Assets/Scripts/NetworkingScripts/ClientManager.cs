@@ -485,6 +485,10 @@ public class ClientManager : MonoBehaviour
             {(int) ServerPackets.EnemyGroundSpawn, ClientHandleManager.SpawnGroundEnemy },
             {(int) ServerPackets.EnemyNormalSpawn, ClientHandleManager.SpawnNormalEnemy },
             {(int) ServerPackets.EnemyTransformSend, ClientHandleManager.ReceviedEnemyTransform },
+            {(int) ServerPackets.EnemyDamaged, ClientHandleManager.EnemyDamageRecevied },
+            {(int) ServerPackets.EnemyAttack, ClientHandleManager.EnemyAttackRecevied },
+            {(int) ServerPackets.EnemyHit, ClientHandleManager.EnemyHitPlayer },
+            {(int) ServerPackets.PlayerRevive, ClientHandleManager.PlayerRevived },
         };
         Debug.Log("Initalized Packets!");
     }

@@ -140,6 +140,7 @@ GameObject:
   - component: {fileID: 1664924018}
   - component: {fileID: 1664924017}
   - component: {fileID: 1664924019}
+  - component: {fileID: 1664924020}
   m_Layer: 0
   m_Name: ScriptManager
   m_TagString: Untagged
@@ -226,6 +227,8 @@ MonoBehaviour:
   OldConnectedClientsIP: []
   oldClientReady: 
   SpawnedLevel: {fileID: 0}
+  MaxPosition: {x: 9.9, y: 0, z: 12.04}
+  MinPosition: {x: -9.8, y: 0, z: -11.98}
 --- !u!114 &1664924015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,6 +273,7 @@ MonoBehaviour:
   serverEnemySpawner: {fileID: 1664924018}
   serverEnemyManager: {fileID: 1664924016}
   serverNavMeshBuilder: {fileID: 1664924019}
+  clientEnemyManager: {fileID: 0}
 --- !u!114 &1664924016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,12 +287,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SM: {fileID: 1664924015}
+  refrenceEnemyManger: {fileID: 0}
   PointsDamage: 10
   PointsKill: 50
   AttackingDistance: 1
   AttackDamage: 12.5
   AttackCoolDown: 0.25
   Attacking: 0
+  CurrentDamage: 0
   StartingHealth: 100
   EnemyInitilised: 
   Health: 
@@ -370,3 +376,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Tracked: {fileID: 1664924013}
   m_Size: {x: 80, y: 20, z: 80}
+--- !u!114 &1664924020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664924010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 753a9f48123d52042893925ef7b3366c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RefrenceServerEnemyDespawn: {fileID: 0}
+  Players: []
+  PlayersFound: 0
+  MaxDistance: 5.52
+  MaxDeadEnemies: 5
+  DeadEnemiesValue: []
+  DeadEnemies: []
+  DeadEnemiesAnimator: []
+  DeadEnemiesCollider: []
+  DeletingEnemy: 0

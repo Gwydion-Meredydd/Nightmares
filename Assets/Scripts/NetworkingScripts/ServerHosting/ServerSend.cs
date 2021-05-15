@@ -189,5 +189,40 @@ public class ServerSend
             SendTCPDataToAll(_packet);
         }
     }
+    public static void SendEnemyDamage(int ArrayValue , int NewDamage) 
+    {
+        using (ServerPacket _packet = new ServerPacket((int)ServerServerPackets.EnemyDamaged))
+        {
+            _packet.Write(ArrayValue);
+            _packet.Write(NewDamage);
+
+            SendTCPDataToAll(_packet);
+        }
+    }
+    public static void SendEnemyAttack(int ArrayValue)
+    {
+        using (ServerPacket _packet = new ServerPacket((int)ServerServerPackets.EnemyAttack))
+        {
+            _packet.Write(ArrayValue);
+            SendTCPDataToAll(_packet);
+        }
+    }
+    public static void SendEnemyHitPlayer(int PlayerID, float NewHealth)
+    {
+        using (ServerPacket _packet = new ServerPacket((int)ServerServerPackets.EnemyHit))
+        {
+            _packet.Write(PlayerID);
+            _packet.Write(NewHealth);
+            SendTCPDataToAll(_packet);
+        }
+    }
+    public static void SendPlayerRevive(int PlayerID)
+    {
+        using (ServerPacket _packet = new ServerPacket((int)ServerServerPackets.PlayerRevive))
+        {
+            _packet.Write(PlayerID);
+            SendTCPDataToAll(_packet);
+        }
+    }
     #endregion
 }

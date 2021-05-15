@@ -499,6 +499,7 @@ public class GameManager : MonoBehaviour
         ClientChildTempForMuzzleFlash.transform.parent = players[_id].SGShootPoint[0];
         players[_id].SGMuzzleFlash = ClientChildTempForMuzzleFlash.GetComponent<ParticleSystem>();
         ChildTempForMuzzleFlash = null;
+        players[_id].Health = 100;
 
         players[_id].SGCasePoint = FindGameObject(players[_id].ShotGunModel, "SGCasePoint").transform;
         ClientChildTempForCasePoint = Instantiate(ARShellParticle.gameObject, players[_id].SGCasePoint.position, players[_id].SGCasePoint.rotation);

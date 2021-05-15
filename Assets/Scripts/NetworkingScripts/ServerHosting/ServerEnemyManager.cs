@@ -6,6 +6,9 @@ using UnityEngine.AI;
 public class ServerEnemyManager : MonoBehaviour
 {
     public ScriptsManager SM;
+    public static ServerEnemyManager _serverEnemyManager;
+    public ServerEnemyManager refrenceEnemyManger;
+
     [Space]
     public int PointsDamage;
     public int PointsKill;
@@ -14,6 +17,7 @@ public class ServerEnemyManager : MonoBehaviour
     public float AttackDamage;
     public float AttackCoolDown;
     public bool Attacking;
+    public int CurrentDamage;
     public int StartingHealth;
     public List<bool> EnemyInitilised;
     public List<int> Health;
@@ -33,10 +37,19 @@ public class ServerEnemyManager : MonoBehaviour
     public Vector3 RandomPosition;
     public GameObject[] AvailablePlayers;
 
-    void Update()
+    private void Start()
+    {
+        refrenceEnemyManger = this;
+        _serverEnemyManager = refrenceEnemyManger;
+    }
+    private void FixedUpdate()
     {
         if (SM.HostingManager.SpawnLevel) 
         {
+            if (_serverEnemyManager == null)
+            {
+                Debug.Log("Instance not setting");
+            }
             if (AvailablePlayers.Length == 0)
             {
                 AvailablePlayers = GameObject.FindGameObjectsWithTag("Player");
@@ -45,7 +58,7 @@ public class ServerEnemyManager : MonoBehaviour
             {
                 FetchActiveEnemies();
             }
-            if (TakingDamage == true && Attacking == false)
+            if (TakingDamage == true)
             {
                 HealthManager();
             }
@@ -62,17 +75,17 @@ public class ServerEnemyManager : MonoBehaviour
                         InitalLost = false;
                     }
                     ChoosePlayer();
-                    ChasePlayer();
                     SendTransformToClients();
                 }
                 else
                 {
                     ChaseRandom();
+                    SendTransformToClients();
                 }
             }
         }
     }
-    void SendTransformToClients() 
+    void SendTransformToClients()
     {
         Quaternion[] NewRotation = new Quaternion[ActiveEnemies.Count];
         Vector3[] NewPositions = new Vector3[ActiveEnemies.Count];
@@ -87,6 +100,7 @@ public class ServerEnemyManager : MonoBehaviour
     {
         //method that makes the ai chase random points around the map depending on the camera scripts dimensions
         //only if ignore player bool is active
+        IgnorePlayer = true;
         if (InitalLost == false)
         {
             int OldLength = ActiveEnemies.Count;
@@ -97,7 +111,7 @@ public class ServerEnemyManager : MonoBehaviour
                 {
                     if (ActiveEnemiesAgents[i].isActiveAndEnabled)
                     {
-                        RandomPosition = new Vector3(Random.Range(SM.CameraScript.maxPosition.x, SM.CameraScript.minPosition.x), 0, Random.Range(SM.CameraScript.maxPosition.z, SM.CameraScript.minPosition.z));
+                        RandomPosition = new Vector3(Random.Range(ServerHostingManager.Instance.MaxPosition.x, ServerHostingManager.Instance.MinPosition.x), 0, Random.Range(ServerHostingManager.Instance.MaxPosition.z, ServerHostingManager.Instance.MinPosition.z));
                         if (ActiveEnemiesAgents[i].isActiveAndEnabled)
                         {
                             ActiveEnemiesAgents[i].destination = RandomPosition;
@@ -121,7 +135,7 @@ public class ServerEnemyManager : MonoBehaviour
                     {
                         if (ActiveEnemiesAgents[i].remainingDistance < 3 && ActiveEnemiesAgents[i] != null)
                         {
-                            RandomPosition = new Vector3(Random.Range(SM.CameraScript.maxPosition.x, SM.CameraScript.minPosition.x), 0, Random.Range(SM.CameraScript.maxPosition.z, SM.CameraScript.minPosition.z));
+                            RandomPosition = new Vector3(Random.Range(ServerHostingManager.Instance.MaxPosition.x, ServerHostingManager.Instance.MinPosition.x), 0, Random.Range(ServerHostingManager.Instance.MaxPosition.z, ServerHostingManager.Instance.MinPosition.z));
                             ActiveEnemiesAgents[i].destination = RandomPosition;
                         }
                     }
@@ -143,24 +157,57 @@ public class ServerEnemyManager : MonoBehaviour
                 if (ActiveEnemiesAgents[ArrayLength].isActiveAndEnabled)
                 {
                     SelectedPlayer[ArrayLength] = ReturnClosestPlayer(ActiveEnemies[ArrayLength].transform);
+                    if (SelectedPlayer[ArrayLength] != null) 
+                    {
+                        SelectedPlayer[ArrayLength] = null;
+                        SelectedPlayer[ArrayLength] = ReturnClosestPlayer(ActiveEnemies[ArrayLength].transform);
+                        ChasePlayer();
+                    }
+                    else
+                    {
+                        ChaseRandom();
+                    }
+                    
                 }
                 ArrayLength = ArrayLength + 1;
             }
         }
     }
-    GameObject ReturnClosestPlayer(Transform Enemy) 
+    public GameObject ReturnClosestPlayer(Transform Enemy) 
     {
         GameObject ClosestPlayer = AvailablePlayers[0];
         switch (AvailablePlayers.Length) 
         {
             case 2:
-                if (Vector3.Distance(AvailablePlayers[0].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[1].transform.position, Enemy.position)) 
+                if (Vector3.Distance(AvailablePlayers[0].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[1].transform.position, Enemy.position))
                 {
-                    ClosestPlayer = AvailablePlayers[0];
+                    if (!AvailablePlayers[0].GetComponent<ServerPlayer>().PlayerDown)
+                    {
+                        ClosestPlayer = AvailablePlayers[0];
+                    }
+                    else if (!AvailablePlayers[1].GetComponent<ServerPlayer>().PlayerDown)
+                    {
+                        ClosestPlayer = AvailablePlayers[1];
+                    }
+                    else
+                    {
+                        ClosestPlayer = null;
+                    }
                 }
-                else 
+                else if (Vector3.Distance(AvailablePlayers[1].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[0].transform.position, Enemy.position))
                 {
-                    ClosestPlayer = AvailablePlayers[1];
+                    if (!AvailablePlayers[1].GetComponent<ServerPlayer>().PlayerDown)
+                    {
+                        ClosestPlayer = AvailablePlayers[1];
+                    }
+                    else if (!AvailablePlayers[0].GetComponent<ServerPlayer>().PlayerDown)
+                    {
+                        ClosestPlayer = AvailablePlayers[0];
+                    }
+                    else 
+                    {
+                        ClosestPlayer = null;
+                    }
                 }
                 break;
             case 3:
@@ -226,7 +273,7 @@ public class ServerEnemyManager : MonoBehaviour
                 float NewDistance = Vector3.Distance(ActiveEnemies[ArrayLength].transform.position, SelectedPlayer[ArrayLength].transform.position);
                 if (NewDistance < AttackingDistance)
                 {
-                    if (Attacking == false)
+                    if (Attacking == false && SelectedPlayer[ArrayLength] != null)
                     {
                         Attacking = true;
                         StartCoroutine(AttackingTime(ArrayLength));
@@ -238,40 +285,50 @@ public class ServerEnemyManager : MonoBehaviour
     }
     IEnumerator AttackingTime(int ArrayLength)
     {
-        float NewDistance = Vector3.Distance(ActiveEnemies[ArrayLength].transform.position, SelectedPlayer[ArrayLength].transform.position);
-        int OldNumberOfEnemies = ActiveEnemies.Count;
-        if (NewDistance < AttackingDistance && Health[ArrayLength] > 0)
+        if (SelectedPlayer[ArrayLength] != null)
         {
-            if (ActiveEnemiesAgents[ArrayLength].isActiveAndEnabled)
+            float NewDistance = Vector3.Distance(ActiveEnemies[ArrayLength].transform.position, SelectedPlayer[ArrayLength].transform.position);
+            int OldNumberOfEnemies = ActiveEnemies.Count;
+            if (NewDistance < AttackingDistance && Health[ArrayLength] > 0)
             {
-                ActiveEnemiesAgents[ArrayLength].isStopped = true;
-            }
-            int AttackValue = Random.Range(1, 3);
-
-//send Enemy attack animation here
-
-            yield return new WaitForSecondsRealtime(0.1f);
-            if (OldNumberOfEnemies == ActiveEnemies.Count)
-            {
-                NewDistance = Vector3.Distance(ActiveEnemies[ArrayLength].transform.position, SelectedPlayer[ArrayLength].transform.position);
-                if (NewDistance < AttackingDistance)
+                if (ActiveEnemiesAgents[ArrayLength].isActiveAndEnabled)
                 {
-                    //Send Player Damage to HitPlayer
-                    yield return new WaitForSecondsRealtime(0.1f);
-                    if (OldNumberOfEnemies == ActiveEnemies.Count)
-                    {
-                        //Send Player Damage to HitPlayer off
-                    }
+                    ActiveEnemiesAgents[ArrayLength].isStopped = true;
                 }
-                if (OldNumberOfEnemies == ActiveEnemies.Count)
+
+                ServerSend.SendEnemyAttack(ArrayLength);
+
+                yield return new WaitForSecondsRealtime(0.1f);
+                if (SelectedPlayer[ArrayLength] != null)
                 {
-                    yield return new WaitForSecondsRealtime(AttackCoolDown);
                     if (OldNumberOfEnemies == ActiveEnemies.Count)
                     {
-                        ActiveEnemiesAgents[ArrayLength].isStopped = false;
+                        NewDistance = Vector3.Distance(ActiveEnemies[ArrayLength].transform.position, SelectedPlayer[ArrayLength].transform.position);
+                        if (NewDistance < AttackingDistance)
+                        {
+                            int PlayerID = SelectedPlayer[ArrayLength].GetComponent<ServerPlayer>().id;
+                            SelectedPlayer[ArrayLength].GetComponent<ServerPlayer>().Health = SelectedPlayer[ArrayLength].GetComponent<ServerPlayer>().Health - AttackDamage;
+                            float PlayerHealth = SelectedPlayer[ArrayLength].GetComponent<ServerPlayer>().Health;
+                            SelectedPlayer[ArrayLength].GetComponent<ServerPlayer>().HealthCalculations();
+                            Debug.Log("Health "+ ArrayLength  +"  : " + PlayerHealth);
+                            ServerSend.SendEnemyHitPlayer(PlayerID, PlayerHealth);
+                            yield return new WaitForSecondsRealtime(0.1f);
+                            if (OldNumberOfEnemies == ActiveEnemies.Count)
+                            {
+                                //Send Player Damage to HitPlayer off
+                            }
+                        }
+                        if (OldNumberOfEnemies == ActiveEnemies.Count)
+                        {
+                            yield return new WaitForSecondsRealtime(AttackCoolDown);
+                            if (OldNumberOfEnemies == ActiveEnemies.Count)
+                            {
+                                ActiveEnemiesAgents[ArrayLength].isStopped = false;
 
-//send enemy move here
+                                //send enemy move here
 
+                            }
+                        }
                     }
                 }
             }
@@ -291,6 +348,7 @@ public class ServerEnemyManager : MonoBehaviour
                 {
                     if (EnemyHited == TemporaryActiveEnemie)
                     {
+                        Debug.Log("EnemyHit");
                         ActiveEnemiesAgents[ArrayLength].speed = 0;
                         int RandomDamageValue = Random.Range(1, 4);
                         switch (RandomDamageValue)
@@ -305,97 +363,14 @@ public class ServerEnemyManager : MonoBehaviour
                                 // Send Enemy Hit Type 3
                                 break;
                         }
-                        
+
                         //add points
 
                         // send new player health to client
-                        #region Color Damage
-                        //instead of using color use quaternion to them caluculate on client side
-
-                        Color newcolor = new Color(1, 1, 1, 1);
-                        if (SM.PlayerScript.WeaponValue == 3)
-                        {
-                            if (Health[ArrayLength] < 10)
-                            {
-                                newcolor = new Color(0, 0, 0, 1);
-                            }
-                            else if (Health[ArrayLength] < 20)
-                            {
-                                newcolor = new Color(0.2f, 0.2f, 0.2f, 1);
-                            }
-                            else if (Health[ArrayLength] < 30)
-                            {
-                                newcolor = new Color(0.3f, 0.3f, 0.3f, 1);
-                            }
-                            else if (Health[ArrayLength] < 40)
-                            {
-                                newcolor = new Color(0.4f, 0.4f, 0.4f, 1);
-                            }
-                            else if (Health[ArrayLength] < 50)
-                            {
-                                newcolor = new Color(0.5f, 0.5f, 0.5f, 1);
-                            }
-                            else if (Health[ArrayLength] < 60)
-                            {
-                                newcolor = new Color(0.6f, 0.6f, 0.6f, 1);
-                            }
-                            else if (Health[ArrayLength] < 70)
-                            {
-                                newcolor = new Color(0.7f, 0.7f, 0.7f, 1);
-                            }
-                            else if (Health[ArrayLength] < 80)
-                            {
-                                newcolor = new Color(0.8f, 0.8f, 0.8f, 1);
-                            }
-                            else if (Health[ArrayLength] < 90)
-                            {
-                                newcolor = new Color(0.9f, 0.9f, 0.9f, 1);
-                            }
-                        }
-                        else
-                        {
-                            if (Health[ArrayLength] < 10)
-                            {
-                                newcolor = new Color(1, 0.1f, 0.1f, 1);
-                            }
-                            else if (Health[ArrayLength] < 20)
-                            {
-                                newcolor = new Color(1, 0.2f, 0.2f, 1);
-                            }
-                            else if (Health[ArrayLength] < 30)
-                            {
-                                newcolor = new Color(1, 0.3f, 0.3f, 1);
-                            }
-                            else if (Health[ArrayLength] < 40)
-                            {
-                                newcolor = new Color(1, 0.4f, 0.4f, 1);
-                            }
-                            else if (Health[ArrayLength] < 50)
-                            {
-                                newcolor = new Color(1, 0.5f, 0.5f, 1);
-                            }
-                            else if (Health[ArrayLength] < 60)
-                            {
-                                newcolor = new Color(1, 0.6f, 0.6f, 1);
-                            }
-                            else if (Health[ArrayLength] < 70)
-                            {
-                                newcolor = new Color(1, 0.7f, 0.7f, 1);
-                            }
-                            else if (Health[ArrayLength] < 80)
-                            {
-                                newcolor = new Color(1, 0.8f, 0.8f, 1);
-                            }
-                            else if (Health[ArrayLength] < 90)
-                            {
-                                newcolor = new Color(1, 0.9f, 0.9f, 1);
-                            }
-                        }
-
-
-                        // send new color data to clients
-
-                        #endregion
+                        Health[ArrayLength] = Health[ArrayLength] - CurrentDamage;
+                        ServerSend.SendEnemyDamage(ArrayLength, Health[ArrayLength]);
+                        Debug.Log("Sending Damage");
+                        CurrentDamage = 0;
                         if (Health[ArrayLength] <= 0)
                         {
                             int randomSpawnChance = Random.Range(1, 20);
@@ -433,11 +408,10 @@ public class ServerEnemyManager : MonoBehaviour
                 }
                 ArrayLength = ArrayLength + 1;
             }
-            EnemyHited = null;
+            //EnemyHited = null;
             TakingDamage = false;
             HealthCalculation = false;
         }
-
     }
     public void FetchActiveEnemies()
     {
@@ -461,7 +435,7 @@ public class ServerEnemyManager : MonoBehaviour
             {
                 ActiveEnemiesAgents.Add(Enemies.GetComponent<NavMeshAgent>());
                 ActiveEnemiesBoxColliders.Add(Enemies.GetComponent<BoxCollider>());
-                SelectedPlayer.Add(AvailablePlayers[Random.Range(0, AvailablePlayers.Length)]);
+                SelectedPlayer.Add(ReturnClosestPlayer(Enemies.transform));
             }
             ValueofEnemies = GameObject.FindGameObjectsWithTag("Enemy");
             if (Health.Count <= ValueofEnemies.Length)

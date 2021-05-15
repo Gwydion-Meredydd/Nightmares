@@ -814,6 +814,7 @@ GameObject:
   - component: {fileID: 2546045113520983861}
   - component: {fileID: 8481811221424919887}
   - component: {fileID: 7160206602277294974}
+  - component: {fileID: 5669723097063723185}
   m_Layer: 9
   m_Name: GroundEnemies_3
   m_TagString: Enemy
@@ -960,6 +961,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &5669723097063723185
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2890904305068004751}
+  m_Material: {fileID: 13400000, guid: 817cbc48783abb448b45e34a2c62e8db, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.04, y: 2.07, z: 1.91}
+  m_Center: {x: 0.014398336, y: 1.16, z: -0.0050725937}
 --- !u!1 &3018907254461656568
 GameObject:
   m_ObjectHideFlags: 0

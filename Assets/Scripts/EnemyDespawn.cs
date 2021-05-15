@@ -13,11 +13,11 @@ public class EnemyDespawn : MonoBehaviour
     public List<GameObject> DeadEnemies;
     [HideInInspector]
     public List<Animator> DeadEnemiesAnimator;
-    [HideInInspector]
+    //[HideInInspector]
     public List<Collider> DeadEnemiesCollider;
     [HideInInspector]
     public Camera DetectionCam;
-    [HideInInspector]
+   // [HideInInspector]
     public Plane[] planes;
     [HideInInspector]
     public bool DeletingEnemy;

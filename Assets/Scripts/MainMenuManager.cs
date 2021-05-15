@@ -19,12 +19,17 @@ public class MainMenuManager : MonoBehaviour
     public GameObject[] HighScorePerent;
     public GameObject[] HighScoreLoading;
     public GameObject HighScoreButtons;
+    public GameObject ThreeDimensionalCharacters;
+    public GameObject ThreeDimensionalBackground;
     [Space]
     public InputField UsernameInputField;
     public string UserName;
     public bool UserNameEntered;
     public GameObject[] UserNameErrorText;
     public GameObject Loading;
+    public GameObject MainMenuScene;
+    public GameObject ScoreOverlayBlocker;
+    public GameObject ScoreReturnButton;
     public void PlayButton()
     {
         mainMenuObj.SetActive(true);
@@ -77,8 +82,8 @@ public class MainMenuManager : MonoBehaviour
             HighScoreRoot.SetActive(false);
             HighScorePerent[0].SetActive(false);
             HighScorePerent[1].SetActive(false);
-            HighScorePerent[2].SetActive(false);
-            HighScorePerent[3].SetActive(false);
+            //HighScorePerent[2].SetActive(false);
+            //HighScorePerent[3].SetActive(false);
             HighScorePerent[4].SetActive(false);
             HighScoreButtons.SetActive(false);
         }
@@ -98,6 +103,7 @@ public class MainMenuManager : MonoBehaviour
     }
     public void CharacterSelectionReturn() 
     {
+        ThreeDimensionalCharacters.SetActive(true);
         SM.AudioScripts.PlayMenuSFX();
         mainMenuObj.SetActive(true);
         CharactersOption.SetActive(false);
@@ -105,6 +111,7 @@ public class MainMenuManager : MonoBehaviour
     }
     public void CharacterSelection() 
     {
+        ThreeDimensionalCharacters.SetActive(false);
         SM.AudioScripts.PlayMenuSFX();
         mainMenuObj.SetActive(false);
         CharactersOption.SetActive(true);
@@ -129,9 +136,12 @@ public class MainMenuManager : MonoBehaviour
     }
     public void MapSelected(int LevelValue) 
     {
+        MainMenuScene.SetActive(false);
         SM.AudioScripts.PlayMenuSFX();
         LevelSelectionOption.SetActive(false);
         LevelGameObjects.SetActive(false);
+        ScoreOverlayBlocker.SetActive(false);
+        ScoreReturnButton.SetActive(false);
         SM.LevelScript.LevelValue = LevelValue;
         SM.GameScript.StartGame = true;
     }
@@ -182,6 +192,10 @@ public class MainMenuManager : MonoBehaviour
         optionsMenuObj.SetActive(false);
         OptionsAudio.SetActive(false);
         OptionsVideo.SetActive(false);
+    }
+    public void FeedBackForm() 
+    {
+        Application.OpenURL("https://docs.google.com/forms/d/1k_HUUW28pz8jhA1aJ00VMRoMgnfKfL1q1dr490Lxozo/edit");
     }
 
     public void QuitGame()
