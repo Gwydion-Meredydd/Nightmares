@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class ServerEnemyManager : MonoBehaviour
 {
@@ -36,6 +37,7 @@ public class ServerEnemyManager : MonoBehaviour
     public List<GameObject> SelectedPlayer;
     public Vector3 RandomPosition;
     public GameObject[] AvailablePlayers;
+    public bool ServerRestart;
 
     private void Start()
     {
@@ -44,7 +46,7 @@ public class ServerEnemyManager : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (SM.HostingManager.SpawnLevel) 
+        if (SM.HostingManager.SpawnLevel)
         {
             if (_serverEnemyManager == null)
             {
@@ -53,6 +55,7 @@ public class ServerEnemyManager : MonoBehaviour
             if (AvailablePlayers.Length == 0)
             {
                 AvailablePlayers = GameObject.FindGameObjectsWithTag("Player");
+                ServerPoints._serverPoints.Points = new int[AvailablePlayers.Length];
             }
             if (TakingDamage == false && EnemyDied == false && Attacking == false && HealthCalculation == false)
             {
@@ -83,6 +86,32 @@ public class ServerEnemyManager : MonoBehaviour
                     SendTransformToClients();
                 }
             }
+            if (AvailablePlayers.Length == 0)
+            {
+                if (ServerRestart == false)
+                {
+                    Debug.Log("Server Restart");
+                    ServerRestart = true;
+                    StartCoroutine(ServerRestarting());
+                }
+            }
+        }
+    }
+    IEnumerator ServerRestarting() 
+    {
+        yield return new WaitForSecondsRealtime(5);
+        if (AvailablePlayers.Length == 0) 
+        {
+            Debug.Log("Server Restarting");
+            int SCENEVALUE = SceneManager.GetActiveScene().buildIndex;
+            ServerServer.Stop();
+            yield return new WaitForSecondsRealtime(5);
+            ServerServer.clients.Clear();
+            SceneManager.LoadScene(1);
+        }
+        else 
+        {
+            ServerRestart = false;
         }
     }
     void SendTransformToClients()
@@ -96,7 +125,7 @@ public class ServerEnemyManager : MonoBehaviour
         }
         ServerSend.SendEnemyTransform(NewRotation, NewPositions);
     }
-    void ChaseRandom()
+    public void ChaseRandom()
     {
         //method that makes the ai chase random points around the map depending on the camera scripts dimensions
         //only if ignore player bool is active
@@ -173,80 +202,89 @@ public class ServerEnemyManager : MonoBehaviour
             }
         }
     }
-    public GameObject ReturnClosestPlayer(Transform Enemy) 
+    public GameObject ReturnClosestPlayer(Transform Enemy)
     {
-        GameObject ClosestPlayer = AvailablePlayers[0];
-        switch (AvailablePlayers.Length) 
+        AvailablePlayers = GameObject.FindGameObjectsWithTag("Player");
+        if (AvailablePlayers.Length > 0)
         {
-            case 2:
-                if (Vector3.Distance(AvailablePlayers[0].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[1].transform.position, Enemy.position))
-                {
-                    if (!AvailablePlayers[0].GetComponent<ServerPlayer>().PlayerDown)
+            GameObject ClosestPlayer = AvailablePlayers[0];
+
+            switch (AvailablePlayers.Length)
+            {
+                case 2:
+                    if (Vector3.Distance(AvailablePlayers[0].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[1].transform.position, Enemy.position))
+                    {
+                        if (!AvailablePlayers[0].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[0];
+                        }
+                        else if (!AvailablePlayers[1].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[1];
+                        }
+                        else
+                        {
+                            ClosestPlayer = null;
+                        }
+                    }
+                    else if (Vector3.Distance(AvailablePlayers[1].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[0].transform.position, Enemy.position))
+                    {
+                        if (!AvailablePlayers[1].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[1];
+                        }
+                        else if (!AvailablePlayers[0].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[0];
+                        }
+                        else
+                        {
+                            ClosestPlayer = null;
+                        }
+                    }
+                    break;
+                case 3:
+                    if (Vector3.Distance(AvailablePlayers[0].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[1].transform.position, Enemy.position))
                     {
                         ClosestPlayer = AvailablePlayers[0];
                     }
-                    else if (!AvailablePlayers[1].GetComponent<ServerPlayer>().PlayerDown)
+                    else if (Vector3.Distance(AvailablePlayers[1].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[2].transform.position, Enemy.position))
                     {
                         ClosestPlayer = AvailablePlayers[1];
                     }
                     else
                     {
-                        ClosestPlayer = null;
+                        ClosestPlayer = AvailablePlayers[2];
                     }
-                }
-                else if (Vector3.Distance(AvailablePlayers[1].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[0].transform.position, Enemy.position))
-                {
-                    if (!AvailablePlayers[1].GetComponent<ServerPlayer>().PlayerDown)
-                    {
-                        ClosestPlayer = AvailablePlayers[1];
-                    }
-                    else if (!AvailablePlayers[0].GetComponent<ServerPlayer>().PlayerDown)
+                    break;
+                case 4:
+                    if (Vector3.Distance(AvailablePlayers[0].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[1].transform.position, Enemy.position))
                     {
                         ClosestPlayer = AvailablePlayers[0];
                     }
-                    else 
+                    else if (Vector3.Distance(AvailablePlayers[1].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[2].transform.position, Enemy.position))
                     {
-                        ClosestPlayer = null;
+                        ClosestPlayer = AvailablePlayers[1];
                     }
-                }
-                break;
-            case 3:
-                if (Vector3.Distance(AvailablePlayers[0].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[1].transform.position, Enemy.position))
-                {
-                    ClosestPlayer = AvailablePlayers[0];
-                }
-                else if (Vector3.Distance(AvailablePlayers[1].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[2].transform.position, Enemy.position))
-                {
-                    ClosestPlayer = AvailablePlayers[1];
-                }
-                else 
-                {
-                    ClosestPlayer = AvailablePlayers[2];
-                }
-                break;
-            case 4:
-                if (Vector3.Distance(AvailablePlayers[0].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[1].transform.position, Enemy.position))
-                {
-                    ClosestPlayer = AvailablePlayers[0];
-                }
-                else if (Vector3.Distance(AvailablePlayers[1].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[2].transform.position, Enemy.position))
-                {
-                    ClosestPlayer = AvailablePlayers[1];
-                }
-                else if (Vector3.Distance(AvailablePlayers[2].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[3].transform.position, Enemy.position))
-                {
-                    ClosestPlayer = AvailablePlayers[2];
-                }
-                else
-                {
-                    ClosestPlayer = AvailablePlayers[3];
-                }
-                break;
+                    else if (Vector3.Distance(AvailablePlayers[2].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[3].transform.position, Enemy.position))
+                    {
+                        ClosestPlayer = AvailablePlayers[2];
+                    }
+                    else
+                    {
+                        ClosestPlayer = AvailablePlayers[3];
+                    }
+                    break;
 
+            }
+            return (ClosestPlayer);
         }
-        return (ClosestPlayer);
-    } 
-    void ChasePlayer()
+        else 
+        {
+            return (null);
+        }
+    }
+    public void ChasePlayer()
     {
         //The method that sets all enemeies to chase the player 
         //only is used if the ingore player bool is active
@@ -270,13 +308,16 @@ public class ServerEnemyManager : MonoBehaviour
         {
             if (Health[ArrayLength] > 0)
             {
-                float NewDistance = Vector3.Distance(ActiveEnemies[ArrayLength].transform.position, SelectedPlayer[ArrayLength].transform.position);
-                if (NewDistance < AttackingDistance)
+                if (SelectedPlayer[ArrayLength] != null)
                 {
-                    if (Attacking == false && SelectedPlayer[ArrayLength] != null)
+                    float NewDistance = Vector3.Distance(ActiveEnemies[ArrayLength].transform.position, SelectedPlayer[ArrayLength].transform.position);
+                    if (NewDistance < AttackingDistance)
                     {
-                        Attacking = true;
-                        StartCoroutine(AttackingTime(ArrayLength));
+                        if (Attacking == false && SelectedPlayer[ArrayLength] != null)
+                        {
+                            Attacking = true;
+                            StartCoroutine(AttackingTime(ArrayLength));
+                        }
                     }
                 }
             }
@@ -287,50 +328,57 @@ public class ServerEnemyManager : MonoBehaviour
     {
         if (SelectedPlayer[ArrayLength] != null)
         {
-            float NewDistance = Vector3.Distance(ActiveEnemies[ArrayLength].transform.position, SelectedPlayer[ArrayLength].transform.position);
-            int OldNumberOfEnemies = ActiveEnemies.Count;
-            if (NewDistance < AttackingDistance && Health[ArrayLength] > 0)
+            ServerPlayer sPlayer = SelectedPlayer[ArrayLength].GetComponent<ServerPlayer>();
+            if (sPlayer.Health > 0) 
             {
-                if (ActiveEnemiesAgents[ArrayLength].isActiveAndEnabled)
+                float NewDistance = Vector3.Distance(ActiveEnemies[ArrayLength].transform.position, SelectedPlayer[ArrayLength].transform.position);
+                int OldNumberOfEnemies = ActiveEnemies.Count;
+                if (NewDistance < AttackingDistance && Health[ArrayLength] > 0)
                 {
-                    ActiveEnemiesAgents[ArrayLength].isStopped = true;
-                }
-
-                ServerSend.SendEnemyAttack(ArrayLength);
-
-                yield return new WaitForSecondsRealtime(0.1f);
-                if (SelectedPlayer[ArrayLength] != null)
-                {
-                    if (OldNumberOfEnemies == ActiveEnemies.Count)
+                    if (ActiveEnemiesAgents[ArrayLength].isActiveAndEnabled)
                     {
-                        NewDistance = Vector3.Distance(ActiveEnemies[ArrayLength].transform.position, SelectedPlayer[ArrayLength].transform.position);
-                        if (NewDistance < AttackingDistance)
-                        {
-                            int PlayerID = SelectedPlayer[ArrayLength].GetComponent<ServerPlayer>().id;
-                            SelectedPlayer[ArrayLength].GetComponent<ServerPlayer>().Health = SelectedPlayer[ArrayLength].GetComponent<ServerPlayer>().Health - AttackDamage;
-                            float PlayerHealth = SelectedPlayer[ArrayLength].GetComponent<ServerPlayer>().Health;
-                            SelectedPlayer[ArrayLength].GetComponent<ServerPlayer>().HealthCalculations();
-                            Debug.Log("Health "+ ArrayLength  +"  : " + PlayerHealth);
-                            ServerSend.SendEnemyHitPlayer(PlayerID, PlayerHealth);
-                            yield return new WaitForSecondsRealtime(0.1f);
-                            if (OldNumberOfEnemies == ActiveEnemies.Count)
-                            {
-                                //Send Player Damage to HitPlayer off
-                            }
-                        }
+                        ActiveEnemiesAgents[ArrayLength].isStopped = true;
+                    }
+
+                    ServerSend.SendEnemyAttack(ArrayLength);
+
+                    yield return new WaitForSecondsRealtime(0.1f);
+                    if (SelectedPlayer[ArrayLength] != null)
+                    {
                         if (OldNumberOfEnemies == ActiveEnemies.Count)
                         {
-                            yield return new WaitForSecondsRealtime(AttackCoolDown);
+                            NewDistance = Vector3.Distance(ActiveEnemies[ArrayLength].transform.position, SelectedPlayer[ArrayLength].transform.position);
+                            if (NewDistance < AttackingDistance)
+                            {
+                                int PlayerID = SelectedPlayer[ArrayLength].GetComponent<ServerPlayer>().id;
+                                SelectedPlayer[ArrayLength].GetComponent<ServerPlayer>().Health = SelectedPlayer[ArrayLength].GetComponent<ServerPlayer>().Health - AttackDamage;
+                                float PlayerHealth = SelectedPlayer[ArrayLength].GetComponent<ServerPlayer>().Health;
+                                SelectedPlayer[ArrayLength].GetComponent<ServerPlayer>().HealthCalculations();
+                                ServerSend.SendEnemyHitPlayer(PlayerID, PlayerHealth);
+                                yield return new WaitForSecondsRealtime(0.1f);
+                                if (OldNumberOfEnemies == ActiveEnemies.Count)
+                                {
+                                    //Send Player Damage to HitPlayer off
+                                }
+                            }
                             if (OldNumberOfEnemies == ActiveEnemies.Count)
                             {
-                                ActiveEnemiesAgents[ArrayLength].isStopped = false;
+                                yield return new WaitForSecondsRealtime(AttackCoolDown);
+                                if (OldNumberOfEnemies == ActiveEnemies.Count)
+                                {
+                                    ActiveEnemiesAgents[ArrayLength].isStopped = false;
 
-                                //send enemy move here
+                                    //send enemy move here
 
+                                }
                             }
                         }
                     }
                 }
+            }
+            else 
+            {
+                ChaseRandom();
             }
         }
         Attacking = false;
@@ -348,7 +396,6 @@ public class ServerEnemyManager : MonoBehaviour
                 {
                     if (EnemyHited == TemporaryActiveEnemie)
                     {
-                        Debug.Log("EnemyHit");
                         ActiveEnemiesAgents[ArrayLength].speed = 0;
                         int RandomDamageValue = Random.Range(1, 4);
                         switch (RandomDamageValue)
@@ -369,21 +416,21 @@ public class ServerEnemyManager : MonoBehaviour
                         // send new player health to client
                         Health[ArrayLength] = Health[ArrayLength] - CurrentDamage;
                         ServerSend.SendEnemyDamage(ArrayLength, Health[ArrayLength]);
-                        Debug.Log("Sending Damage");
                         CurrentDamage = 0;
                         if (Health[ArrayLength] <= 0)
                         {
                             int randomSpawnChance = Random.Range(1, 20);
                             if (randomSpawnChance == 10)
                             {
-                                //drop a random drop
+                                ServerDropManager._serverDropManager.DropRandom(ActiveEnemies[ArrayLength].transform.position);
                             }
+                            
                             // send kill points to client
-                                //ActiveEnemiesAnimators[ArrayLength].SetBool("Hit", false);
-                                //ActiveEnemiesAnimators[ArrayLength].SetBool("Dead", true);
-                                //ActiveEnemiesAnimators[ArrayLength].SetBool("Attack", false);
-                                //int DeathValue = Random.Range(1, 4);
-                                //ActiveEnemiesAnimators[ArrayLength].SetInteger("DeathRandomiser", DeathValue);
+                            //ActiveEnemiesAnimators[ArrayLength].SetBool("Hit", false);
+                            //ActiveEnemiesAnimators[ArrayLength].SetBool("Dead", true);
+                            //ActiveEnemiesAnimators[ArrayLength].SetBool("Attack", false);
+                            //int DeathValue = Random.Range(1, 4);
+                            //ActiveEnemiesAnimators[ArrayLength].SetInteger("DeathRandomiser", DeathValue);
                             //send Enemy Death with random death value 
                             if (ActiveEnemiesAgents[ArrayLength].isActiveAndEnabled)
                             {

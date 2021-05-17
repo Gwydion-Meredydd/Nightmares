@@ -489,6 +489,9 @@ public class ClientManager : MonoBehaviour
             {(int) ServerPackets.EnemyAttack, ClientHandleManager.EnemyAttackRecevied },
             {(int) ServerPackets.EnemyHit, ClientHandleManager.EnemyHitPlayer },
             {(int) ServerPackets.PlayerRevive, ClientHandleManager.PlayerRevived },
+            {(int) ServerPackets.DropDropped, ClientHandleManager.DropDropped },
+            {(int) ServerPackets.DropPicked, ClientHandleManager.DropData },
+            {(int) ServerPackets.PlayerDisconnected, ClientHandleManager.PlayerDisconnected },
         };
         Debug.Log("Initalized Packets!");
     }

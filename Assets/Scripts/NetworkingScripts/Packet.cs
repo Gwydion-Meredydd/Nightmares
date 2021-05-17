@@ -21,7 +21,10 @@ public enum ServerPackets
     EnemyDamaged,
     EnemyAttack,
     EnemyHit,
-    PlayerRevive
+    PlayerRevive,
+    DropDropped,
+    DropPicked,
+    PlayerDisconnected
 }
 
 /// <summary>Sent from client to server.</summary>

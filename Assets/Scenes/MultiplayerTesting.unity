@@ -2824,6 +2824,7 @@ GameObject:
   - component: {fileID: 1604270288}
   - component: {fileID: 1604270289}
   - component: {fileID: 1604270290}
+  - component: {fileID: 1604270291}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -3278,6 +3279,7 @@ MonoBehaviour:
   EnemieAnimators: []
   EnemieAudioSources: []
   TakingDamge: 0
+  Attacking: 0
 --- !u!114 &1604270290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3291,13 +3293,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SM: {fileID: 1604270277}
-  MaxDeadEnemies: 0
+  MaxDeadEnemies: 5
   DeadEnemiesValue: []
   DeadEnemies: []
   DeadEnemiesAnimator: []
   DeadEnemiesCollider: []
   DetectionCam: {fileID: 0}
   DeletingEnemy: 0
+--- !u!114 &1604270291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1604270274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 130eef403d8ed2e4cafca76b3b6c1d18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RefClientDropManager: {fileID: 0}
+  DropPrefabs:
+  - {fileID: 8651071279741454599, guid: aa3b71713f99e834a86126538bff7804, type: 3}
+  - {fileID: 3137446847904397818, guid: fd67ce7fbbc97534f970feaab92ecc3b, type: 3}
+  - {fileID: 8220870249794256489, guid: c4d3f884a2b8eaf4ebf6741e36494c82, type: 3}
+  - {fileID: 6583976829515589366, guid: d6459929c62d2cb4bb82476758f10d07, type: 3}
+  - {fileID: 7151165017976795902, guid: 4accd549cb2ccf44684b1d63d50fc55f, type: 3}
+  - {fileID: 7936548279536117146, guid: e3a2638b11c18fe44ae9dc9fc02a8da0, type: 3}
+  ActiveDropsArray: []
+  ActiveDrops: []
+  DropStatus: 0000000000
+  MaxTiming: 1e0000001e0000001e0000002800000028000000
+  Timing: 0000000000000000000000000000000000000000
+  DropUI: []
+  DropUIText: []
 --- !u!1 &1656354416
 GameObject:
   m_ObjectHideFlags: 0

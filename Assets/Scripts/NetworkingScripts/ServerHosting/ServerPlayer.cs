@@ -320,15 +320,12 @@ public class ServerPlayer: MonoBehaviour
                     GameObject SGNewHit = SGRayCast[i].HitGameObject;
                     if (SGNewHit != null)
                     {
-                        Debug.Log("pew pew  ");
                         if (SGNewHit.CompareTag("Enemy"))
                         {
-                            Debug.Log("Firing hit ememy ");
                             HitEnemy = SGNewHit;
                             ServerEnemyManager._serverEnemyManager.EnemyHited = HitEnemy;
                             if (ServerEnemyManager._serverEnemyManager.HealthCalculation == false)
                             {
-                                Debug.Log("Firing Enemy Hit + health caculated = false");
                                 ServerEnemyManager._serverEnemyManager.CurrentDamage = SGDamage;
                                 ServerEnemyManager._serverEnemyManager.TakingDamage = true;
                             }
@@ -348,15 +345,12 @@ public class ServerPlayer: MonoBehaviour
                 GameObject SANewHit = SARayCast.HitGameObject;
                 if (SANewHit != null)
                 {
-                    Debug.Log("pew pew  ");
                     if (SANewHit.CompareTag("Enemy"))
                     {
-                        Debug.Log("Firing hit ememy ");
                         HitEnemy = SANewHit;
                         ServerEnemyManager._serverEnemyManager.EnemyHited = HitEnemy;
                         if (ServerEnemyManager._serverEnemyManager.HealthCalculation == false)
                         {
-                            Debug.Log("Firing Enemy Hit + health caculated = false");
                             ServerEnemyManager._serverEnemyManager.CurrentDamage = SADamage;
                             ServerEnemyManager._serverEnemyManager.TakingDamage = true;
                         }

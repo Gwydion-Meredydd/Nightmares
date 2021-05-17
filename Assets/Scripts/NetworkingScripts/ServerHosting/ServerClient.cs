@@ -258,6 +258,7 @@ public class ServerClient
         {  
             if (ClientIP == tcp.socket.Client.RemoteEndPoint.ToString()) 
             {
+                ServerSend.PlayerHasDisconnected(ClientValue);
                 Debug.Log("Client Number " + ClientValue + " Has Disconnect from the server...");
                 ServerHostingManager.Instance.ConnectedClientsIP.RemoveAt(ClientValue);
                 ServerHostingManager.Instance.ConnectedClientsUsernames.RemoveAt(ClientValue);

@@ -53,6 +53,7 @@ public class EnemyDespawn : MonoBehaviour
         int OldAmmount = (DeadEnemiesValue.Length) / 4;
         for (int i = 0; i < OldAmmount; i++)
         {
+            DeadEnemiesCollider[i].enabled = false;
             Destroy(DeadEnemiesValue[i]);
         }
         MassRemove = false;
@@ -100,6 +101,7 @@ public class EnemyDespawn : MonoBehaviour
         {
             if (!GeometryUtility.TestPlanesAABB(planes, DeadEnemiesCollider[ArrayLength].bounds) && DeletingEnemy == false)
             {
+                DeadEnemiesCollider[ArrayLength].enabled = false;
                 Destroy(DeadEnemiesValue[ArrayLength]);
             }
             ArrayLength = ArrayLength + 1;

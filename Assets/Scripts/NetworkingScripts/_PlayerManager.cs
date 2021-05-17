@@ -50,55 +50,58 @@ public class _PlayerManager : MonoBehaviour
     }
     public void WeaponChange(int NewWeaponValue) 
     {
-        switch (NewWeaponValue)
+        if (PlayerAnimator != null)
         {
-            case 1:
-                AutomaticRifleModel.SetActive(true);
-                MiniGunModel.SetActive(false);
-                FlameThrowerModel.SetActive(false);
-                ShotGunModel.SetActive(false);
-                SideArmModel.SetActive(false);
-                PlayerAnimator.SetBool("Shotgun", false);
-                PlayerAnimator.SetBool("SideArm", false);
-                break;
-            case 2:
-                AutomaticRifleModel.SetActive(false);
-                MiniGunModel.SetActive(true);
-                FlameThrowerModel.SetActive(false);
-                ShotGunModel.SetActive(false);
-                SideArmModel.SetActive(false);
-                PlayerAnimator.SetBool("Shotgun", false);
-                PlayerAnimator.SetBool("SideArm", false);
-                break;
-            case 3:
-                AutomaticRifleModel.SetActive(false);
-                MiniGunModel.SetActive(false);
-                FlameThrowerModel.SetActive(true);
-                ShotGunModel.SetActive(false);
-                SideArmModel.SetActive(false);
-                PlayerAnimator.SetBool("SideArm", false);
-                PlayerAnimator.SetBool("Shotgun", false);
-                break;
-            case 4:
-                AutomaticRifleModel.SetActive(false);
-                MiniGunModel.SetActive(false);
-                FlameThrowerModel.SetActive(false);
-                ShotGunModel.SetActive(true);
-                SideArmModel.SetActive(false);
-                PlayerAnimator.SetBool("SideArm", false);
-                PlayerAnimator.SetBool("Shotgun", true);
-                break;
-            case 5:
-                AutomaticRifleModel.SetActive(false);
-                MiniGunModel.SetActive(false);
-                FlameThrowerModel.SetActive(false);
-                ShotGunModel.SetActive(false);
-                SideArmModel.SetActive(true);
-                PlayerAnimator.SetBool("Shotgun", false);
-                PlayerAnimator.SetBool("SideArm", true);
-                break;
+            switch (NewWeaponValue)
+            {
+                case 1:
+                    AutomaticRifleModel.SetActive(true);
+                    MiniGunModel.SetActive(false);
+                    FlameThrowerModel.SetActive(false);
+                    ShotGunModel.SetActive(false);
+                    SideArmModel.SetActive(false);
+                    PlayerAnimator.SetBool("Shotgun", false);
+                    PlayerAnimator.SetBool("SideArm", false);
+                    break;
+                case 2:
+                    AutomaticRifleModel.SetActive(false);
+                    MiniGunModel.SetActive(true);
+                    FlameThrowerModel.SetActive(false);
+                    ShotGunModel.SetActive(false);
+                    SideArmModel.SetActive(false);
+                    PlayerAnimator.SetBool("Shotgun", false);
+                    PlayerAnimator.SetBool("SideArm", false);
+                    break;
+                case 3:
+                    AutomaticRifleModel.SetActive(false);
+                    MiniGunModel.SetActive(false);
+                    FlameThrowerModel.SetActive(true);
+                    ShotGunModel.SetActive(false);
+                    SideArmModel.SetActive(false);
+                    PlayerAnimator.SetBool("SideArm", false);
+                    PlayerAnimator.SetBool("Shotgun", false);
+                    break;
+                case 4:
+                    AutomaticRifleModel.SetActive(false);
+                    MiniGunModel.SetActive(false);
+                    FlameThrowerModel.SetActive(false);
+                    ShotGunModel.SetActive(true);
+                    SideArmModel.SetActive(false);
+                    PlayerAnimator.SetBool("SideArm", false);
+                    PlayerAnimator.SetBool("Shotgun", true);
+                    break;
+                case 5:
+                    AutomaticRifleModel.SetActive(false);
+                    MiniGunModel.SetActive(false);
+                    FlameThrowerModel.SetActive(false);
+                    ShotGunModel.SetActive(false);
+                    SideArmModel.SetActive(true);
+                    PlayerAnimator.SetBool("Shotgun", false);
+                    PlayerAnimator.SetBool("SideArm", true);
+                    break;
+            }
+            WeaponValue = NewWeaponValue;
         }
-        WeaponValue = NewWeaponValue;
     }
     public void ShootingServerRecevied(bool IsFiring) 
     {
@@ -140,6 +143,8 @@ public class _PlayerManager : MonoBehaviour
     }
     public void DamageTaken() 
     {
+        PlayerAnimator.SetBool("Hurt", true);
+        StartCoroutine(DamageCooldown());
         Debug.Log("Damage Taken");
         if (Health <= 0) 
         {
@@ -147,5 +152,10 @@ public class _PlayerManager : MonoBehaviour
             PlayerAnimator.Play("Death", 0);
             isDown = true;
         }
+    }
+    IEnumerator DamageCooldown() 
+    {
+        yield return new WaitForSecondsRealtime(0.1f);
+        PlayerAnimator.SetBool("Hurt", false);
     }
 }

@@ -136,7 +136,6 @@ public class ServerSend
         {
             _packet.Write(_Player.id);
             _packet.Write(_Player.WeaponValue);
-            Debug.Log("Sending Scroll Data of Player " + ID + "To All Players");
             SendTCPDataToAll(_packet);
         }
     }
@@ -221,6 +220,33 @@ public class ServerSend
         using (ServerPacket _packet = new ServerPacket((int)ServerServerPackets.PlayerRevive))
         {
             _packet.Write(PlayerID);
+            SendTCPDataToAll(_packet);
+        }
+    }
+    public static void DropDropped(int DropValue,Vector3 Position, bool DropStatus)
+    {
+        using (ServerPacket _packet = new ServerPacket((int)ServerServerPackets.DropDropped))
+        {
+            _packet.Write(DropValue);
+            _packet.Write(Position);
+            _packet.Write(DropStatus);
+            SendTCPDataToAll(_packet);
+        }
+    }
+    public static void DropData(int DropValue,bool DropStatus) 
+    {
+        using (ServerPacket _packet = new ServerPacket((int)ServerServerPackets.DropPicked))
+        {
+            _packet.Write(DropValue);
+            _packet.Write(DropStatus);
+            SendTCPDataToAll(_packet);
+        }
+    }
+    public static void PlayerHasDisconnected(int ClientValue) 
+    {
+        using (ServerPacket _packet = new ServerPacket((int)ServerServerPackets.PlayerDisconnected))
+        {
+            _packet.Write(ClientValue);
             SendTCPDataToAll(_packet);
         }
     }

@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/HostingScene.unity
     guid: 29e1325b9d4afa44990eba55f98b936f
+  - enabled: 0
+    path: Assets/Scenes/ServerRestartScene.unity
+    guid: 759cbdfa5bb553f4c8d9edb8a3ef497c
   m_configObjects: {}

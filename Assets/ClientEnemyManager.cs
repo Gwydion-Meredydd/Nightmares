@@ -12,6 +12,7 @@ public class ClientEnemyManager : MonoBehaviour
     public List<Animator> EnemieAnimators;
     public List<AudioSource> EnemieAudioSources;
     public bool TakingDamge;
+    public bool Attacking;
     public void SpawnGroundEnemy(Quaternion Rotation, Vector3 Position, int RandomValue)
     {
         GameObject NewEnemie = Instantiate(GroundEnemies[RandomValue], Position, Rotation);
@@ -38,9 +39,9 @@ public class ClientEnemyManager : MonoBehaviour
 
             if (Enemies[i] != null)
             {
-                if (i <= Enemies.Count)
+                if (i <= Enemies.Count && i <= NewPosition.Length && i <= NewRotation.Length)
                 {
-                    if (!TakingDamge)
+                    if (!TakingDamge && !Attacking)
                     {
                         Enemies[i].transform.position = Vector3.Lerp(Enemies[i].transform.position, NewPosition[i], Time.fixedDeltaTime * 10);
                         Enemies[i].transform.rotation = Quaternion.Lerp(Enemies[i].transform.rotation, NewRotation[i], Time.fixedDeltaTime * 10);
@@ -98,6 +99,19 @@ public class ClientEnemyManager : MonoBehaviour
             render.material.SetColor("_Color", newcolor);
         }
         #endregion
+        int RandomDamageValue = Random.Range(1, 4);
+        switch (RandomDamageValue)
+        {
+            case 1:
+                EnemieAnimators[EnemyArrayValue].Play("Hit 1", 2);
+                break;
+            case 2:
+                EnemieAnimators[EnemyArrayValue].Play("Hit 2", 2);
+                break;
+            case 3:
+                EnemieAnimators[EnemyArrayValue].Play("Hit 3", 2);
+                break;
+        }
         if (EnemiesHealth[EnemyArrayValue] <= 0)
         {
 
@@ -118,6 +132,7 @@ public class ClientEnemyManager : MonoBehaviour
     }
     public void EnemyAttackRecevied(int arrayvalue)
     {
+        Attacking = true;
         StartCoroutine(AttackingTime(arrayvalue));
     }
     IEnumerator AttackingTime(int ArrayLength)
@@ -137,5 +152,6 @@ public class ClientEnemyManager : MonoBehaviour
                 EnemieAnimators[ArrayLength].SetBool("Attack", false);
             }
         }
+        Attacking = false;
     }
 }

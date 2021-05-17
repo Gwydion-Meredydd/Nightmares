@@ -92,6 +92,7 @@ public class ServerEnemyDespawn : MonoBehaviour
     }
     void DeadEnemiesDistanceDetection()
     {
+        Players = GameObject.FindGameObjectsWithTag("Player");
         bool RemoveEnemy = false;
         int ArrayLength = 0;
         for (int i = 0; i < DeadEnemiesValue.Length; i++)
@@ -110,7 +111,6 @@ public class ServerEnemyDespawn : MonoBehaviour
             if (RemoveEnemy == true) 
             {
                 Destroy(DeadEnemiesValue[ArrayLength]);
-                Debug.Log("Destroy Enemy");
                 RemoveEnemy = false;
             }
             ArrayLength = ArrayLength + 1;

@@ -190,4 +190,52 @@ public class ClientHandleManager : MonoBehaviour
         Debug.Log("Revive Player");
         GameManager.players[_id].PlayerAnimator.SetBool("CanRevive", true);
     }
+    public static void DropDropped(Packet _packet) 
+    {
+        int DropValue = _packet.ReadInt();
+        Vector3 DropPosition = _packet.ReadVector3();
+        bool DropStatus = _packet.ReadBool();
+        if (DropStatus) 
+        {
+            ClientDropManager._clientDropManager.SpawnPrefab(DropValue, DropPosition);
+        }
+        else 
+        {
+            ClientDropManager._clientDropManager.RemoveDrop(DropValue);
+        }
+    }
+    public static void DropData(Packet _packet)
+    {
+        int DropValue = _packet.ReadInt();
+        bool DropStatus = _packet.ReadBool();
+        if (DropStatus)
+        {
+            ClientDropManager._clientDropManager.DropsPickedUpOn(DropValue);
+        }
+        else 
+        {
+            ClientDropManager._clientDropManager.DropsPickedUpOff(DropValue);
+        }
+    }
+    public static void PlayerDisconnected(Packet _Packet) 
+    {
+        int DisconnectedClient = _Packet.ReadInt();
+        GameObject[] ConnectedPlayers;
+        ConnectedPlayers = GameObject.FindGameObjectsWithTag("Player");
+        _PlayerManager[] ConnectedPlayersClass;
+        ConnectedPlayersClass = new _PlayerManager[ConnectedPlayers.Length];
+        Debug.Log("Client" + DisconnectedClient + " Has Disconnected") ;
+        for (int i = 0; i < ConnectedPlayers.Length; i++)
+        {
+            ConnectedPlayersClass[i] = ConnectedPlayers[i].GetComponent<_PlayerManager>();
+        }
+        for (int i = 0; i < ConnectedPlayers.Length; i++)
+        {
+            if (ConnectedPlayersClass[i].id == DisconnectedClient + 1) 
+            {
+                Debug.Log("FoundDisconnectedPlayer");
+                Destroy(ConnectedPlayers[i]);
+            }
+        }
+    }
 }

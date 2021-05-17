@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using System.Net;
 using System.Net.Sockets;
+using UnityEngine.SceneManagement;
 
 public class ServerServer
 {
@@ -14,9 +15,10 @@ public class ServerServer
     public delegate void PacketHandler(int _fromClient, ServerPacket _packet);
     public static Dictionary<int, PacketHandler> packetHandlers;
 
-
+    public bool ReloadScene;
     private static TcpListener tcpListener;
     private static UdpClient udpListener;
+
 
     public static void Start(int _MaxPlayers, int _port, string HostID)
     {
@@ -47,8 +49,8 @@ public class ServerServer
         tcpListener.Start();
         tcpListener.BeginAcceptTcpClient(new AsyncCallback(TPCConnectCallBack), null);
 
-        udpListener = new UdpClient(Port);
-        udpListener.BeginReceive(UDPReceiveCallback, null);
+        //udpListener = new UdpClient(Port);
+        //udpListener.BeginReceive(UDPReceiveCallback, null);
 
 
        // Debug.Log($"Server Started on {HostIp.ToString()} {Port}.");
@@ -130,7 +132,15 @@ public class ServerServer
     {
         for (int i = 1; i <= MaxPlayers; i++)
         {
-            clients.Add(i, new ServerClient(i));
+            try
+            {
+                clients.Add(i, new ServerClient(i));
+            }
+            catch
+            {
+                Debug.Log("Failed to Initilise Server Data");
+                
+            }
         }
         packetHandlers = new Dictionary<int, PacketHandler>()
             {
@@ -149,6 +159,6 @@ public class ServerServer
     public static void Stop() 
     {
         tcpListener.Stop();
-        udpListener.Close();
+        //udpListener.Close();
     }
 }

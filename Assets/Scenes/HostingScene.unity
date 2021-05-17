@@ -141,6 +141,8 @@ GameObject:
   - component: {fileID: 1664924017}
   - component: {fileID: 1664924019}
   - component: {fileID: 1664924020}
+  - component: {fileID: 1664924021}
+  - component: {fileID: 1664924022}
   m_Layer: 0
   m_Name: ScriptManager
   m_TagString: Untagged
@@ -398,3 +400,64 @@ MonoBehaviour:
   DeadEnemiesAnimator: []
   DeadEnemiesCollider: []
   DeletingEnemy: 0
+--- !u!114 &1664924021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664924010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b991cd739a7c3314da218c9f23f8dc4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RefrenceserverDropManager: {fileID: 0}
+  Drops:
+  - {fileID: 8651071279741454599, guid: 11641e81a9eeb8841bfbe38d7e0eec47, type: 3}
+  - {fileID: 3137446847904397818, guid: ec2e8366a3a017b488b506bcea00a3c6, type: 3}
+  - {fileID: 8220870249794256489, guid: e4858335f61ab514da85cd579a41d9c5, type: 3}
+  - {fileID: 6583976829515589366, guid: dd304b4bf0c54ae4dbdee23f13b2500c, type: 3}
+  - {fileID: 7151165017976795902, guid: 89a8fbefce09cbb49a62ae24da3ecdfc, type: 3}
+  - {fileID: 7936548279536117146, guid: e0ea09e3320ef08448817701c824416a, type: 3}
+  ActiveDropsArray: []
+  ActiveDrops: []
+  Players: []
+  serverPlayers: []
+  TimeDropIsActive: 30
+  CountDownInitlised: 
+  CountDown: 
+  CountDownOverValue: 0
+  CountDownOver: 0
+  OldRandom: 0
+  RandomValue: 0
+  ClosestDrop: 0
+  PlayerDistance: 0
+  StartingDoublePointsTime: 31
+  StartingInstantKillTime: 21
+  StartingBlindEyeTime: 31
+  StartingFlameThrowerTime: 31
+  StartingMiniGunTime: 31
+  DoublePointTime: 30
+  InstantKillTime: 30
+  BlindEyeTime: 30
+  FlameThrowerTime: 40
+  MiniGunTime: 40
+  HealthBoostTime: 0
+  DoublePointsIsActive: 0
+  InstantKillIsActive: 0
+  BlindEyeIsActive: 0
+  FlameThrowerIsActive: 0
+  MiniGunIsActive: 0
+--- !u!114 &1664924022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664924010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 932d07de26a354b4b84a705b6b86e5c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
