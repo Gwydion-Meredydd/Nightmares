@@ -13,6 +13,11 @@ public class MultiplayerMenuManager : MonoBehaviour
     public Text WaitingForServerInfoText;
     public GameObject ServerFullError;
 
+    public GameObject MultiplayerCanvas;
+    public GameObject MultiplayerStartingUI;
+    public GameObject MultiplayerGameObjectPassword;
+    public GameObject HostLocalMultiplayerMenu;
+    public string HostLocalDownloadurl;
     public GameObject StartMenu;
     public GameObject MainMultiMenu;
     public string UserName;
@@ -31,10 +36,66 @@ public class MultiplayerMenuManager : MonoBehaviour
             Debug.Log("Instance already exists, destryoing Object!");
             Destroy(this);
         }
-        MainMultiMenu.SetActive(false);
-        StartMenu.SetActive(true);
-        WaitingForServer.SetActive(false);
-        ServerFullError.SetActive(false);
+    }
+    public void SetMultiplayerUIActive()
+    {
+        if (SM.MainMenuScript.UserNameEntered)
+        {
+            SM.multiplayerMenuManager.UserName = SM.MainMenuScript.UserName.ToString();
+            SM.MainMenuScript.mainMenuObj.SetActive(false);
+            MultiplayerGameObjectPassword.SetActive(false);
+            MultiplayerCanvas.SetActive(true);
+            MainMultiMenu.SetActive(false);
+            StartMenu.SetActive(true);
+            WaitingForServer.SetActive(false);
+            ServerFullError.SetActive(false);
+        }
+        else 
+        {
+            SM.MainMenuScript.NoUserNameEnteredMethod();
+        }
+    }
+    public void LocalJoinButtonPressed() 
+    {
+        ClientManager.instance.LocalConnection = true;
+        GameManager.instance.Server = true;
+        ConnectedToServer();
+    }
+    public void HostLocalMenu() 
+    {
+        MultiplayerStartingUI.SetActive(false);
+        HostLocalMultiplayerMenu.SetActive(true);
+    }
+    public void HostLocalDownload() 
+    {
+        Application.OpenURL(HostLocalDownloadurl);
+        HostLocalMenuButtonReturn();
+    }
+    public void HostLocalMenuButtonReturn()
+    {
+        MultiplayerStartingUI.SetActive(true);
+        HostLocalMultiplayerMenu.SetActive(false);
+    }
+    public void MultiplayerButtonPressed() 
+    {
+        MultiplayerStartingUI.SetActive(false);
+        MultiplayerGameObjectPassword.SetActive(true);
+    }
+    public void MultiplayerButtonReturn()
+    {
+        MultiplayerStartingUI.SetActive(true);
+        MultiplayerGameObjectPassword.SetActive(false);
+    }
+    public void PasswordEntered(string PasswordInput) 
+    {
+        if (PasswordInput.ToLower() == "unity>unreal") 
+        {
+            MultiplayerGameObjectPassword.SetActive(false);
+            Debug.Log("PasswordEntered");
+            ClientManager.instance.LocalConnection = false;
+            GameManager.instance.Server = true;
+            ConnectedToServer();
+        }
     }
     public void ServerFullErrorToggle()
     {
@@ -182,6 +243,10 @@ public class MultiplayerMenuManager : MonoBehaviour
         if (!SM.Client_Manager.HasJoined)
         {
             StartMenu.SetActive(true);
+            if (MultiplayerGameObjectPassword != null)
+            {
+                MultiplayerGameObjectPassword.SetActive(false);
+            }
             MainMultiMenu.SetActive(false);
         }
     }

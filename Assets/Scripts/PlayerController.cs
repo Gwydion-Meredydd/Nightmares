@@ -773,10 +773,12 @@ public class PlayerController : MonoBehaviour
     }
     private void SendRotationInputToServer() 
     {
+        Debug.Log("Method Being Called");
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 100))
+        if (Physics.Raycast(ray, out hit, 1000))
         {
+            Debug.Log("SendRotation");
             Vector3 MousePos = new Vector3 (hit.point.x, Player.transform.position.y, hit.point.z);
             ClientSend.PlayerRotation(MousePos);
         }

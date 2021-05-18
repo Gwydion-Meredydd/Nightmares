@@ -40,8 +40,8 @@ public class ServerServer
                 break;
             }
         }
-       // Debug.Log(HostID.ToString());
-        //IPAddress HostIp = IPAddress.Parse(HostID);
+        Debug.Log("Server Ip: " + myIP + "Server Port: "+ Port);
+        //IPAddress HostIp = IPAddress.Parse(myIP);
         Debug.Log("Starting Server...");
         InitializeServerData();
         tcpListener = new TcpListener(IPAddress.Any, Port);

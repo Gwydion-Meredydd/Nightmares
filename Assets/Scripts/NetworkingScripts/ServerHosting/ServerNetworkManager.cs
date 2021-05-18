@@ -18,6 +18,7 @@ public class ServerNetworkManager : MonoBehaviour
     public int MaxPlayer;
     public string HostID;
     public bool LocalHosting;
+    public string localIP;
     private void Awake()
     {
         if (instance == null) 
@@ -57,9 +58,12 @@ public class ServerNetworkManager : MonoBehaviour
         yield return new WaitForSeconds(300f);
         if (SM.HostingManager.ConnectedClients == 0)
         {
-            StartShutdownProcess();
+            if (ConsoleReader._consoleReader.IdleTurnOff)
+            {
+                StartShutdownProcess();
+            }
         }
-        else 
+        else
         {
             StartCoroutine(ShutdownServerInXTime());
         }
@@ -96,7 +100,7 @@ public class ServerNetworkManager : MonoBehaviour
         Port = 7777;
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 60;
-        ServerServer.Start(MaxPlayer, Port, HostID);
+        ServerServer.Start(MaxPlayer, Port, localIP);
         Debug.Log("ServerStart");
         Debug.Log("Server Started From Agent Activation");
     }

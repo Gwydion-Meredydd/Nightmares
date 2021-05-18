@@ -32,6 +32,7 @@ public class ClientManager : MonoBehaviour
     public bool LocalConnection;
     public bool CreatingLobby;
     public bool ShowServerDetail;
+    public bool HasMoreThanOneServer;
     public Text ServerDetail;
     public bool[] ServersActive;
     private bool VirutalServerBoolsInstantiated;
@@ -154,6 +155,7 @@ public class ClientManager : MonoBehaviour
     }
     private void ServerWasRequested(RequestMultiplayerServerResponse response)
     {
+        Debug.Log("Requesting Server");
         StartCoroutine(ServerWasRequestedTime(response));
     }
     IEnumerator ServerWasRequestedTime(RequestMultiplayerServerResponse response) 
@@ -192,39 +194,55 @@ public class ClientManager : MonoBehaviour
     {
         if (!LocalConnection)
         {
-            yield return new WaitForSecondsRealtime(7);
-            if (!HasJoined)
+            if (HasMoreThanOneServer)
             {
-                Debug.Log(ServerSelectionValue + " " + VirtualServerSelectionValue);
-                if (VirtualServerSelectionValue < SM.ConfigManager.VirtualServerAmmount - 1)
+                yield return new WaitForSecondsRealtime(7);
+                if (!HasJoined)
                 {
-                    VirtualServerSelectionValue = VirtualServerSelectionValue + 1;
-                    port = port + VirtualServerSelectionValue;
-                    AttemptLogin();
-                }
-                else
-                {
-                    ServerSelectionValue = ServerSelectionValue + 1;
-                    if (ServerSelectionValue < SM.ConfigManager.ServerAmmount)
+
+                    Debug.Log(ServerSelectionValue + " " + VirtualServerSelectionValue);
+                    if (VirtualServerSelectionValue < SM.ConfigManager.VirtualServerAmmount - 1)
                     {
-                        port = port + 100;
-                        VirtualServerSelectionValue = 0;
+                        VirtualServerSelectionValue = VirtualServerSelectionValue + 1;
+                        port = port + VirtualServerSelectionValue;
                         AttemptLogin();
                     }
                     else
                     {
-                        if (!HasJoined)
+                        ServerSelectionValue = ServerSelectionValue + 1;
+                        if (ServerSelectionValue < SM.ConfigManager.ServerAmmount)
                         {
-                            ServerSelectionValue = 0;
+                            port = port + 100;
                             VirtualServerSelectionValue = 0;
-                            SM.multiplayerMenuManager.ServerFullErrorToggle();
-                            SM.multiplayerMenuManager.WaitingForServer.SetActive(false);
+                            AttemptLogin();
                         }
+                        else
+                        {
+                            if (!HasJoined)
+                            {
+                                ServerSelectionValue = 0;
+                                VirtualServerSelectionValue = 0;
+                                SM.multiplayerMenuManager.ServerFullErrorToggle();
+                                SM.multiplayerMenuManager.WaitingForServer.SetActive(false);
+                            }
+                        }
+                    }
+                }
+
+                else
+                {
+                    ServerSelectionValue = 0;
+                    VirtualServerSelectionValue = 0;
+                    SM.multiplayerMenuManager.WaitingForServer.SetActive(false);
+                    if (ShowServerDetail)
+                    {
+                        ServerDetail.text = "Port:" + port.ToString();
                     }
                 }
             }
             else
             {
+                yield return new WaitForSecondsRealtime(60f);
                 ServerSelectionValue = 0;
                 VirtualServerSelectionValue = 0;
                 SM.multiplayerMenuManager.WaitingForServer.SetActive(false);
@@ -248,12 +266,27 @@ public class ClientManager : MonoBehaviour
         }
     }
     #endregion
-
+    public static string LocalIPAddress()
+    {
+        IPHostEntry host;
+        string localIP = "0.0.0.0";
+        host = Dns.GetHostEntry(Dns.GetHostName());
+        foreach (IPAddress ip in host.AddressList)
+        {
+            if (ip.AddressFamily == AddressFamily.InterNetwork)
+            {
+                localIP = ip.ToString();
+                break;
+            }
+        }
+        return localIP;
+    }
     #region Local Connection
     private void ConnectLocalClient()
     {
+        Debug.Log("Connect To Local Client Called");
         ip = "127.0.0.1";
-        port = 7777;
+        port = ClientConfigManager._clientConfigManager.PORT;
         Debug.Log("Connection started..");
         SM.multiplayerMenuManager.WaitingForServer.SetActive(true);
         InitalizeClientData();

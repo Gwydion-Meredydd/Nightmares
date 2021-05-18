@@ -2989,6 +2989,9 @@ MonoBehaviour:
   WaitingForServer: {fileID: 1522641031}
   WaitingForServerInfoText: {fileID: 1525594754}
   ServerFullError: {fileID: 161500016}
+  MultiplayerCanvas: {fileID: 0}
+  MultiplayerStartingUI: {fileID: 0}
+  MultiplayerGameObjectPassword: {fileID: 0}
   StartMenu: {fileID: 671748729}
   MainMultiMenu: {fileID: 782108794}
   UserName: Bobbi
@@ -3017,13 +3020,14 @@ MonoBehaviour:
   SM: {fileID: 1604270277}
   HasJoined: 0
   buildId: 
-  ip: 
-  port: 0
+  ip: 40.127.228.106
+  port: 30000
   myID: 0
   isConnected: 0
-  LocalConnection: 1
+  LocalConnection: 0
   CreatingLobby: 0
   ShowServerDetail: 1
+  HasMoreThanOneServer: 0
   ServerDetail: {fileID: 1029098797}
   ServersActive: 
   VirtualServerSelectionValue: 0
@@ -3220,12 +3224,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd54c1f2d0638848ba5a1fdfa187d7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildId: e7e0f567-2cc3-4740-a279-8593f3fc7b31
+  RefClientConfigManger: {fileID: 0}
+  buildId: 431eab91-f40a-4b8e-89fe-3a0d96fc70e6
   ip: 20.54.93.198
   port: 30000
-  ServerAmmount: 2
-  VirtualServerAmmount: 10
+  ServerAmmount: 1
+  VirtualServerAmmount: 1
   GetConfigPortandIp: 1
+  IP: 2a00:23c5:6189:600:15c0:60ff:5ab2:685
+  PORT: 7777
 --- !u!114 &1604270287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3888,7 +3895,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2017712961}
   - component: {fileID: 2017712963}
-  - component: {fileID: 2017712962}
   m_Layer: 0
   m_Name: Camera
   m_TagString: FakeCam
@@ -3910,14 +3916,6 @@ Transform:
   m_Father: {fileID: 1271644546}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!81 &2017712962
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2017712960}
-  m_Enabled: 1
 --- !u!20 &2017712963
 Camera:
   m_ObjectHideFlags: 0

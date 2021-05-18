@@ -39,9 +39,13 @@ public class MainMenuManager : MonoBehaviour
         }
         else 
         {
-            StartCoroutine(NoUsernameEntered(0));
+            NoUserNameEnteredMethod();
         }
 
+    }
+    public void NoUserNameEnteredMethod() 
+    {
+        StartCoroutine(NoUsernameEntered(0));
     }
     public void AudioOptions()
     {

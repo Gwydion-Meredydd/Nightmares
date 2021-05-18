@@ -133,6 +133,7 @@ public class ServerPlayer: MonoBehaviour
     {
         if (!PlayerDown)
         {
+            Debug.Log("Rotation");
             this.transform.LookAt(Rotation);
             ServerSend.PlayerRotation(this);
         }

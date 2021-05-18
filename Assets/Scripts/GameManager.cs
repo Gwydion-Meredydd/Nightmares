@@ -56,6 +56,10 @@ public class GameManager : MonoBehaviour
 
     public GameObject[] ClientPlayers;
 
+    private void Start()
+    {
+        instance = this;
+    }
     void Update()
     {
         if (!Server)
@@ -314,7 +318,8 @@ public class GameManager : MonoBehaviour
             }
             if (!LevelInstanitated) 
             {
-                LevelInstanitated = true;            }
+                LevelInstanitated = true;           
+            }
         }
     }
     public void SpawnPlayer(int _id, string _username, Vector3 _position, Quaternion _rotation)
@@ -410,6 +415,15 @@ public class GameManager : MonoBehaviour
                     break;
             }
         }
+        SM.MainMenuScript.ThreeDimensionalCharacters.SetActive(false);
+        SM.MainMenuScript.ThreeDimensionalBackground.SetActive(false);
+        SM.MainMenuScript.mainMenuObj.SetActive(false);
+        SM.multiplayerMenuManager.MultiplayerGameObjectPassword.SetActive(false);
+        SM.multiplayerMenuManager.MultiplayerCanvas.SetActive(false);
+        SM.multiplayerMenuManager.MainMultiMenu.SetActive(false);
+        SM.multiplayerMenuManager.StartMenu.SetActive(false);
+        SM.multiplayerMenuManager.WaitingForServer.SetActive(false);
+        SM.multiplayerMenuManager.ServerFullError.SetActive(false);
         PlayerInstantiated = true;
     }
     private void MultiplayerClientsInstatiate(int _id, GameObject _player) 
