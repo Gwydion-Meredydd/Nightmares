@@ -312,11 +312,20 @@ public class ServerDropManager : MonoBehaviour
         ServerSend.DropData(1, true);
         while (InstantKillIsActive)
         {
-            ServerEnemyManager._serverEnemyManager.CurrentDamage = ServerEnemyManager._serverEnemyManager.StartingHealth;
+            for (int i = 0; i < ServerEnemyManager._serverEnemyManager.Health.Count; i++)
+            {
+                ServerEnemyManager._serverEnemyManager.Health[i] = 1;
+            }
+            ServerEnemyManager._serverEnemyManager.StartingHealth = 1;
             InstantKillTime = InstantKillTime - 1;
             yield return new WaitForSeconds(1f);
             if (InstantKillTime <= 0)
             {
+                for (int i = 0; i < ServerEnemyManager._serverEnemyManager.Health.Count; i++)
+                {
+                    ServerEnemyManager._serverEnemyManager.Health[i] = 100;
+                }
+                ServerEnemyManager._serverEnemyManager.StartingHealth = 100;
                 ServerSend.DropData(1, false);
 
                 InstantKillIsActive = false;

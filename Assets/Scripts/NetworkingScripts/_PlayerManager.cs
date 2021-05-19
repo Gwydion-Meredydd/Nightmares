@@ -9,8 +9,10 @@ public class _PlayerManager : MonoBehaviour
     public string username;
     public int WeaponValue;
     public int WeaponHeldValue;
+    public float startingHealth;
     public float Health;
     public bool isDown;
+    public int CoinAmmount;
     public GameObject AutomaticRifleModel;
     public GameObject MiniGunModel;
     public GameObject FlameThrowerModel;
@@ -103,7 +105,7 @@ public class _PlayerManager : MonoBehaviour
             WeaponValue = NewWeaponValue;
         }
     }
-    public void ShootingServerRecevied(bool IsFiring) 
+    public void ShootingServerRecevied(bool IsFiring)
     {
         Shoot();
     }
@@ -140,17 +142,31 @@ public class _PlayerManager : MonoBehaviour
                 SAMuzzleFlash.Emit(1);
                 break;
         }
+        AudioManager._audioManager.ServerWeaponAudio(WeaponValue, this);
     }
     public void DamageTaken() 
     {
         PlayerAnimator.SetBool("Hurt", true);
         StartCoroutine(DamageCooldown());
-        Debug.Log("Damage Taken");
-        if (Health <= 0) 
+        ClientGameMenu._clientGameMenu.UpdateHealth(id, Health);
+        if (id == 3 || id == 4)
+        {
+            PlayerAudioSource.PlayOneShot(AudioManager._audioManager.PlayerHurtMale[(Random.Range(0, 3))]);
+        }
+        if (id == 1 || id == 2)
+        {
+            PlayerAudioSource.PlayOneShot(AudioManager._audioManager.PlayerHurtFemale[(Random.Range(0, 3))]);
+        }
+        Debug.Log(Health);
+        if (Health <= 0)
         {
             PlayerAnimator.SetBool("CanRevive", false);
             PlayerAnimator.Play("Death", 0);
             isDown = true;
+            if (IsClient)
+            {
+                ClientGameMenu._clientGameMenu.ReviveGameObject.SetActive(true);
+            }
         }
     }
     IEnumerator DamageCooldown() 

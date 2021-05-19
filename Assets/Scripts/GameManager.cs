@@ -424,6 +424,9 @@ public class GameManager : MonoBehaviour
         SM.multiplayerMenuManager.StartMenu.SetActive(false);
         SM.multiplayerMenuManager.WaitingForServer.SetActive(false);
         SM.multiplayerMenuManager.ServerFullError.SetActive(false);
+        SM.AudioScripts.MainMenuMusic.SetActive(false);
+        ClientGameMenu._clientGameMenu.MultiplayerInGameMenu.SetActive(true);
+        ClientGameMenu._clientGameMenu.UpdateClientFileds();
         PlayerInstantiated = true;
     }
     private void MultiplayerClientsInstatiate(int _id, GameObject _player) 
@@ -498,10 +501,8 @@ public class GameManager : MonoBehaviour
         GameObject[] ClientShotgunTempShootPoint = FindMultipleGameObject(players[_id].ShotGunModel, "SGShootPoint");
         players[_id].SGShootPoint = new Transform[ClientShotgunTempShootPoint.Length];
         players[_id].SGBulletParticle = new ParticleSystem[ClientShotgunTempShootPoint.Length];
-        Debug.Log(ClientShotgunTempShootPoint.Length);
         for (int i = 0; i < ClientShotgunTempShootPoint.Length; i++)
         {
-            Debug.Log(i);
             players[_id].SGShootPoint[i] = ClientShotgunTempShootPoint[i].transform;
             ClientChildTempForShootPoint = Instantiate(SGBulletParticle.gameObject, players[_id].SGShootPoint[i].position, players[_id].SGShootPoint[i].rotation);
             ClientChildTempForShootPoint.transform.parent = players[_id].SGShootPoint[i];
@@ -584,6 +585,10 @@ public class GameManager : MonoBehaviour
     }
     public void ShootingServerRecevied(int ReceviedId, bool IsFiring)
     {
-        players[ReceviedId].ShootingServerRecevied(IsFiring);
+        if (SM.PlayerScript.ThisClientManager.id != ReceviedId)
+        {
+            Debug.Log(ReceviedId + "    " + SM.PlayerScript.ThisClientManager.id);
+            players[ReceviedId].ShootingServerRecevied(IsFiring);
+        }
     }
 }

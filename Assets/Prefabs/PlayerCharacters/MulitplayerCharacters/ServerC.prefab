@@ -1232,6 +1232,7 @@ MonoBehaviour:
   SADamage: 5
   HitTarget: {fileID: 0}
   HitEnemy: {fileID: 0}
+  CanRevive: 1
 --- !u!1 &1661992235229424297
 GameObject:
   m_ObjectHideFlags: 0

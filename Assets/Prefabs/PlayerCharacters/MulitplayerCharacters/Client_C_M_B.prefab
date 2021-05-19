@@ -1467,6 +1467,10 @@ MonoBehaviour:
   username: 
   WeaponValue: 1
   WeaponHeldValue: 1
+  startingHealth: 100
+  Health: 100
+  isDown: 0
+  CoinAmmount: 3
   AutomaticRifleModel: {fileID: 0}
   MiniGunModel: {fileID: 0}
   FlameThrowerModel: {fileID: 0}
@@ -1481,8 +1485,8 @@ MonoBehaviour:
   MGCasePoint: {fileID: 0}
   SGCasePoint: {fileID: 0}
   SACasePoint: {fileID: 0}
-  WeaponAudioSource: {fileID: 0}
-  PlayerAudioSource: {fileID: 0}
+  WeaponAudioSource: {fileID: 3216474009797624973}
+  PlayerAudioSource: {fileID: -8040625930457836951}
   ARBulletParticle: {fileID: 0}
   ARMuzzleFlash: {fileID: 0}
   ARBulletCasing: {fileID: 0}

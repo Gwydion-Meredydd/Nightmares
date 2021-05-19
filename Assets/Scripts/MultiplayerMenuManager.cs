@@ -138,7 +138,6 @@ public class MultiplayerMenuManager : MonoBehaviour
     public void UpdateReadUpToggle(int ConnectedCount) 
     {
         WaitingForServer.SetActive(false);
-        Debug.Log("CALLING METHOD" + ConnectedCount);
         foreach (Toggle ReadyUpbox in ReadyUpBox)
         {
             ReadyUpbox.isOn = false;

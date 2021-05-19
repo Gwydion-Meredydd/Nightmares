@@ -105,8 +105,7 @@ public class ServerEnemySpawner : MonoBehaviour
             {
                 if (CurrentMonsterAmmount == 0)
                 {
-                    //SM.PointsScript.RoundEndIncrease(SpawningAmmount);
-                    //SM.PerksScript.NewRound();
+                    ServerPoints._serverPoints.RoundEndIncrease( 100);
                     SM.serverRoundManager.InActiveRound = false;
                     SpawnedMonsterAmmount = 0;
                     LevelMonsterAmmount = LevelMonsterAmmount + 6;

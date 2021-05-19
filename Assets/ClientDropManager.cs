@@ -55,7 +55,7 @@ public class ClientDropManager : MonoBehaviour
         }
     }
     public void RemoveDrop(int DropValue)
-    { 
+    {
         Destroy(ActiveDrops[DropValue]);
         ActiveDrops.RemoveAt(DropValue);
         StartCoroutine(RemoveTiming());
@@ -71,10 +71,12 @@ public class ClientDropManager : MonoBehaviour
         {
             DropStatus[DropValue] = true;
             Timing[DropValue] = MaxTiming[DropValue];
+            ClientGameMenu._clientGameMenu.DropCalculations(DropValue);
         }
     }
     public void DropsPickedUpOff(int DropValue) 
     {
+
         DropStatus[DropValue] = false;
     }
     IEnumerator DropTiming() 

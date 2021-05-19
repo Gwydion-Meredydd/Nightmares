@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Game_Scene.unity
     guid: 237419a25eb5b4a439849e6340e226cd
   - enabled: 0
-    path: Assets/Scenes/MultiplayerTesting.unity
-    guid: 3fc1c192a5093b54db3b34264ec8fa1a
-  - enabled: 0
     path: Assets/Scenes/HostingScene.unity
     guid: 29e1325b9d4afa44990eba55f98b936f
   - enabled: 0

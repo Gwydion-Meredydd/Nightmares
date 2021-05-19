@@ -1398,6 +1398,7 @@ MonoBehaviour:
   ActiveEnemies: []
   ActiveEnemiesAgents: []
   ActiveEnemiesBoxColliders: []
+  ActiveEnemiesAudioSource: []
   SelectedPlayer: []
   RandomPosition: {x: 0, y: 0, z: 0}
   AvailablePlayers: []
@@ -1549,7 +1550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RefServerPoints: {fileID: 0}
-  Points: 
+  Points: 00000000000000000000000000000000
   DoublePoints: 0
 --- !u!114 &1664924023
 MonoBehaviour:

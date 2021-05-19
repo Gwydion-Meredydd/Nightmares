@@ -38,6 +38,7 @@ public class ServerPlayer: MonoBehaviour
     public RaycastHit NewRayCastHit;
     public GameObject HitTarget;
     public GameObject HitEnemy;
+    public bool CanRevive;
 
     public void Initialize(int _id, string _username)
     {
@@ -91,14 +92,17 @@ public class ServerPlayer: MonoBehaviour
         {
             if (Lives > 0)
             {
-                if (inputs[4])
+                if (CanRevive == true)
                 {
-                    Health = CurrentMaxHealth;
-                    ServerEnemyManager._serverEnemyManager.IgnorePlayer = false;
-                    Lives = Lives - 1;
-                    PlayerDown = false;
-                    ServerSend.SendPlayerRevive(id);
-                    Debug.Log("Player Revive");
+                    if (inputs[4])
+                    {
+                        Health = CurrentMaxHealth;
+                        ServerEnemyManager._serverEnemyManager.IgnorePlayer = false;
+                        Lives = Lives - 1;
+                        PlayerDown = false;
+                        ServerSend.SendPlayerRevive(id);
+                        Debug.Log("Player Revive");
+                    }
                 }
             }
         }
@@ -113,11 +117,19 @@ public class ServerPlayer: MonoBehaviour
     }
     public void HealthCalculations() 
     {
+        ServerSend.SendEnemyHitPlayer(id, Health);
         if (Health <= 0) 
         {
             Debug.Log(id + "  playerdown");
             PlayerDown = true;
+            StartCoroutine(CanReviveTime());
         }
+    }
+    IEnumerator CanReviveTime() 
+    {
+        CanRevive = false;
+        yield return new WaitForSecondsRealtime(2f);
+        CanRevive = true;
     }
     public void NewWeaponValue(int ClientID,int NewWeaponValue) 
     {
@@ -244,6 +256,7 @@ public class ServerPlayer: MonoBehaviour
                         if (ServerEnemyManager._serverEnemyManager.HealthCalculation == false)
                         {
                             Debug.Log("Firing Enemy Hit + health caculated = false");
+                            ServerPoints._serverPoints.PointsIncrease(id - 1, 10);
                             ServerEnemyManager._serverEnemyManager.CurrentDamage = ARDamage; ;
                             ServerEnemyManager._serverEnemyManager.TakingDamage = true;
                         }
@@ -271,7 +284,7 @@ public class ServerPlayer: MonoBehaviour
                         ServerEnemyManager._serverEnemyManager.EnemyHited = HitEnemy;
                         if (ServerEnemyManager._serverEnemyManager.HealthCalculation == false)
                         {
-                            Debug.Log("Firing Enemy Hit + health caculated = false");
+                            ServerPoints._serverPoints.PointsIncrease(id - 1, 10);
                             ServerEnemyManager._serverEnemyManager.CurrentDamage = MGDamage;
                             ServerEnemyManager._serverEnemyManager.TakingDamage = true;
                         }
@@ -299,7 +312,7 @@ public class ServerPlayer: MonoBehaviour
                         ServerEnemyManager._serverEnemyManager.EnemyHited = HitEnemy;
                         if (ServerEnemyManager._serverEnemyManager.HealthCalculation == false)
                         {
-                            Debug.Log("Firing Enemy Hit + health caculated = false");
+                            ServerPoints._serverPoints.PointsIncrease(id - 1, 10);
                             ServerEnemyManager._serverEnemyManager.CurrentDamage = FTDamage;
                             ServerEnemyManager._serverEnemyManager.TakingDamage = true;
                         }
@@ -327,6 +340,7 @@ public class ServerPlayer: MonoBehaviour
                             ServerEnemyManager._serverEnemyManager.EnemyHited = HitEnemy;
                             if (ServerEnemyManager._serverEnemyManager.HealthCalculation == false)
                             {
+                                ServerPoints._serverPoints.PointsIncrease(id - 1, 10);
                                 ServerEnemyManager._serverEnemyManager.CurrentDamage = SGDamage;
                                 ServerEnemyManager._serverEnemyManager.TakingDamage = true;
                             }
@@ -352,6 +366,7 @@ public class ServerPlayer: MonoBehaviour
                         ServerEnemyManager._serverEnemyManager.EnemyHited = HitEnemy;
                         if (ServerEnemyManager._serverEnemyManager.HealthCalculation == false)
                         {
+                            ServerPoints._serverPoints.PointsIncrease(id - 1, 10);
                             ServerEnemyManager._serverEnemyManager.CurrentDamage = SADamage;
                             ServerEnemyManager._serverEnemyManager.TakingDamage = true;
                         }

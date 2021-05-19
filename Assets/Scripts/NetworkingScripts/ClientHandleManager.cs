@@ -12,7 +12,6 @@ public class ClientHandleManager : MonoBehaviour
     {
         string _msg = _packet.ReadString();
         int _myId = _packet.ReadInt();
-        Debug.Log($"Message from Server: {_msg}");
         ClientManager.instance.myID = _myId;
         ClientManager.instance.HasJoined = true;
         ClientManager.instance.SM.multiplayerMenuManager.WaitingForServer.SetActive(false);
@@ -31,13 +30,11 @@ public class ClientHandleManager : MonoBehaviour
         string _username = _packet.ReadString();
         Vector3 _position = _packet.ReadVector3();
         Quaternion _rotation = _packet.ReadQuaternion();
-        Debug.Log(_username);
         GameManager.instance.SpawnPlayer(_id, _username, _position, _rotation);
         GameManager.instance.SM.LevelScript.SpawnMultiplayerLevel();
     }
     public static void PlayerPosition(Packet _packet) 
     {
-        Debug.Log("ClientPlayerPos");
         int _id = _packet.ReadInt();
         Vector3 _position = _packet.ReadVector3();
         
@@ -45,7 +42,6 @@ public class ClientHandleManager : MonoBehaviour
     }
     public static void PlayerRotation(Packet _packet)
     {
-        Debug.Log("ClientPlayerRos");
         int _id = _packet.ReadInt();
         Quaternion _rotation = _packet.ReadQuaternion();
 
@@ -56,11 +52,6 @@ public class ClientHandleManager : MonoBehaviour
         string PacketData = _packet.ReadString().ToString();
         string[] SplitData = PacketData.Split(new char[] { '*' }, System.StringSplitOptions.RemoveEmptyEntries);
         MultiplayerManager.instance.Username = new string[SplitData.Length];
-        for (int i = 0; i < SplitData.Length; i++)
-        {
-            Debug.Log(SplitData.Length);
-            Debug.Log(SplitData[i]);
-        }
         foreach (var username in MultiplayerMenuManager.instance.Usernames)
         {
             username.text = "";
@@ -100,9 +91,7 @@ public class ClientHandleManager : MonoBehaviour
     }
     public static void ReadyOrNot(Packet _packet) 
     {
-        Debug.Log("Ready Toggle Received From Server...");
         bool[] ReadyRNot = new bool[_packet.ReadInt()];
-        Debug.Log(ReadyRNot.Length);
         for (int i = 0; i < ReadyRNot.Length; i++)
         {
             ReadyRNot[i] = _packet.ReadBool();
@@ -112,7 +101,6 @@ public class ClientHandleManager : MonoBehaviour
     }
     public static void LobbyisReady(Packet _packet) 
     {
-        Debug.Log("Lobby is Ready from server...");
         bool isLobbyReady = _packet.ReadBool();
         if (isLobbyReady) 
         {
@@ -124,14 +112,12 @@ public class ClientHandleManager : MonoBehaviour
         int _id = _packet.ReadInt();
         int NewWeaponValue = _packet.ReadInt();
         ClientManager.instance.NewWeaponValueRecevied(_id, NewWeaponValue);
-        Debug.Log("Recieved Weapon Value");
     }
     public static void ServerShootingRecevied(Packet _packet) 
     {
         int _id = _packet.ReadInt();
         bool IsFiring = _packet.ReadBool();
         ClientManager.instance.ShootingServerRecevied(_id, IsFiring);
-        Debug.Log("Recieved Shooting");
     }
     public static void SpawnGroundEnemy(Packet _packet) 
     {
@@ -178,17 +164,23 @@ public class ClientHandleManager : MonoBehaviour
     public static void EnemyHitPlayer (Packet _packet) 
     {
         int _id = _packet.ReadInt();
-        int NewHealth = _packet.ReadInt();
+        float NewHealth = _packet.ReadFloat();
 
         GameManager.players[_id].Health = NewHealth;
         GameManager.players[_id].DamageTaken();
-        Debug.Log("Client " + _id + " Took Damage");
     }
     public static void PlayerRevived(Packet _packet)
     {
         int _id = _packet.ReadInt();
-        Debug.Log("Revive Player");
         GameManager.players[_id].PlayerAnimator.SetBool("CanRevive", true);
+        GameManager.players[_id].isDown = false;
+        GameManager.players[_id].CoinAmmount = GameManager.players[_id].CoinAmmount - 1;
+        ClientGameMenu._clientGameMenu.UpdateCoinCount(_id);
+        ClientGameMenu._clientGameMenu.UpdateHealth(_id, GameManager.players[_id].startingHealth);
+        if (GameManager.players[_id].IsClient)
+        {
+            ClientGameMenu._clientGameMenu.ReviveGameObject.SetActive(false);
+        }
     }
     public static void DropDropped(Packet _packet) 
     {
@@ -237,5 +229,16 @@ public class ClientHandleManager : MonoBehaviour
                 Destroy(ConnectedPlayers[i]);
             }
         }
+    }
+    public static void NewRound(Packet _packet) 
+    {
+        int RoundValue = _packet.ReadInt();
+        RoundManager._roundManager.ClientNewRound(RoundValue);
+    }
+    public static void NewScore(Packet _packet)
+    {
+        int PlayerId = _packet.ReadInt();
+        int NewScore = _packet.ReadInt();
+        ClientGameMenu._clientGameMenu.UpdateScore(PlayerId, NewScore);
     }
 }

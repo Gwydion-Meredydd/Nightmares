@@ -23,6 +23,7 @@ public class ServerPoints : MonoBehaviour
         {
             Points[PlayerID] = Points[PlayerID] + (Score * 2);
         }
+        ServerSend.SendScore(PlayerID, Points[PlayerID]);
       
     }
     public void RoundEndIncrease(int Score)
@@ -38,6 +39,10 @@ public class ServerPoints : MonoBehaviour
             {
                 Points[i] = Points[i] + ((Score * 100) * 2);
             }
+        }
+        for (int i = 0; i < Points.Length; i++)
+        {
+            ServerSend.SendScore(i, Points[i]);
         }
     }
 }

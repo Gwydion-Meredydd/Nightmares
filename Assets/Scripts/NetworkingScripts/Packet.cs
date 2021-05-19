@@ -24,7 +24,9 @@ public enum ServerPackets
     PlayerRevive,
     DropDropped,
     DropPicked,
-    PlayerDisconnected
+    PlayerDisconnected,
+    NewRound,
+    NewScore,
 }
 
 /// <summary>Sent from client to server.</summary>

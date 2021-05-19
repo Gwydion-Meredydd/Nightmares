@@ -755,7 +755,6 @@ public class PlayerController : MonoBehaviour
                 }
                 break;
         }
-        Debug.Log("ISSCROLLING");
         ScrollingValue = 0;
         Scrolling = false;
     }
@@ -773,12 +772,10 @@ public class PlayerController : MonoBehaviour
     }
     private void SendRotationInputToServer() 
     {
-        Debug.Log("Method Being Called");
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit, 1000))
         {
-            Debug.Log("SendRotation");
             Vector3 MousePos = new Vector3 (hit.point.x, Player.transform.position.y, hit.point.z);
             ClientSend.PlayerRotation(MousePos);
         }
@@ -787,13 +784,63 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            bool MouseDown = true; 
+            bool MouseDown = true;
             ClientSend.MouseIsDown(MouseDown);
+            if (!ThisClientManager.isDown)
+            {
+                StartCoroutine(MultiplayerClientShooting());
+            }
         }
-        else 
+        else
         {
             bool MouseDown = false;
             ClientSend.MouseIsDown(MouseDown);
+        }
+    }
+    IEnumerator MultiplayerClientShooting()
+    {
+        if (Firing == false)
+        {
+            Firing = true;
+            //Weapon value indicates which weapon is selected 1= auto rifle 2= mini gun 3= flamethrower , 2 & 3 are drops for limated time
+            switch (ThisClientManager.WeaponValue)
+            {
+                case 1:
+                    ThisClientManager.Shoot();
+                    CameraPunch();
+                    yield return new WaitForSecondsRealtime(AssaultRifleFiringTime);
+                    SM.CameraScript.yValue = TempPunchValue;
+                    CanShoot = false;
+                    break;
+                case 2:
+                    ThisClientManager.Shoot();
+                    CameraPunch();
+                    yield return new WaitForSecondsRealtime(MiniGunFiringTime);
+                    SM.CameraScript.yValue = TempPunchValue;
+                    CanShoot = false;
+                    break;
+                case 3:
+                    ThisClientManager.Shoot();
+                    yield return new WaitForSecondsRealtime(FlameThrowerFiringTime);
+                    SM.CameraScript.yValue = TempPunchValue;
+                    CanShoot = false;
+                    break;
+                case 4:
+                    ThisClientManager.Shoot();
+                    CameraPunch();
+                    yield return new WaitForSecondsRealtime(ShotGunFiringTime);
+                    SM.CameraScript.yValue = TempPunchValue;
+                    CanShoot = false;
+                    break;
+                case 5:
+                    ThisClientManager.Shoot();
+                    CameraPunch();
+                    yield return new WaitForSecondsRealtime(SideArmFiringTime);
+                    SM.CameraScript.yValue = TempPunchValue;
+                    CanShoot = false;
+                    break;
+            }
+            Firing = false;
         }
     }
     #endregion

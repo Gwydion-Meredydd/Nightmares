@@ -13,6 +13,15 @@ public class ClientEnemyManager : MonoBehaviour
     public List<AudioSource> EnemieAudioSources;
     public bool TakingDamge;
     public bool Attacking;
+
+    public static ClientEnemyManager _clientEnemyManager;
+    public  ClientEnemyManager RefclientEnemyManager;
+
+    private void Start()
+    {
+        RefclientEnemyManager = this;
+        _clientEnemyManager = RefclientEnemyManager;
+    }
     public void SpawnGroundEnemy(Quaternion Rotation, Vector3 Position, int RandomValue)
     {
         GameObject NewEnemie = Instantiate(GroundEnemies[RandomValue], Position, Rotation);

@@ -93,6 +93,10 @@ public class EnemyDespawn : MonoBehaviour
                 CountValue = CountValue + 1;
             }
         }
+        foreach (Collider Enemycollider in DeadEnemiesCollider)
+        {
+            Enemycollider.enabled = false;
+        }
     }
     void NonVisableDetection() 
     {

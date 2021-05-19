@@ -55,21 +55,50 @@ public class AudioManager : MonoBehaviour
     public AudioClip NewRound;
     [Header("Music")]
     public GameObject MainMenuMusic;
-    
+    [HideInInspector]
+    public static AudioManager _audioManager;
+    public AudioManager refAudioManager;
+
+    private void Start()
+    {
+        refAudioManager = this;
+        _audioManager = refAudioManager;
+    }
     void Update()
     {
         if (SM.GameScript.InGame)
         {
             if (!SM.GameScript.Paused)
             {
-                if (SM.EnemyScript.ActiveEnemies.Count > 0)
+                if (!SM.GameScript.Server)
                 {
-                    EnemyRandomAudio();
+                    if (SM.EnemyScript.ActiveEnemies.Count > 0)
+                    {
+                        EnemyRandomAudio();
+                    }
+                    if (!Footstepping)
+                    {
+                        Footstepping = true;
+                        StartCoroutine(FootstepTiming());
+                    }
                 }
-                if (!Footstepping) 
+            }
+        }
+        else 
+        {
+            if (!SM.GameScript.Paused)
+            {
+                if (SM.GameScript.Server)
                 {
-                    Footstepping = true;
-                    StartCoroutine(FootstepTiming());
+                    if (ClientEnemyManager._clientEnemyManager.Enemies.Count > 0)
+                    {
+                        ServerEnemyRandomAudio();
+                    }
+                    if (!Footstepping)
+                    {
+                        Footstepping = true;
+                        StartCoroutine(FootstepTiming());
+                    }
                 }
             }
         }
@@ -86,6 +115,17 @@ public class AudioManager : MonoBehaviour
         {
             SM.EnemyScript.ActiveEnemiesAudioSources[RandomEnemeyValue].clip = EnemyRandomNoises[RandomEnemyNoiseSelectValue];
             SM.EnemyScript.ActiveEnemiesAudioSources[RandomEnemeyValue].Play();
+            StartCoroutine(EnemyNoiseCooldownTime());
+        }
+    }
+    void ServerEnemyRandomAudio()
+    {
+        RandomEnemyNoiseSelectValue = Random.Range(0, EnemyRandomNoises.Length);
+        RandomEnemeyValue = Random.Range(0, ClientEnemyManager._clientEnemyManager.Enemies.Count);
+        if (!ClientEnemyManager._clientEnemyManager.EnemieAudioSources[RandomEnemeyValue].isPlaying && !EnemyNoiseCooldownControl)
+        {
+            ClientEnemyManager._clientEnemyManager.EnemieAudioSources[RandomEnemeyValue].clip = EnemyRandomNoises[RandomEnemyNoiseSelectValue];
+            ClientEnemyManager._clientEnemyManager.EnemieAudioSources[RandomEnemeyValue].Play();
             StartCoroutine(EnemyNoiseCooldownTime());
         }
     }
@@ -140,6 +180,65 @@ public class AudioManager : MonoBehaviour
                 break;
             case 5:
                 SM.PlayerScript.WeaponAudioSource.PlayOneShot(SideArm[SideArmAudioValue]);
+                SideArmAudioValue = SideArmAudioValue + 1;
+                if (SideArmAudioValue == 3)
+                {
+                    SideArmAudioValue = 0;
+                }
+                break;
+        }
+    }
+    public void ServerWeaponAudio(int WeaponValue, _PlayerManager Player)
+    {
+        switch (WeaponValue)
+        {
+            case 1:
+                Player.WeaponAudioSource.PlayOneShot(AssaultRifle[AssaultRifleAudioValue]);
+                AssaultRifleAudioValue = AssaultRifleAudioValue + 1;
+                if (AssaultRifleAudioValue == 3)
+                {
+                    AssaultRifleAudioValue = 0;
+                }
+                break;
+            case 2:
+                if (Input.GetMouseButtonDown(0))
+                {
+                    Player.WeaponAudioSource.PlayOneShot(MiniGun[0]);
+                }
+                Player.WeaponAudioSource.PlayOneShot(MiniGun[2]);
+                Player.WeaponAudioSource.PlayOneShot(MiniGun[1]);
+                break;
+            case 3:
+                if (Input.GetMouseButtonDown(0))
+                {
+                    Player.WeaponAudioSource.PlayOneShot(FlameThrower[FlameThrowerAudioValue]);
+                }
+                if (!OverallFlameThrowerCooldownControl)
+                {
+                    //SM.PlayerScript.FlameThrowerAudioSource.PlayOneShot(FlameThrower[FlameThrowerAudioValue]);
+                    if (!FlameThrowerCooldownControl)
+                    {
+                        Player.WeaponAudioSource.PlayOneShot(FlameThrower[2]);
+                    }
+                    StartCoroutine(OverallFlameThrowerTime());
+                    StartCoroutine(FlameThrowerCooldown());
+                }
+                FlameThrowerAudioValue = FlameThrowerAudioValue + 1;
+                if (FlameThrowerAudioValue == 2)
+                {
+                    FlameThrowerAudioValue = 0;
+                }
+                break;
+            case 4:
+                Player.WeaponAudioSource.PlayOneShot(Shotgun[ShotGunAudioValue]);
+                ShotGunAudioValue = ShotGunAudioValue + 1;
+                if (ShotGunAudioValue == 3)
+                {
+                    ShotGunAudioValue = 0;
+                }
+                break;
+            case 5:
+                Player.WeaponAudioSource.PlayOneShot(SideArm[SideArmAudioValue]);
                 SideArmAudioValue = SideArmAudioValue + 1;
                 if (SideArmAudioValue == 3)
                 {

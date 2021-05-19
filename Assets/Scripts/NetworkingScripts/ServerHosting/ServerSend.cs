@@ -250,5 +250,22 @@ public class ServerSend
             SendTCPDataToAll(_packet);
         }
     }
+    public static void NewRound(int RoundValue) 
+    {
+        using (ServerPacket _packet = new ServerPacket((int)ServerServerPackets.NewRound))
+        {
+            _packet.Write(RoundValue);
+            SendTCPDataToAll(_packet);
+        }
+    }
+    public static void SendScore(int PlayerID, int Score)
+    {
+        using (ServerPacket _packet = new ServerPacket((int)ServerServerPackets.NewScore))
+        {
+            _packet.Write(PlayerID);
+            _packet.Write(Score);
+            SendTCPDataToAll(_packet);
+        }
+    }
     #endregion
 }

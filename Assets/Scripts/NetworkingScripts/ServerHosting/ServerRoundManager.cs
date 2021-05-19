@@ -15,6 +15,8 @@ public class ServerRoundManager : MonoBehaviour
     {
         StartingNewRound = true;
         RoundNumber = RoundNumber + 1;
+
+        ServerSend.NewRound(RoundNumber);
         //sound round number to client
         //Send audiotrigger for new round client
         yield return new WaitForSecondsRealtime(StartDelay);

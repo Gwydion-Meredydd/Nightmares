@@ -525,6 +525,8 @@ public class ClientManager : MonoBehaviour
             {(int) ServerPackets.DropDropped, ClientHandleManager.DropDropped },
             {(int) ServerPackets.DropPicked, ClientHandleManager.DropData },
             {(int) ServerPackets.PlayerDisconnected, ClientHandleManager.PlayerDisconnected },
+            {(int) ServerPackets.NewRound, ClientHandleManager.NewRound },
+            {(int) ServerPackets.NewScore, ClientHandleManager.NewScore },
         };
         Debug.Log("Initalized Packets!");
     }

@@ -10,7 +10,16 @@ public class RoundManager : MonoBehaviour
     [Range(0, 10)]
     public float StartDelay;
     public int RoundNumber;
-    
+
+    public RoundManager RefroundManager;
+    public static RoundManager _roundManager;
+
+    private void Start()
+    {
+        RefroundManager = this;
+        _roundManager = RefroundManager;
+    }
+
     IEnumerator NewRound() 
     {
         StartingNewRound = true;
@@ -20,5 +29,12 @@ public class RoundManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(StartDelay);
         StartingNewRound = false;
         InActiveRound = true;
+    }
+    public void ClientNewRound(int NewRoundValue) 
+    {
+        Debug.Log("NEW ROUND");
+        RoundNumber = NewRoundValue;
+        ClientGameMenu._clientGameMenu.RoundText.text = RoundNumber.ToString();
+        SM.AudioScripts.GameSFXAudioSource.PlayOneShot(SM.AudioScripts.NewRound);
     }
 }

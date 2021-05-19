@@ -34,6 +34,7 @@ public class ServerEnemyManager : MonoBehaviour
     public List<GameObject> ActiveEnemies;
     public List<NavMeshAgent> ActiveEnemiesAgents;
     public List<BoxCollider> ActiveEnemiesBoxColliders;
+    public List<AudioSource> ActiveEnemiesAudioSource;
     public List<GameObject> SelectedPlayer;
     public Vector3 RandomPosition;
     public GameObject[] AvailablePlayers;
@@ -354,7 +355,6 @@ public class ServerEnemyManager : MonoBehaviour
                                 SelectedPlayer[ArrayLength].GetComponent<ServerPlayer>().Health = SelectedPlayer[ArrayLength].GetComponent<ServerPlayer>().Health - AttackDamage;
                                 float PlayerHealth = SelectedPlayer[ArrayLength].GetComponent<ServerPlayer>().Health;
                                 SelectedPlayer[ArrayLength].GetComponent<ServerPlayer>().HealthCalculations();
-                                ServerSend.SendEnemyHitPlayer(PlayerID, PlayerHealth);
                                 yield return new WaitForSecondsRealtime(0.1f);
                                 if (OldNumberOfEnemies == ActiveEnemies.Count)
                                 {
@@ -478,10 +478,12 @@ public class ServerEnemyManager : MonoBehaviour
             ActiveEnemiesAgents = new List<NavMeshAgent>(ArrayLength);
             SelectedPlayer = new List<GameObject>(ArrayLength);
             ActiveEnemiesBoxColliders = new List<BoxCollider>(ArrayLength);
+            ActiveEnemiesAudioSource = new List<AudioSource>(ArrayLength);
             foreach (GameObject Enemies in GameObject.FindGameObjectsWithTag("Enemy"))
             {
                 ActiveEnemiesAgents.Add(Enemies.GetComponent<NavMeshAgent>());
                 ActiveEnemiesBoxColliders.Add(Enemies.GetComponent<BoxCollider>());
+                ActiveEnemiesAudioSource.Add(Enemies.GetComponent<AudioSource>());
                 SelectedPlayer.Add(ReturnClosestPlayer(Enemies.transform));
             }
             ValueofEnemies = GameObject.FindGameObjectsWithTag("Enemy");
