@@ -770,6 +770,7 @@ public class PlayerController : MonoBehaviour
         };
         ClientSend.PlayerMovement(_inputs);
     }
+   
     private void SendRotationInputToServer() 
     {
         RaycastHit hit;

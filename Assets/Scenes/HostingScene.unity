@@ -1228,6 +1228,9 @@ GameObject:
   - component: {fileID: 1664924021}
   - component: {fileID: 1664924022}
   - component: {fileID: 1664924023}
+  - component: {fileID: 1664924024}
+  - component: {fileID: 1664924025}
+  - component: {fileID: 1664924026}
   m_Layer: 0
   m_Name: ScriptManager
   m_TagString: Untagged
@@ -1436,7 +1439,7 @@ MonoBehaviour:
   LevelSpawnPoints: []
   InitalSpawnCap: 4
   CurrentSpawnCap: 0
-  MaxSpawnCap: 40
+  MaxSpawnCap: 24
   SpawnDelay: 2.2
   IsSpawning: 0
   CurrentMonsterAmmount: 0
@@ -1464,6 +1467,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e65d7da10231f14996a0e7aea15b873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ManualUpdate: 0
   m_Tracked: {fileID: 1664924013}
   m_Size: {x: 80, y: 20, z: 80}
 --- !u!114 &1664924020
@@ -1580,6 +1584,122 @@ MonoBehaviour:
   - 
   - 
   - 
+--- !u!114 &1664924024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664924010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3495afd62c0f60440bf1dcb6ae8d4561, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RefpekrManager: {fileID: 0}
+  PerkSpawnPoint: {fileID: 0}
+  PlayerIsCloseEnough: 00000000
+  CurrentPerkValue: 0
+  OldPerkValue: 0
+  CurrentMessage: 
+  CurrentCostOfPerk: 0
+  HealthPerkCost: 5000
+  IncreasedPointsPerkCost: 7500
+  SpeedPerkCost: 9500
+  DamagePerkCost: 9500
+--- !u!114 &1664924025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664924010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ecb90ca61e9d8a42bedc87dfb3d386b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EndGame: 0
+  EndGameInitlised2: 0
+  EndGameInitlised: 0
+  RefserverEndGameManager: {fileID: 0}
+--- !u!114 &1664924026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664924010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5b0f15b5375b42489d2677ccc154308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SM: {fileID: 0}
+  Score: 0
+  Testing: 0
+  UsernameForTesting: 
+  ScoreForTesting: 0
+  LeaderboardValue: 0
+  BadWordsLibraryInitlised: 0
+  BadWords: []
+  BadWordsFile: {fileID: 4900000, guid: d4921854aa85c414eb201e116b03bb36, type: 3}
+  ErrorCode1: 
+  ErrorCode2: 
+  ErrorCode3: 
+  ErrorCode4: 
+  UserNameInLeaderboard1: 0
+  HighScoreRoot1: {fileID: 0}
+  HighScoreFieldsPerent1: []
+  HighScoreFieldsName1: []
+  HighScoreFieldsScore1: []
+  YourScore1: {fileID: 0}
+  HighScoreName1: {fileID: 0}
+  HighScoreScore1: {fileID: 0}
+  UserNamesInLeaderboard1: []
+  ScoreInLeaderboard1: 
+  UserNameInLeaderboard2: 0
+  HighScoreRoot2: {fileID: 0}
+  HighScoreFieldsPerent2: []
+  HighScoreFieldsName2: []
+  HighScoreFieldsScore2: []
+  YourScore2: {fileID: 0}
+  HighScoreName2: {fileID: 0}
+  HighScoreScore2: {fileID: 0}
+  UserNamesInLeaderboard2: []
+  ScoreInLeaderboard2: 
+  UserNameInLeaderboard3: 0
+  HighScoreRoot3: {fileID: 0}
+  HighScoreFieldsPerent3: []
+  HighScoreFieldsName3: []
+  HighScoreFieldsScore3: []
+  YourScore3: {fileID: 0}
+  HighScoreName3: {fileID: 0}
+  HighScoreScore3: {fileID: 0}
+  UserNamesInLeaderboard3: []
+  ScoreInLeaderboard3: 
+  UserNameInLeaderboard4: 0
+  HighScoreRoot4: {fileID: 0}
+  HighScoreFieldsPerent4: []
+  HighScoreFieldsName4: []
+  HighScoreFieldsScore4: []
+  YourScore4: {fileID: 0}
+  HighScoreName4: {fileID: 0}
+  HighScoreScore4: {fileID: 0}
+  UserNamesInLeaderboard4: []
+  ScoreInLeaderboard4: 
+  UserNameInLeaderboard5: 0
+  HighScoreRoot5: {fileID: 0}
+  HighScoreFieldsPerent5: []
+  HighScoreFieldsName5: []
+  HighScoreFieldsScore5: []
+  YourScore5: {fileID: 0}
+  HighScoreName5: {fileID: 0}
+  HighScoreScore5: {fileID: 0}
+  UserNamesInLeaderboard5: []
+  ScoreInLeaderboard5: 
+  RefscoreManager: {fileID: 0}
+  isMultiplayer: 1
 --- !u!1 &1883387720
 GameObject:
   m_ObjectHideFlags: 0

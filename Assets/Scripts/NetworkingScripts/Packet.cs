@@ -27,6 +27,11 @@ public enum ServerPackets
     PlayerDisconnected,
     NewRound,
     NewScore,
+    NewPerkValue,
+    PerkData,
+    PerkBaught,
+    ScoreUpdate,
+    GameEnded,
 }
 
 /// <summary>Sent from client to server.</summary>

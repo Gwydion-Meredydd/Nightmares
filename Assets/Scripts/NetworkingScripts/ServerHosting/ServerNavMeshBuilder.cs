@@ -8,6 +8,8 @@ using NavMeshBuilder = UnityEngine.AI.NavMeshBuilder;
 [DefaultExecutionOrder(-102)]
 public class ServerNavMeshBuilder : MonoBehaviour
 {
+
+    public bool ManualUpdate;
     // The center of the build
     public Transform m_Tracked;
 
@@ -19,6 +21,15 @@ public class ServerNavMeshBuilder : MonoBehaviour
     NavMeshDataInstance m_Instance;
     List<NavMeshBuildSource> m_Sources = new List<NavMeshBuildSource>();
 
+
+    private void Update()
+    {
+       if (ManualUpdate) 
+        {
+            LevelReadyForNavmesh();
+            ManualUpdate = false;
+        }
+    }
     public void LevelReadyForNavmesh()
     {
         m_NavMesh = new NavMeshData();

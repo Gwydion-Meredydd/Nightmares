@@ -185,6 +185,8 @@ public class MainMenuManager : MonoBehaviour
     {
         SM.AudioScripts.PlayMenuSFX();
         Debug.Log("Options Menu");
+        OptionsAudio.SetActive(true);
+        OptionsVideo.SetActive(false);
         mainMenuObj.SetActive(false);
         optionsMenuObj.SetActive(true);
     }

@@ -11,6 +11,16 @@ public class DeathScreenManager : MonoBehaviour
     public Image DeathFadeBlack;
     public bool PlayerIsDead;
     public bool Reset;
+
+    public static DeathScreenManager _deathScreenManager;
+    public DeathScreenManager RefdeathScreenManager;
+
+    private void Start()
+    {
+        RefdeathScreenManager = this;
+        _deathScreenManager = RefdeathScreenManager;
+    }
+
     private void LateUpdate()
     {
         if (Reset)
@@ -152,5 +162,25 @@ public class DeathScreenManager : MonoBehaviour
         SM.MainMenuScript.CharacterGameobjects.SetActive(false);
         SM.MainMenuScript.MainMenuScene.SetActive(true);
         SM.MainMenuScript.ThreeDimensionalCharacters.SetActive(true);
+    }
+    public void ShowMultiplayerHighScore() 
+    {
+        StartCoroutine(MultiplayerImageFadeToBlack());
+    }
+    IEnumerator MultiplayerImageFadeToBlack()
+    {
+        SM.MainMenuScript.HighScoreRoot.SetActive(true);
+        DeathScreen.SetActive(true);
+        if (SM.GameScript.Paused)
+        {
+            SM.PauseMenuManager.PauseToggle();
+        }
+        SM.FadeManager.FadeIn();
+        yield return new WaitForSecondsRealtime(1);
+        foreach (var EnemyAudioSource in SM.clientEnemyManager.EnemieAudioSources)
+        {
+            EnemyAudioSource.volume = 0;
+        }
+        SM.MainMenuScript.ScoreReturnButton.SetActive(false);
     }
 }

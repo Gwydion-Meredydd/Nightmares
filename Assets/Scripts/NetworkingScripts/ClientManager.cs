@@ -527,6 +527,11 @@ public class ClientManager : MonoBehaviour
             {(int) ServerPackets.PlayerDisconnected, ClientHandleManager.PlayerDisconnected },
             {(int) ServerPackets.NewRound, ClientHandleManager.NewRound },
             {(int) ServerPackets.NewScore, ClientHandleManager.NewScore },
+            {(int) ServerPackets.NewPerkValue, ClientHandleManager.RecevieNewPerkValue },
+            {(int) ServerPackets.PerkData, ClientHandleManager.RecevieNewPerkData },
+            {(int) ServerPackets.PerkBaught, ClientHandleManager.PerkBaught },
+            {(int) ServerPackets.ScoreUpdate, ClientHandleManager.UpdateScore },
+            {(int) ServerPackets.GameEnded, ClientHandleManager.GameEnded },
         };
         Debug.Log("Initalized Packets!");
     }

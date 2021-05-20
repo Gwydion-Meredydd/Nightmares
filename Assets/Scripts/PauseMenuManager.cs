@@ -53,38 +53,26 @@ public class PauseMenuManager : MonoBehaviour
         {
             OptionsSubMenu.SetActive(false);
             PausedSubMenu.SetActive(true);
-        }
-        else
-        {
-            OptionsSubMenu.SetActive(true);
-            PausedSubMenu.SetActive(false);
-        }
-    }
-    public void AudioOptions()
-    {
-        if (!OptionsAudio.activeInHierarchy)
-        {
             OptionsAudio.SetActive(true);
             OptionsVideo.SetActive(false);
         }
         else
         {
-            OptionsAudio.SetActive(false);
+            OptionsSubMenu.SetActive(true);
+            PausedSubMenu.SetActive(false);
+            OptionsAudio.SetActive(true);
             OptionsVideo.SetActive(false);
         }
     }
+    public void AudioOptions()
+    {
+        OptionsAudio.SetActive(true);
+        OptionsVideo.SetActive(false);
+    }
     public void VideoOptions()
     {
-        if (!OptionsVideo.activeInHierarchy)
-        {
-            OptionsAudio.SetActive(false);
-            OptionsVideo.SetActive(true);
-        }
-        else
-        {
-            OptionsAudio.SetActive(false);
-            OptionsVideo.SetActive(false);
-        }
+        OptionsAudio.SetActive(false);
+        OptionsVideo.SetActive(true);
     }
     public void FullScreenToggle() 
     {

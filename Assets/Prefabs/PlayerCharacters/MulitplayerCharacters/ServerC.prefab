@@ -1205,6 +1205,7 @@ MonoBehaviour:
   moveSpeed: 5
   CurrentMaxHealth: 100
   Health: 100
+  MaxLives: 3
   Lives: 3
   PlayerDown: 0
   WeaponValue: 1
@@ -1233,6 +1234,12 @@ MonoBehaviour:
   HitTarget: {fileID: 0}
   HitEnemy: {fileID: 0}
   CanRevive: 1
+  IsDead: 0
+  PressingF: 0
+  HealthBaught: 0
+  IncreasedPointsBaught: 0
+  SpeedBaught: 0
+  DamageBaught: 0
 --- !u!1 &1661992235229424297
 GameObject:
   m_ObjectHideFlags: 0

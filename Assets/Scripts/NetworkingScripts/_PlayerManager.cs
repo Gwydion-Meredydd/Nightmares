@@ -45,11 +45,118 @@ public class _PlayerManager : MonoBehaviour
     public ParticleSystem SABulletCasing;
     [Space]
     public Animator PlayerAnimator;
-
+    public Vector3 CurrentPosition;
+    public Vector3 LastPosition;
+    public float PlayerRotation;
+    public bool FacingUp, FacingDown, FacingLeft, FacingRight;
+    private Vector3 MovementDirectionValue;
+    public int lives = 3;
+    private void Start()
+    {
+        if (!IsClient)
+        {
+            StartCoroutine(NonClientWalkClock());
+        }
+    }
     private void Update()
     {
-        
+        if (IsClient)
+        {
+            PlayerRotationalCalculation();
+            PlayerRoationAnimationCalculation();
+        }
     }
+    public void PlayerRoationAnimationCalculation()
+    {
+        //Checks which bools are active and sets the animator floats to the correct values
+        //some needed inverting , and some needed to fully switched (horizontal and verticle)
+        if (FacingUp)
+        {
+            PlayerAnimator.SetFloat("Horizontal", Input.GetAxisRaw("Horizontal"), 0.1f, Time.deltaTime);
+            PlayerAnimator.SetFloat("Vertical", Input.GetAxisRaw("Vertical"), 0.1f, Time.deltaTime);
+        }
+        if (FacingDown)
+        {
+            PlayerAnimator.SetFloat("Horizontal", -Input.GetAxisRaw("Horizontal"), 0.1f, Time.deltaTime);
+            PlayerAnimator.SetFloat("Vertical", -Input.GetAxisRaw("Vertical"), 0.1f, Time.deltaTime);
+        }
+        if (FacingLeft)
+        {
+            PlayerAnimator.SetFloat("Vertical", -Input.GetAxisRaw("Horizontal"), 0.1f, Time.deltaTime);
+            PlayerAnimator.SetFloat("Horizontal", -Input.GetAxisRaw("Vertical"), 0.1f, Time.deltaTime);
+        }
+        if (FacingRight)
+        {
+            PlayerAnimator.SetFloat("Vertical", Input.GetAxisRaw("Horizontal"), 0.1f, Time.deltaTime);
+            PlayerAnimator.SetFloat("Horizontal", Input.GetAxisRaw("Vertical"), 0.1f, Time.deltaTime);
+        }
+        MovementDirectionValue = new Vector3(Input.GetAxisRaw("Horizontal"), -1f, Input.GetAxisRaw("Vertical"));
+        if (MovementDirectionValue.x != 0 || MovementDirectionValue.z != 0)//if the player is moving
+        {
+            PlayerAnimator.SetBool("Walk", true);
+        }
+        else
+        {
+            PlayerAnimator.SetBool("Walk", false);
+        }
+    }
+    public void PlayerRotationalCalculation()
+    {
+        //gets the y value as an eular angle
+        //checks the threshold of player rotation that counts as either left, right ,down
+        //else if statments are used so that only one can be called at a time
+        //up is left to last so it can be else stamtnet since eular angles goes to 359.99.. then 0 so if its not any other value its defaulted as up.
+        if (this != null)
+        {
+            PlayerRotation = this.transform.eulerAngles.y;
+        }
+        if (PlayerRotation > 45 && PlayerRotation < 135)
+        {
+            FacingUp = false;
+            FacingDown = false;
+            FacingLeft = false;
+            FacingRight = true;
+        }
+        else if (PlayerRotation > 135 && PlayerRotation < 225)
+        {
+            FacingUp = false;
+            FacingDown = true;
+            FacingLeft = false;
+            FacingRight = false;
+        }
+        else if (PlayerRotation > 225 && PlayerRotation < 315)
+        {
+            FacingUp = false;
+            FacingDown = false;
+            FacingLeft = true;
+            FacingRight = false;
+        }
+        else
+        {
+            FacingUp = true;
+            FacingDown = false;
+            FacingLeft = false;
+            FacingRight = false;
+        }
+    }
+    IEnumerator NonClientWalkClock()
+    {
+        yield return new WaitForSeconds(0.05f);
+        CurrentPosition = this.gameObject.transform.position;
+        if (CurrentPosition == LastPosition)
+        {
+            PlayerAnimator.SetBool("Walk", false);
+        }
+        else
+        {
+            PlayerAnimator.SetFloat("Vertical", 1f);
+            PlayerAnimator.SetBool("Walk", true);
+        }
+        LastPosition = CurrentPosition;
+        Debug.Log("WalkClock");
+        StartCoroutine(NonClientWalkClock());
+    }
+
     public void WeaponChange(int NewWeaponValue) 
     {
         if (PlayerAnimator != null)
@@ -165,7 +272,14 @@ public class _PlayerManager : MonoBehaviour
             isDown = true;
             if (IsClient)
             {
-                ClientGameMenu._clientGameMenu.ReviveGameObject.SetActive(true);
+                if (CoinAmmount > 0)
+                {
+                    ClientGameMenu._clientGameMenu.ReviveGameObject.SetActive(true);
+                }
+                if (CoinAmmount == 0) 
+                {
+                    ClientGameMenu._clientGameMenu.DeadGameObject.SetActive(true);
+                }
             }
         }
     }

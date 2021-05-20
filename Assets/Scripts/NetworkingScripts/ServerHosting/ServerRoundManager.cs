@@ -18,7 +18,7 @@ public class ServerRoundManager : MonoBehaviour
 
         ServerSend.NewRound(RoundNumber);
         //sound round number to client
-        //Send audiotrigger for new round client
+        ServerPerksManager._serverPerksManager.SpawnPerkMachine();
         yield return new WaitForSecondsRealtime(StartDelay);
         StartingNewRound = false;
         InActiveRound = true;

@@ -12,7 +12,8 @@ public class ServerPlayer: MonoBehaviour
     public float moveSpeed = 0.1f;
     public float CurrentMaxHealth;
     public float Health;
-    public int Lives = 3;
+    public int MaxLives = 3;
+    public int Lives;
     public bool PlayerDown;
     private bool[] inputs;
     private bool IsMouseDown;
@@ -39,6 +40,14 @@ public class ServerPlayer: MonoBehaviour
     public GameObject HitTarget;
     public GameObject HitEnemy;
     public bool CanRevive;
+    public bool IsDead;
+    
+    [Space]
+    public bool PressingF;
+    public bool HealthBaught;
+    public bool IncreasedPointsBaught;
+    public bool SpeedBaught;
+    public bool DamageBaught;
 
     public void Initialize(int _id, string _username)
     {
@@ -46,7 +55,9 @@ public class ServerPlayer: MonoBehaviour
         username = _username;
         ServerHostingManager.Instance.ConnectedClientsClass.Add(this);
         ServerHostingManager.Instance.ConnectedClients = ServerHostingManager.Instance.ConnectedClients + 1;
-        inputs = new bool[4];
+        inputs = new bool[5];
+        Lives = MaxLives;
+
     }
     public void FixedUpdate()
     {
@@ -69,14 +80,16 @@ public class ServerPlayer: MonoBehaviour
             {
                 _inputDirection.x += 1;
             }
-            if (PlayerDown)
+            if (inputs[4])
             {
-                if (inputs[4])
-                {
-                    Debug.Log("Player Revive");
-                }
+                PressingF = true;
+            }
+            else 
+            {
+                PressingF = false;
             }
             Move(_inputDirection);
+            CheckPerkDistance();
             if (IsMouseDown)
             {
                 StartCoroutine(ShootingMethod());
@@ -115,6 +128,28 @@ public class ServerPlayer: MonoBehaviour
         ServerSend.PlayerPosition(this);
 
     }
+    public void CheckPerkDistance() 
+    {
+        if (ServerPerksManager._serverPerksManager.PerkSpawnPoint != null) 
+        {
+            float Distance = Vector3.Distance(this.gameObject.transform.position, ServerPerksManager._serverPerksManager.PerkSpawnPoint.position);
+            if (Distance < 4) 
+            {
+                if (ServerPerksManager._serverPerksManager.CheckifHasPerk(this) == false)
+                {
+                    ServerPerksManager._serverPerksManager.PlayerCloseToPerkMachine(this);
+                    if (PressingF)
+                    {
+                        ServerPerksManager._serverPerksManager.PlayerTryingToBuyPerk(this);
+                    }
+                }
+            }
+            else if (Distance > 4 && Distance < 10) 
+            {
+                ServerPerksManager._serverPerksManager.PlayerIsNotCloseToPerkMachine(this);
+            }
+        }
+    }
     public void HealthCalculations() 
     {
         ServerSend.SendEnemyHitPlayer(id, Health);
@@ -123,6 +158,10 @@ public class ServerPlayer: MonoBehaviour
             Debug.Log(id + "  playerdown");
             PlayerDown = true;
             StartCoroutine(CanReviveTime());
+            if (Lives == 0)
+            {
+                IsDead = true;
+            }
         }
     }
     IEnumerator CanReviveTime() 
@@ -256,7 +295,15 @@ public class ServerPlayer: MonoBehaviour
                         if (ServerEnemyManager._serverEnemyManager.HealthCalculation == false)
                         {
                             Debug.Log("Firing Enemy Hit + health caculated = false");
-                            ServerPoints._serverPoints.PointsIncrease(id - 1, 10);
+                            if (!IncreasedPointsBaught)
+                            {
+                                ServerPoints._serverPoints.PointsIncrease(id - 1, 10);
+
+                            }
+                            else 
+                            {
+                                ServerPoints._serverPoints.PointsIncrease(id - 1, 20);
+                            }
                             ServerEnemyManager._serverEnemyManager.CurrentDamage = ARDamage; ;
                             ServerEnemyManager._serverEnemyManager.TakingDamage = true;
                         }
@@ -284,7 +331,15 @@ public class ServerPlayer: MonoBehaviour
                         ServerEnemyManager._serverEnemyManager.EnemyHited = HitEnemy;
                         if (ServerEnemyManager._serverEnemyManager.HealthCalculation == false)
                         {
-                            ServerPoints._serverPoints.PointsIncrease(id - 1, 10);
+                            if (!IncreasedPointsBaught)
+                            {
+                                ServerPoints._serverPoints.PointsIncrease(id - 1, 10);
+
+                            }
+                            else
+                            {
+                                ServerPoints._serverPoints.PointsIncrease(id - 1, 20);
+                            }
                             ServerEnemyManager._serverEnemyManager.CurrentDamage = MGDamage;
                             ServerEnemyManager._serverEnemyManager.TakingDamage = true;
                         }
@@ -312,7 +367,15 @@ public class ServerPlayer: MonoBehaviour
                         ServerEnemyManager._serverEnemyManager.EnemyHited = HitEnemy;
                         if (ServerEnemyManager._serverEnemyManager.HealthCalculation == false)
                         {
-                            ServerPoints._serverPoints.PointsIncrease(id - 1, 10);
+                            if (!IncreasedPointsBaught)
+                            {
+                                ServerPoints._serverPoints.PointsIncrease(id - 1, 10);
+
+                            }
+                            else
+                            {
+                                ServerPoints._serverPoints.PointsIncrease(id - 1, 20);
+                            }
                             ServerEnemyManager._serverEnemyManager.CurrentDamage = FTDamage;
                             ServerEnemyManager._serverEnemyManager.TakingDamage = true;
                         }
@@ -340,7 +403,15 @@ public class ServerPlayer: MonoBehaviour
                             ServerEnemyManager._serverEnemyManager.EnemyHited = HitEnemy;
                             if (ServerEnemyManager._serverEnemyManager.HealthCalculation == false)
                             {
-                                ServerPoints._serverPoints.PointsIncrease(id - 1, 10);
+                                if (!IncreasedPointsBaught)
+                                {
+                                    ServerPoints._serverPoints.PointsIncrease(id - 1, 10);
+
+                                }
+                                else
+                                {
+                                    ServerPoints._serverPoints.PointsIncrease(id - 1, 20);
+                                }
                                 ServerEnemyManager._serverEnemyManager.CurrentDamage = SGDamage;
                                 ServerEnemyManager._serverEnemyManager.TakingDamage = true;
                             }
@@ -366,7 +437,15 @@ public class ServerPlayer: MonoBehaviour
                         ServerEnemyManager._serverEnemyManager.EnemyHited = HitEnemy;
                         if (ServerEnemyManager._serverEnemyManager.HealthCalculation == false)
                         {
-                            ServerPoints._serverPoints.PointsIncrease(id - 1, 10);
+                            if (!IncreasedPointsBaught)
+                            {
+                                ServerPoints._serverPoints.PointsIncrease(id - 1, 10);
+
+                            }
+                            else
+                            {
+                                ServerPoints._serverPoints.PointsIncrease(id - 1, 20);
+                            }
                             ServerEnemyManager._serverEnemyManager.CurrentDamage = SADamage;
                             ServerEnemyManager._serverEnemyManager.TakingDamage = true;
                         }

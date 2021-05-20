@@ -267,5 +267,40 @@ public class ServerSend
             SendTCPDataToAll(_packet);
         }
     }
+    public static void SendPerkValue (int PerkValue)
+    {
+        using (ServerPacket _packet = new ServerPacket((int)ServerServerPackets.NewPerkValue))
+        {
+            _packet.Write(PerkValue);
+            SendTCPDataToAll(_packet);
+        }
+    }
+    public static void SendPerkData(int ID, bool PerkStatus, string PerkMessage)
+    {
+        using (ServerPacket _packet = new ServerPacket((int)ServerServerPackets.PerkData))
+        {
+            _packet.Write(PerkStatus);
+            _packet.Write(PerkMessage);
+            SendTCPData(ID, _packet);
+        }
+    }
+    public static void SendBaughtPerk(int ID,int PerkValue)
+    {
+        using (ServerPacket _packet = new ServerPacket((int)ServerServerPackets.PerkBaught))
+        {
+            _packet.Write(ID);
+            _packet.Write(PerkValue);
+            SendTCPDataToAll(_packet);
+        }
+    }
+    public static void UpdateScore(int ID,int NewScore) 
+    {
+        using (ServerPacket _packet = new ServerPacket((int)ServerServerPackets.ScoreUpdate))
+        {
+            _packet.Write(ID);
+            _packet.Write(NewScore);
+            SendTCPDataToAll(_packet);
+        }
+    }
     #endregion
 }

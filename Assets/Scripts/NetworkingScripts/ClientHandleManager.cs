@@ -241,4 +241,32 @@ public class ClientHandleManager : MonoBehaviour
         int NewScore = _packet.ReadInt();
         ClientGameMenu._clientGameMenu.UpdateScore(PlayerId, NewScore);
     }
+    public static void RecevieNewPerkValue(Packet _packet) 
+    {
+        int NewPerkValue = _packet.ReadInt();
+        ClientPerkManager._clientPerkManager.NewPerkValueRecived(NewPerkValue);
+    }
+    public static void RecevieNewPerkData(Packet _packet)
+    {
+        bool PerkStatus = _packet.ReadBool();
+        string PerkMessage = _packet.ReadString();
+        ClientPerkManager._clientPerkManager.TextToggle(PerkStatus, PerkMessage);
+    }
+    public static void PerkBaught(Packet _packet)
+    {
+        int id = _packet.ReadInt();
+        int PerkValue = _packet.ReadInt();
+        ClientPerkManager._clientPerkManager.PlayerBaughtPerk(id,PerkValue);
+    }
+    public static void UpdateScore(Packet _packet)
+    {
+        int id = _packet.ReadInt();
+        int NewScore = _packet.ReadInt();
+        ClientGameMenu._clientGameMenu.UpdateScoreAgain(id, NewScore);
+    }
+    public static void GameEnded(Packet _packet) 
+    {
+        bool ended = _packet.ReadBool();
+        DeathScreenManager._deathScreenManager.ShowMultiplayerHighScore();
+    }
 }
