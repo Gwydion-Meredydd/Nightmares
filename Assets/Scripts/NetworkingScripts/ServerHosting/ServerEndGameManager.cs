@@ -37,9 +37,12 @@ public class ServerEndGameManager : MonoBehaviour
                     bool PlayersRNotDead = false;
                     for (int i = 0; i < ServerHostingManager.Instance.ConnectedClientsClass.Count; i++)
                     {
-                        if (!ServerHostingManager.Instance.ConnectedClientsClass[i].IsDead)
+                        if (ServerHostingManager.Instance.ConnectedClientsClass[i] != null)
                         {
-                            PlayersRNotDead = true;
+                            if (!ServerHostingManager.Instance.ConnectedClientsClass[i].IsDead)
+                            {
+                                PlayersRNotDead = true;
+                            }
                         }
                     }
                     if (!PlayersRNotDead)
@@ -69,6 +72,7 @@ public class ServerEndGameManager : MonoBehaviour
         {
             CombinedScore = CombinedScore + score;
         }
+        CombinedUsernames = CombinedUsernames.Trim();
         Debug.Log("Starting adding of highscore: ");
         StartCoroutine(GetRequest("http://dreamlo.com/lb/6knyfApwAEKviwqQqmbNeQ7rv-9iscF0C-QfCOuYt_nQ/add/" + CombinedUsernames + "/" + CombinedScore));
     }
@@ -96,5 +100,6 @@ public class ServerEndGameManager : MonoBehaviour
                     break;
             }
         }
+        ServerSend.EndGame();
     }
 }

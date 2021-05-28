@@ -54,6 +54,15 @@ public class LevelManager : MonoBehaviour
             SM.CameraScript.HoldingYValue = YCamValue[0];
             HeightOcclusionValue = HeighOcclusionLevel[0];
             SpawnedLevel = GameObject.FindGameObjectWithTag("Level");
+            SM.LevelScript.HeightOcclusionObjects = GameObject.FindGameObjectsWithTag("HeightOcclusion");
+            SM.LevelScript.HeightOcclusionReplacementObjects = GameObject.FindGameObjectsWithTag("HeightOcclusionReplacement");
         }
+    }
+    public void DestroyLevel() 
+    {
+        Destroy(SpawnedLevel);
+        SpawnedLevel = null;
+        MultiplayerLevelSpawned = false;
+
     }
 }

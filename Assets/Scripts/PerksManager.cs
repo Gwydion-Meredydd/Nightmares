@@ -67,6 +67,7 @@ public class PerksManager : MonoBehaviour
     }
     public void InDistance() 
     {
+        SM.GameMenuScript.PerkText.gameObject.SetActive(true);
         switch (PerkValue) 
         {
             case 0:

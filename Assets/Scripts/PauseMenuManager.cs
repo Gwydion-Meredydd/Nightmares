@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class PauseMenuManager : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class PauseMenuManager : MonoBehaviour
     public GameObject OptionsSubMenu;
     public GameObject OptionsAudio;
     public GameObject OptionsVideo;
+    public GameObject ExitButton;
+    public GameObject DisconnectButton;
     [Space]
     public AudioMixer Mixer;
     public bool ScreenMode = false;
@@ -27,14 +30,26 @@ public class PauseMenuManager : MonoBehaviour
                 PauseToggle();
             }
         }
+        else if (SM.GameScript.Server) 
+        {
+            if (SM.LevelScript.MultiplayerLevelSpawned)
+            {
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    MultiPlayerToggle();
+                }
+            }
+        }
     }
-    public void PauseToggle()
+    public void MultiPlayerToggle() 
     {
         if (SM.GameScript.Paused)
         {
             SM.GameScript.Paused = false;
             SM.GameMenuScript.InGameMenu.SetActive(true);
             PauseMenu.SetActive(false);
+            ExitButton.SetActive(false);
+            DisconnectButton.SetActive(false);
         }
         else
         {
@@ -45,6 +60,31 @@ public class PauseMenuManager : MonoBehaviour
             OptionsSubMenu.SetActive(false);
             OptionsAudio.SetActive(false);
             OptionsVideo.SetActive(false);
+            ExitButton.SetActive(false);
+            DisconnectButton.SetActive(true);
+        }
+    }
+    public void PauseToggle()
+    {
+        if (SM.GameScript.Paused)
+        {
+            SM.GameScript.Paused = false;
+            SM.GameMenuScript.InGameMenu.SetActive(true);
+            PauseMenu.SetActive(false);
+            ExitButton.SetActive(true);
+            DisconnectButton.SetActive(false);
+        }
+        else
+        {
+            SM.GameScript.Paused = true;
+            SM.GameMenuScript.InGameMenu.SetActive(false);
+            PauseMenu.SetActive(true);
+            PausedSubMenu.SetActive(true);
+            OptionsSubMenu.SetActive(false);
+            OptionsAudio.SetActive(false);
+            OptionsVideo.SetActive(false);
+            ExitButton.SetActive(true);
+            DisconnectButton.SetActive(false);
         }
     }
     public void OptionsMenuToggle()
@@ -132,6 +172,14 @@ public class PauseMenuManager : MonoBehaviour
 
     public void MainMenuReturn() 
     {
-        SM.PlayerScript.PlayerDead();
+        int scenevalue = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(scenevalue);
+    }
+    public void Disconnect() 
+    {
+        ClientManager.instance.Disconnect();
+        GameManager.players.Clear();
+        int scenevalue = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(scenevalue);
     }
 }

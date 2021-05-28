@@ -39,8 +39,10 @@ public class MultiplayerMenuManager : MonoBehaviour
     }
     public void SetMultiplayerUIActive()
     {
+        SM.AudioScripts.PlayMenuSFX();
         if (SM.MainMenuScript.UserNameEntered)
         {
+
             SM.multiplayerMenuManager.UserName = SM.MainMenuScript.UserName.ToString();
             SM.MainMenuScript.mainMenuObj.SetActive(false);
             MultiplayerGameObjectPassword.SetActive(false);
@@ -57,38 +59,44 @@ public class MultiplayerMenuManager : MonoBehaviour
     }
     public void LocalJoinButtonPressed() 
     {
+        SM.AudioScripts.PlayMenuSFX();
         ClientManager.instance.LocalConnection = true;
         GameManager.instance.Server = true;
         ConnectedToServer();
     }
     public void HostLocalMenu() 
     {
+        SM.AudioScripts.PlayMenuSFX();
         MultiplayerStartingUI.SetActive(false);
         HostLocalMultiplayerMenu.SetActive(true);
     }
     public void HostLocalDownload() 
     {
+        SM.AudioScripts.PlayMenuSFX();
         Application.OpenURL(HostLocalDownloadurl);
         HostLocalMenuButtonReturn();
     }
     public void HostLocalMenuButtonReturn()
     {
+        SM.AudioScripts.PlayMenuSFX();
         MultiplayerStartingUI.SetActive(true);
         HostLocalMultiplayerMenu.SetActive(false);
     }
     public void MultiplayerButtonPressed() 
     {
+        SM.AudioScripts.PlayMenuSFX();
         MultiplayerStartingUI.SetActive(false);
         MultiplayerGameObjectPassword.SetActive(true);
     }
     public void MultiplayerButtonReturn()
     {
+        SM.AudioScripts.PlayMenuSFX();
         MultiplayerStartingUI.SetActive(true);
         MultiplayerGameObjectPassword.SetActive(false);
     }
     public void PasswordEntered(string PasswordInput) 
     {
-        if (PasswordInput.ToLower() == "unity>unreal") 
+        if (PasswordInput.ToLower() == "ilovecoffe") 
         {
             MultiplayerGameObjectPassword.SetActive(false);
             Debug.Log("PasswordEntered");
@@ -127,6 +135,7 @@ public class MultiplayerMenuManager : MonoBehaviour
     }
     public void ConnectedToServer()
     {
+        SM.AudioScripts.PlayMenuSFX();
         StartMenu.SetActive(false);
         MainMultiMenu.SetActive(true);
         ClientManager.instance.LoginToPlayfab();
@@ -137,6 +146,7 @@ public class MultiplayerMenuManager : MonoBehaviour
     }
     public void UpdateReadUpToggle(int ConnectedCount) 
     {
+        SM.AudioScripts.PlayMenuSFX();
         WaitingForServer.SetActive(false);
         foreach (Toggle ReadyUpbox in ReadyUpBox)
         {
@@ -251,9 +261,28 @@ public class MultiplayerMenuManager : MonoBehaviour
     }
     public void Disconnct()
     {
+        SM.AudioScripts.PlayMenuSFX();
         ServerFullError.SetActive(false);
         WaitingForServer.SetActive(false);
         StartMenu.SetActive(true);
         MainMultiMenu.SetActive(false);
+        foreach (Text Username in Usernames)
+        {
+            Username.text = "";
+        }
+        for (int i = 0; i < MultiplayerManager.instance.Username.Length; i++)
+        {
+            MultiplayerManager.instance.Username[i] = "";
+        }
+    }
+    public void MainReturn() 
+    {
+        SM.AudioScripts.PlayMenuSFX();
+        StartMenu.SetActive(false);
+        SM.MainMenuScript.mainMenuObj.SetActive(true);
+        MultiplayerGameObjectPassword.SetActive(true);
+        MultiplayerCanvas.SetActive(false);
+        MainMultiMenu.SetActive(true);
+        StartMenu.SetActive(false);
     }
 }

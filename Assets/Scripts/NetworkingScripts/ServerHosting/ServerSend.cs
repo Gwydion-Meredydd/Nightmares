@@ -302,5 +302,13 @@ public class ServerSend
             SendTCPDataToAll(_packet);
         }
     }
+    public static void EndGame()
+    {
+        using (ServerPacket _packet = new ServerPacket((int)ServerServerPackets.GameEnded))
+        {
+            _packet.Write(true);
+            SendTCPDataToAll(_packet);
+        }
+    }
     #endregion
 }

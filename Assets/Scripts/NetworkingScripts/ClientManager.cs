@@ -242,7 +242,7 @@ public class ClientManager : MonoBehaviour
             }
             else
             {
-                yield return new WaitForSecondsRealtime(60f);
+                yield return new WaitForSecondsRealtime(10f);
                 ServerSelectionValue = 0;
                 VirtualServerSelectionValue = 0;
                 SM.multiplayerMenuManager.WaitingForServer.SetActive(false);
@@ -534,6 +534,7 @@ public class ClientManager : MonoBehaviour
             {(int) ServerPackets.GameEnded, ClientHandleManager.GameEnded },
         };
         Debug.Log("Initalized Packets!");
+        MultiplayerMenuManager.instance.WaitingForServer.SetActive(false);
     }
     private void OnApplicationQuit()
     {
@@ -576,18 +577,19 @@ public class ClientManager : MonoBehaviour
     {
         ClientSend.PlayerNotReady();
     }
-    private void Disconnect() 
+    public void Disconnect() 
     {
-        if (isConnected) 
+        if (isConnected)
         {
             HasJoined = false;
             isConnected = false;
             tcp.socket.Close();
             myID = 0;
+            SM.multiplayerManager.Disconnect();
+            SM.multiplayerMenuManager.Disconnct();
+            Debug.Log("Disconnected from server.");
+            SM.GameScript.Server = false;
         }
-        SM.multiplayerManager.Disconnect();
-        SM.multiplayerMenuManager.Disconnct();
-        Debug.Log("Disconnected from server.");
     }
     #endregion
 }

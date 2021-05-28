@@ -15,6 +15,7 @@ public class CameraController : MonoBehaviour
     public Vector3 minPosition;
     RaycastHit RayCastHit;
     public SkinnedMeshRenderer[] EnemySkinedMeshRenderes;
+    public Transform OcclusionPoint;
 
 
     void LateUpdate()
@@ -117,6 +118,52 @@ public class CameraController : MonoBehaviour
                                                           targetPosition,
                                                           smoothing);
                         //creates slight lag in the camera follow movement to make it seem smoother
+                    }
+                    Debug.Log("Method");
+                    if (Physics.Raycast(OcclusionPoint.position, OcclusionPoint.forward, out RayCastHit, 100))
+                    {
+                        if (RayCastHit.transform.CompareTag("Player") || RayCastHit.transform.CompareTag("Enemy"))
+                        {
+                            Debug.Log("Method Top");
+                            foreach (var HeightBlocker in SM.LevelScript.HeightOcclusionObjects)
+                            {
+                                HeightBlocker.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+                            }
+                            foreach (var HeightBlocker in SM.LevelScript.HeightOcclusionReplacementObjects)
+                            {
+                                HeightBlocker.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                            }
+                            foreach (GameObject AboveEnemy in SM.LevelScript.HeightOccludedEnemies)
+                            {
+                                EnemySkinedMeshRenderes = AboveEnemy.GetComponentsInChildren<SkinnedMeshRenderer>();
+                                foreach (SkinnedMeshRenderer SkinRenders in EnemySkinedMeshRenderes)
+                                {
+                                    SkinRenders.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+                                }
+                                EnemySkinedMeshRenderes = null;
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("Method below");
+                            foreach (var HeightBlocker in SM.LevelScript.HeightOcclusionObjects)
+                            {
+                                HeightBlocker.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+                            }
+                            foreach (var HeightBlocker in SM.LevelScript.HeightOcclusionReplacementObjects)
+                            {
+                                HeightBlocker.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+                            }
+                            foreach (GameObject AboveEnemy in SM.LevelScript.HeightOccludedEnemies)
+                            {
+                                EnemySkinedMeshRenderes = AboveEnemy.GetComponentsInChildren<SkinnedMeshRenderer>();
+                                foreach (SkinnedMeshRenderer SkinRenders in EnemySkinedMeshRenderes)
+                                {
+                                    SkinRenders.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+                                }
+                                EnemySkinedMeshRenderes = null;
+                            }
+                        }
                     }
                 }
             }

@@ -51,11 +51,16 @@ public class _PlayerManager : MonoBehaviour
     public bool FacingUp, FacingDown, FacingLeft, FacingRight;
     private Vector3 MovementDirectionValue;
     public int lives = 3;
+    public Transform OcclusionPoint;
     private void Start()
     {
         if (!IsClient)
         {
             StartCoroutine(NonClientWalkClock());
+        }
+        else 
+        {
+            GameManager.instance.SM.CameraScript.OcclusionPoint = OcclusionPoint;
         }
     }
     private void Update()

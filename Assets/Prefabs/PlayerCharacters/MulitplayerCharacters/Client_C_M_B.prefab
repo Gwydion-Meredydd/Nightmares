@@ -1305,6 +1305,7 @@ GameObject:
   - component: {fileID: 8169710857262875859}
   - component: {fileID: -8040625930457836951}
   - component: {fileID: -7506228131809153290}
+  - component: {fileID: -8629192165228228722}
   m_Layer: 8
   m_Name: Client_C_M_B
   m_TagString: Player
@@ -1502,6 +1503,29 @@ MonoBehaviour:
   SAMuzzleFlash: {fileID: 0}
   SABulletCasing: {fileID: 0}
   PlayerAnimator: {fileID: 8169710857262875859}
+  CurrentPosition: {x: 0, y: 0, z: 0}
+  LastPosition: {x: 0, y: 0, z: 0}
+  PlayerRotation: 0
+  FacingUp: 0
+  FacingDown: 0
+  FacingLeft: 0
+  FacingRight: 0
+  lives: 3
+  OcclusionPoint: {fileID: 4341808636265738449}
+--- !u!136 &-8629192165228228722
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3227771162197214227}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.62
+  m_Height: 1.9
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.96, z: 0}
 --- !u!1 &3256250708641676388
 GameObject:
   m_ObjectHideFlags: 0

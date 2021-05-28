@@ -42,11 +42,11 @@ public class ServerPerksManager : MonoBehaviour
                 ServerSend.SendPerkData(ClosestPlayer.id, true, CurrentMessage);
                 break;
             case 3:
-                PlayerIsCloseEnough[3] = true;
+                PlayerIsCloseEnough[2] = true;
                 ServerSend.SendPerkData(ClosestPlayer.id, true, CurrentMessage);
                 break;
             case 4:
-                PlayerIsCloseEnough[4] = true;
+                PlayerIsCloseEnough[3] = true;
                 ServerSend.SendPerkData(ClosestPlayer.id, true, CurrentMessage);
                 break;
 
@@ -65,11 +65,11 @@ public class ServerPerksManager : MonoBehaviour
                 ServerSend.SendPerkData(ClosestPlayer.id,false, "");
                 break;
             case 3:
-                PlayerIsCloseEnough[3] = false;
+                PlayerIsCloseEnough[2] = false;
                 ServerSend.SendPerkData(ClosestPlayer.id, false, "");
                 break;
             case 4:
-                PlayerIsCloseEnough[4] = false;
+                PlayerIsCloseEnough[3] = false;
                 ServerSend.SendPerkData(ClosestPlayer.id, false, "");
                 break;
 

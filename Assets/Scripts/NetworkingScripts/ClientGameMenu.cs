@@ -241,10 +241,10 @@ public class ClientGameMenu : MonoBehaviour
                 ClientsUIFields[1].Score.text = NewScore.ToString();
                 break;
             case 3:
-                ClientsUIFields[3].Score.text = NewScore.ToString();
+                ClientsUIFields[2].Score.text = NewScore.ToString();
                 break;
             case 4:
-                ClientsUIFields[4].Score.text = NewScore.ToString();
+                ClientsUIFields[3].Score.text = NewScore.ToString();
                 break;
         }
     }
@@ -413,6 +413,99 @@ public class ClientGameMenu : MonoBehaviour
         ClientsUIFields[PlayerValue].Coins[0].SetActive(true);
         ClientsUIFields[PlayerValue].Coins[1].SetActive(true);
         ClientsUIFields[PlayerValue].Coins[2].SetActive(true);
+    }
+    public void DisablePlayerField(int PlayerValue)
+    {
+        DropIcon[0].SetActive(false);
+        DropTimeText[0].gameObject.SetActive(false);
+        DropIcon[1].SetActive(false);
+        DropTimeText[1].gameObject.SetActive(false);
+        DropIcon[2].SetActive(false);
+        DropTimeText[2].gameObject.SetActive(false);
+        DropIcon[3].SetActive(false);
+        DropTimeText[3].gameObject.SetActive(false);
+        DropIcon[4].SetActive(false);
+        DropTimeText[4].gameObject.SetActive(false);
+        ClientsUIFields[PlayerValue].Root.SetActive(false);
+        ClientsUIFields[PlayerValue].Usernames.text = "";
+        ClientsUIFields[PlayerValue].Score.text = "0";
+        ClientsUIFields[PlayerValue].Hearts[0].SetActive(false);
+        ClientsUIFields[PlayerValue].Hearts[1].SetActive(false);
+        ClientsUIFields[PlayerValue].Hearts[2].SetActive(false);
+        ClientsUIFields[PlayerValue].Hearts[3].SetActive(false);
+        ClientsUIFields[PlayerValue].Hearts[4].SetActive(false);
+        ClientsUIFields[PlayerValue].Hearts[5].SetActive(false);
+        ClientsUIFields[PlayerValue].Hearts[6].SetActive(false);
+        ClientsUIFields[PlayerValue].Hearts[7].SetActive(false);
+        ClientsUIFields[PlayerValue].Hearts[8].SetActive(false);
+        ClientsUIFields[PlayerValue].Hearts[9].SetActive(false);
+        ClientsUIFields[PlayerValue].Hearts[10].SetActive(false);
+        ClientsUIFields[PlayerValue].Hearts[11].SetActive(false);
+        ClientsUIFields[PlayerValue].Hearts[12].SetActive(false);
+        ClientsUIFields[PlayerValue].Hearts[13].SetActive(false);
+        ClientsUIFields[PlayerValue].Hearts[14].SetActive(false);
+        ClientsUIFields[PlayerValue].Hearts[15].SetActive(false);
+        ClientsUIFields[PlayerValue].Coins[0].SetActive(false);
+        ClientsUIFields[PlayerValue].Coins[1].SetActive(false);
+        ClientsUIFields[PlayerValue].Coins[2].SetActive(false);
+    }
+    public void UpdateClientFiledsForDeletion()
+    {
+        if (MultiplayerManager.instance.Username.Length > 0)
+        {
+            ConnectedClientsAmmount = 1;
+            if (MultiplayerManager.instance.Username.Length > 1)
+            {
+                ConnectedClientsAmmount = 2;
+                if (MultiplayerManager.instance.Username.Length > 2)
+                {
+                    ConnectedClientsAmmount = 3;
+                    if (MultiplayerManager.instance.Username.Length > 3)
+                    {
+                        ConnectedClientsAmmount = 4;
+                    }
+                }
+            }
+        }
+        foreach (ClientUIClass ClientClass in ClientsUIFields)
+        {
+            foreach (GameObject Coin in ClientClass.Coins)
+            {
+                Coin.SetActive(false);
+            }
+            foreach (GameObject Heart in ClientClass.Hearts)
+            {
+                Heart.SetActive(false);
+            }
+            ClientClass.Score.text = "";
+            ClientClass.Usernames.text = "";
+            ClientClass.Root.SetActive(false);
+        }
+        switch (ConnectedClientsAmmount)
+        {
+            case 1:
+                Debug.Log("Connected Client 1 Called");
+                DisablePlayerField(0);
+                break;
+            case 2:
+                Debug.Log("Connected Client 2 Called");
+                DisablePlayerField(0);
+                DisablePlayerField(1);
+                break;
+            case 3:
+                Debug.Log("Connected Client 3 Called");
+                DisablePlayerField(0);
+                DisablePlayerField(1);
+                DisablePlayerField(2);
+                break;
+            case 4:
+                Debug.Log("Connected Client 4 Called");
+                DisablePlayerField(0);
+                DisablePlayerField(1);
+                DisablePlayerField(2);
+                DisablePlayerField(3);
+                break;
+        }
     }
 }
 [System.Serializable]

@@ -691,13 +691,16 @@ public class PlayerController : MonoBehaviour
     {
         if (SM.GameScript.Server)
         {
-            if (SM.GameScript.PlayerInstantiated)
+            if (!SM.GameScript.Paused)
             {
-                SendKeyInputToServer();
-                PlayerRotationalCalculation();
-                SendRotationInputToServer();
-                DetectScrollWheel();
-                DetectMouseButton();
+                if (SM.GameScript.PlayerInstantiated)
+                {
+                    SendKeyInputToServer();
+                    PlayerRotationalCalculation();
+                    SendRotationInputToServer();
+                    DetectScrollWheel();
+                    DetectMouseButton();
+                }
             }
         }
     }

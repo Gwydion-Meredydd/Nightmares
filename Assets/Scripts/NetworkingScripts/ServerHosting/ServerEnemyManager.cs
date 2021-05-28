@@ -247,33 +247,155 @@ public class ServerEnemyManager : MonoBehaviour
                 case 3:
                     if (Vector3.Distance(AvailablePlayers[0].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[1].transform.position, Enemy.position))
                     {
-                        ClosestPlayer = AvailablePlayers[0];
+                        if (!AvailablePlayers[0].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[0];
+                        }
+                        else if (!AvailablePlayers[1].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[1];
+                        }
+                        else if (!AvailablePlayers[2].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[2];
+                        }
+                        else
+                        {
+                            ClosestPlayer = null;
+                        }
                     }
-                    else if (Vector3.Distance(AvailablePlayers[1].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[2].transform.position, Enemy.position))
+                    else if (Vector3.Distance(AvailablePlayers[1].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[0].transform.position, Enemy.position))
                     {
-                        ClosestPlayer = AvailablePlayers[1];
+                        if (!AvailablePlayers[1].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[1];
+                        }
+                        else if (!AvailablePlayers[0].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[0];
+                        }
+                        else if (!AvailablePlayers[2].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[2];
+                        }
+                        else
+                        {
+                            ClosestPlayer = null;
+                        }
                     }
-                    else
+                    else if (Vector3.Distance(AvailablePlayers[2].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[1].transform.position, Enemy.position))
                     {
-                        ClosestPlayer = AvailablePlayers[2];
+                        if (!AvailablePlayers[2].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[2];
+                        }
+                        else if (!AvailablePlayers[0].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[0];
+                        }
+                        else if (!AvailablePlayers[1].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[1];
+                        }
+                        else
+                        {
+                            ClosestPlayer = null;
+                        }
                     }
                     break;
                 case 4:
+                    Debug.Log("Correct Method Called");
                     if (Vector3.Distance(AvailablePlayers[0].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[1].transform.position, Enemy.position))
                     {
-                        ClosestPlayer = AvailablePlayers[0];
+                        if (!AvailablePlayers[0].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[0];
+                        }
+                        else if (!AvailablePlayers[1].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[1];
+                        }
+                        else if (!AvailablePlayers[2].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[2];
+                        }
+                        else if (!AvailablePlayers[3].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[3];
+                        }
+                        else
+                        {
+                            ClosestPlayer = null;
+                        }
                     }
-                    else if (Vector3.Distance(AvailablePlayers[1].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[2].transform.position, Enemy.position))
+                    else if (Vector3.Distance(AvailablePlayers[1].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[0].transform.position, Enemy.position))
                     {
-                        ClosestPlayer = AvailablePlayers[1];
+                        if (!AvailablePlayers[1].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[1];
+                        }
+                        else if (!AvailablePlayers[0].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[0];
+                        }
+                        else if (!AvailablePlayers[2].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[2];
+                        }
+                        else if (!AvailablePlayers[3].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[3];
+                        }
+                        else
+                        {
+                            ClosestPlayer = null;
+                        }
                     }
-                    else if (Vector3.Distance(AvailablePlayers[2].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[3].transform.position, Enemy.position))
+                    else if (Vector3.Distance(AvailablePlayers[2].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[1].transform.position, Enemy.position))
                     {
-                        ClosestPlayer = AvailablePlayers[2];
+                        if (!AvailablePlayers[2].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[2];
+                        }
+                        else if (!AvailablePlayers[0].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[0];
+                        }
+                        else if (!AvailablePlayers[1].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[1];
+                        }
+                        else if (!AvailablePlayers[3].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[3];
+                        }
+                        else
+                        {
+                            ClosestPlayer = null;
+                        }
                     }
-                    else
+                    else if (Vector3.Distance(AvailablePlayers[3].transform.position, Enemy.position) < Vector3.Distance(AvailablePlayers[2].transform.position, Enemy.position))
                     {
-                        ClosestPlayer = AvailablePlayers[3];
+                        if (!AvailablePlayers[3].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[3];
+                        }
+                        else if (!AvailablePlayers[0].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[0];
+                        }
+                        else if (!AvailablePlayers[1].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[1];
+                        }
+                        else if (!AvailablePlayers[2].GetComponent<ServerPlayer>().PlayerDown)
+                        {
+                            ClosestPlayer = AvailablePlayers[2];
+                        }
+                        else
+                        {
+                            ClosestPlayer = null;
+                        }
                     }
                     break;
 

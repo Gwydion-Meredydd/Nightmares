@@ -113,7 +113,7 @@ public class ScoreManager : MonoBehaviour
     {
         YourScore1.SetActive(false);
         SM.MainMenuScript.HighScoreLoading[0].SetActive(true);
-        SM.FadeManager.InstantFadeIn();
+        //SM.FadeManager.InstantFadeIn();
         SM.MainMenuScript.HighScoreRoot.SetActive(true);
         HighScoreRoot1.SetActive(true);
         HighScoreFieldsPerent1 = GameObject.FindGameObjectsWithTag("HighScoreMenu1");
@@ -128,7 +128,7 @@ public class ScoreManager : MonoBehaviour
         }
         YourScore2.SetActive(false);
         SM.MainMenuScript.HighScoreLoading[1].SetActive(true);
-        SM.FadeManager.InstantFadeIn();
+        //SM.FadeManager.InstantFadeIn();
         SM.MainMenuScript.HighScoreRoot.SetActive(true);
         HighScoreRoot2.SetActive(true);
         HighScoreFieldsPerent2 = GameObject.FindGameObjectsWithTag("HighScoreMenu2");
@@ -143,7 +143,7 @@ public class ScoreManager : MonoBehaviour
         }
         //YourScore3.SetActive(false);
         //SM.MainMenuScript.HighScoreLoading[2].SetActive(true);
-        SM.FadeManager.InstantFadeIn();
+        //SM.FadeManager.InstantFadeIn();
         SM.MainMenuScript.HighScoreRoot.SetActive(true);
         //HighScoreRoot3.SetActive(true);
         //HighScoreFieldsPerent3 = GameObject.FindGameObjectsWithTag("HighScoreMenu3");
@@ -158,7 +158,7 @@ public class ScoreManager : MonoBehaviour
         //}
         //YourScore4.SetActive(false);
         //.MainMenuScript.HighScoreLoading[3].SetActive(true);
-        SM.FadeManager.InstantFadeIn();
+        //SM.FadeManager.InstantFadeIn();
         SM.MainMenuScript.HighScoreRoot.SetActive(true);
        // HighScoreRoot4.SetActive(true);
        // HighScoreFieldsPerent4 = GameObject.FindGameObjectsWithTag("HighScoreMenu4");
@@ -851,7 +851,7 @@ public class ScoreManager : MonoBehaviour
                     }
                 }
                 SM.MainMenuScript.HighScoreLoading[4].SetActive(false);
-                SM.FadeManager.FadeOut();
+                //SM.FadeManager.FadeOut();
                 break;
         }
     }

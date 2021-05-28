@@ -11,6 +11,7 @@ public class ClientEnemyManager : MonoBehaviour
 
     public List<Animator> EnemieAnimators;
     public List<AudioSource> EnemieAudioSources;
+    private SkinnedMeshRenderer[] EnemieSkinnedMeshes;
     public bool TakingDamge;
     public bool Attacking;
 
@@ -21,6 +22,19 @@ public class ClientEnemyManager : MonoBehaviour
     {
         RefclientEnemyManager = this;
         _clientEnemyManager = RefclientEnemyManager;
+    }
+    private void Update()
+    {
+        if (GameManager.instance.Server)
+        {
+            if (GameManager.instance.SM.Client_Manager.HasJoined)
+            {
+                if (GameManager.instance.LevelInstanitated)
+                {
+                    EnemyAbovePlayerCheck();
+                }
+            }
+        }
     }
     public void SpawnGroundEnemy(Quaternion Rotation, Vector3 Position, int RandomValue)
     {
@@ -52,12 +66,52 @@ public class ClientEnemyManager : MonoBehaviour
                 {
                     if (!TakingDamge && !Attacking)
                     {
-                        Enemies[i].transform.position = Vector3.Lerp(Enemies[i].transform.position, NewPosition[i], Time.fixedDeltaTime * 10);
-                        Enemies[i].transform.rotation = Quaternion.Lerp(Enemies[i].transform.rotation, NewRotation[i], Time.fixedDeltaTime * 10);
+                        if (i <= Enemies.Count)
+                        {
+                            Enemies[i].transform.position = Vector3.Lerp(Enemies[i].transform.position, NewPosition[i], Time.fixedDeltaTime * 10);
+                            Enemies[i].transform.rotation = Quaternion.Lerp(Enemies[i].transform.rotation, NewRotation[i], Time.fixedDeltaTime * 10);
+                        }
                     }
                 }
             }
 
+        }
+    }
+    public void EnemyAbovePlayerCheck()
+    {
+        float OcclusionHeight = GameManager.instance.SM.LevelScript.HeightOcclusionValue;
+        foreach (GameObject Enemie in Enemies)
+        {
+            if (Enemie.transform.position.y > OcclusionHeight)
+            {
+                if (GameManager.instance.SM.LevelScript.HeightOccludedEnemies.Count == 0)
+                {
+                    GameManager.instance.SM.LevelScript.HeightOccludedEnemies.Add(Enemie);
+                }
+                else
+                {
+                    if (!GameManager.instance.SM.LevelScript.HeightOccludedEnemies.Contains(Enemie))
+                    {
+                        GameManager.instance.SM.LevelScript.HeightOccludedEnemies.Add(Enemie);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < GameManager.instance.SM.LevelScript.HeightOccludedEnemies.Count; i++)
+                {
+                    if (Enemie == GameManager.instance.SM.LevelScript.HeightOccludedEnemies[i])
+                    {
+                        EnemieSkinnedMeshes = Enemie.GetComponentsInChildren<SkinnedMeshRenderer>();
+                        foreach (SkinnedMeshRenderer SkinRenders in EnemieSkinnedMeshes)
+                        {
+                            SkinRenders.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+                        }
+                        EnemieSkinnedMeshes = null;
+                        GameManager.instance.SM.LevelScript.HeightOccludedEnemies.RemoveAt(i);
+                    }
+                }
+            }
         }
     }
     public void EnemyDamaged(int EnemyArrayValue, int NewHealth)
@@ -147,11 +201,13 @@ public class ClientEnemyManager : MonoBehaviour
     IEnumerator AttackingTime(int ArrayLength)
     {
         int AttackValue = Random.Range(1, 3);
-        EnemieAnimators[ArrayLength].SetInteger("AttackRandomiser", AttackValue);
-        EnemieAnimators[ArrayLength].SetBool("Moving", false);
-        EnemieAnimators[ArrayLength].SetBool("Attack", true);
-        //ActiveEnemiesAudioSources[ArrayLength].PlayOneShot(SM.AudioScripts.EnemyAttacking[(Random.Range(0, 3))]);
-
+        if (ArrayLength <= EnemieAnimators.Count)
+        {
+            EnemieAnimators[ArrayLength].SetInteger("AttackRandomiser", AttackValue);
+            EnemieAnimators[ArrayLength].SetBool("Moving", false);
+            EnemieAnimators[ArrayLength].SetBool("Attack", true);
+            //ActiveEnemiesAudioSources[ArrayLength].PlayOneShot(SM.AudioScripts.EnemyAttacking[(Random.Range(0, 3))]);
+        }
         yield return new WaitForSecondsRealtime(0.1f);
         if (ArrayLength <= EnemieAnimators.Count)
         {

@@ -29,7 +29,9 @@ public class MainMenuManager : MonoBehaviour
     public GameObject Loading;
     public GameObject MainMenuScene;
     public GameObject ScoreOverlayBlocker;
+    public GameObject ScoreOverlayBlack;
     public GameObject ScoreReturnButton;
+    public GameObject ScoreMenuButtons;
     public void PlayButton()
     {
         mainMenuObj.SetActive(true);
@@ -57,7 +59,7 @@ public class MainMenuManager : MonoBehaviour
         }
         else
         {
-            OptionsAudio.SetActive(false);
+            OptionsAudio.SetActive(true);
             OptionsVideo.SetActive(false);
         }
     }
@@ -72,7 +74,7 @@ public class MainMenuManager : MonoBehaviour
         else
         {
             OptionsAudio.SetActive(false);
-            OptionsVideo.SetActive(false);
+            OptionsVideo.SetActive(true);
         }
     }
     public void HighScoreToggle() 

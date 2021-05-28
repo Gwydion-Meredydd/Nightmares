@@ -67,7 +67,7 @@ public class ClientDropManager : MonoBehaviour
     }
     public void DropsPickedUpOn(int DropValue)
     {
-        if (DropValue <= DropStatus.Length)
+        if (DropValue < DropStatus.Length)
         {
             DropStatus[DropValue] = true;
             Timing[DropValue] = MaxTiming[DropValue];

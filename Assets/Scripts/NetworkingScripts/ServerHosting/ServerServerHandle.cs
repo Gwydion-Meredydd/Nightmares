@@ -27,6 +27,7 @@ public class ServerServerHandle
     }
     public static void ClientHasDisconnected(int _fromClient, ServerPacket _packet) 
     {
+        Debug.Log("Client Disconnected");
         if (ServerHostingManager.Instance.ConnectedClientsClass.Count == ServerHostingManager.Instance.ConnectedClientsUsernames.Count) 
         {
             ServerHostingManager.Instance.ConnectedClientsClass.RemoveAt(_fromClient - 1);
@@ -34,6 +35,11 @@ public class ServerServerHandle
         if (ServerHostingManager.Instance.ConnectedClientsIP.Count == ServerHostingManager.Instance.ConnectedClientsUsernames.Count)
         {
             ServerHostingManager.Instance.ConnectedClientsIP.RemoveAt(_fromClient - 1);
+        }
+        if (ServerHostingManager.Instance.ConnectedClientsClass.Count > 0) 
+        {
+            Debug.Log("Remove Client Class Check");
+            ServerHostingManager.Instance.ConnectedClientsClass.RemoveAt(_fromClient - 1);
         }
         ServerHostingManager.Instance.ConnectedClientsUsernames.RemoveAt(_fromClient - 1);
         ServerHostingManager.Instance.ClientReady.RemoveAt(_fromClient - 1);

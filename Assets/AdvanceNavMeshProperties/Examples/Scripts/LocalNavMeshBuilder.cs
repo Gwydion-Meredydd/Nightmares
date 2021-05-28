@@ -8,7 +8,7 @@ using NavMeshBuilder = UnityEngine.AI.NavMeshBuilder;
 [DefaultExecutionOrder(-102)]
 public class LocalNavMeshBuilder : MonoBehaviour
 {
-    // The center of the build
+    public GameObject NavMeshCiller;
     public Transform m_Tracked;
 
     // The size of the build bounds
@@ -38,6 +38,12 @@ public class LocalNavMeshBuilder : MonoBehaviour
         //    m_Tracked = transform;
         //UpdateNavMesh(false);
     }
+    public void ClearNavMesh() 
+    {
+        Debug.Log("Clearing Nav");
+        m_Size = new Vector3(1, 1, 1);
+        UpdateNavMesh(true);
+    }
 
     void OnDisable()
     {
@@ -53,8 +59,9 @@ public class LocalNavMeshBuilder : MonoBehaviour
         UpdateNavMesh(false);
     }
 
-    void UpdateNavMesh(bool asyncUpdate = false)
+    void UpdateNavMesh(bool asyncUpdate)
     {
+        Debug.Log("UpdatingNaMesh");
         NavMeshSourceTag.Collect(ref m_Sources);
         var defaultBuildSettings = NavMesh.GetSettingsByID(0);
         var bounds = QuantizedBounds();
